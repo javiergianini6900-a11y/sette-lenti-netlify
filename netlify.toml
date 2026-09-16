@@ -1,0 +1,21 @@
+# Sito statico: nessun build, si pubblica la cartella così com'è.
+[build]
+  publish = "."
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Content-Type-Options = "nosniff"
+
+[[headers]]
+  for = "/content/*"
+  [headers.values]
+    Cache-Control = "public, max-age=300"
+
+[[headers]]
+  for = "/podcast-week1.mp4"
+  [headers.values]
+    Content-Type = "audio/mp4"
+    Cache-Control = "public, max-age=86400"
