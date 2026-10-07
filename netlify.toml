@@ -15,7 +15,7 @@
     Cache-Control = "public, max-age=300"
 
 [[headers]]
-  for = "/podcast-week1.mp4"
+  for = "/podcast-week*.mp4"
   [headers.values]
     Content-Type = "audio/mp4"
     Cache-Control = "public, max-age=86400"
