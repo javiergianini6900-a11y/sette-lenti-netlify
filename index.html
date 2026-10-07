@@ -372,10 +372,12 @@ textarea:focus{border-color:var(--ink)}
 <script>
 /* ---------- state ---------- */
 const KEY="osp1-sette-lenti-v1";
-const DEFAULT_ST={correct:[],wrong:[],recall:false,view:"lesson",lens:"cls",les:0,ldone:[],lang:"it",podT:0,podNotes:"",speed:"1"};
+const DEFAULT_ST={correct:[],wrong:[],recall:false,view:"lesson",lens:"cls",les:0,ldone:[],lang:"it",podT:0,podNotes:"",speed:"1",podW:1,podTs:{},podNotesBy:{},subLang:"",subFollow:true,subPinned:false};
+/* copia pulita: oggetti e liste non vanno condivisi fra profili */
+const freshState=()=>JSON.parse(JSON.stringify(DEFAULT_ST));
 const lsGet=(k,d)=>{try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v);}catch(e){return d;}};
 const lsSet=(k,v)=>{try{if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,JSON.stringify(v));}catch(e){}};
-let st={...DEFAULT_ST}, profile=null;
+let st=freshState(), profile=null;
 st.lang=lsGet("osp1-lang",null)||(lsGet(KEY,{})||{}).lang||"it";
 function save(){ lsSet("osp1-lang",st.lang); if(!profile) return; lsSet(KEY+":"+profile.slug,st); if(typeof remoteSchedule==="function") remoteSchedule(); }
 if(!OSP[st.lang]) st.lang="it";
@@ -441,7 +443,9 @@ function renderCounts(){
   const hd=st.hard||{}; document.getElementById("nHard").textContent=`${(hd.seen||[]).length}/${C.HARD.length}`;
 }
 document.getElementById("langSelect").addEventListener("change",e=>{
-  st.lang=e.target.value; C=OSP[st.lang]; LBY=Object.fromEntries(C.LENSES.map(l=>[l.id,l])); save();
+  st.lang=e.target.value; C=OSP[st.lang]; LBY=Object.fromEntries(C.LENSES.map(l=>[l.id,l]));
+  if(!st.subPinned){st.subLang=st.lang; if(typeof loadSubs==="function") loadSubs();}
+  save();
   if(document.getElementById("personDlg").open) document.getElementById("personDlg").close();
   renderChrome(); if(profile) setView(st.view);
 });
@@ -667,8 +671,11 @@ const POD_LINE={
   hr:(e)=>`Podcast ${e.w}. tjedna: ${e.t} (oko ${e.m} minuta). Aktivno slusanje vrijedi mnogo vise od slusanja u pozadini.`
 };
 function migratePod(){
-  if(!st.podTs) st.podTs={};
-  if(!st.podNotesBy) st.podNotesBy={};
+  if(!st.podTs||typeof st.podTs!=="object") st.podTs={};
+  if(!st.podNotesBy||typeof st.podNotesBy!=="object") st.podNotesBy={};
+  if(!EPISODES.some(e=>e.w===+st.podW)) st.podW=1;
+  if(st.subFollow==null) st.subFollow=true;
+  if(!st.subLang||!st.subPinned) st.subLang=st.lang;
   if(st.podT>0 && st.podTs[1]==null) st.podTs[1]=st.podT;
   if(st.podNotes && st.podNotesBy[1]==null) st.podNotesBy[1]=st.podNotes;
   if(!st.podW) st.podW=1;
@@ -757,7 +764,7 @@ const SUB_UI={
   hr:{t:"Titlovi",follow:"Prati zvuk",hint:"Dotakni red da skocis na taj trenutak.",none:"Titlovi za ovu epizodu jos nisu dostupni."}
 };
 let CUES=[], curCue=-1;
-if(!st.subLang) st.subLang=st.lang;
+if(!st.subLang||!st.subPinned) st.subLang=st.lang;
 if(st.subFollow==null) st.subFollow=true;
 const subsNow=document.getElementById("subsNow"), subsList=document.getElementById("subsList");
 function subUI(){return SUB_UI[st.lang]||SUB_UI.en;}
@@ -802,7 +809,7 @@ subsList.addEventListener("click",e=>{
   const li=e.target.closest("li[data-cue]"); if(!li) return;
   audio.currentTime=CUES[+li.dataset.cue][0]; syncCue(true);
 });
-document.getElementById("subsLang").addEventListener("change",e=>{st.subLang=e.target.value; save(); loadSubs();});
+document.getElementById("subsLang").addEventListener("change",e=>{st.subLang=e.target.value; st.subPinned=true; save(); loadSubs();});
 document.getElementById("subsFollow").addEventListener("click",e=>{
   st.subFollow=!st.subFollow; save(); e.currentTarget.setAttribute("aria-pressed",String(!!st.subFollow));
   if(st.subFollow) syncCue(true);
@@ -963,7 +970,7 @@ view.addEventListener("change",e=>{
 
 /* ---------- profiles ---------- */
 const PROFILES_KEY="osp1-profiles", ACTIVE_KEY="osp1-active";
-const SYNC_FIELDS=["correct","wrong","ldone","lang","les","recall","podT","podNotes","speed","view","lens","hard"];
+const SYNC_FIELDS=["correct","wrong","ldone","lang","les","recall","podT","podNotes","speed","view","lens","hard","podW","podTs","podNotesBy","subLang","subFollow","subPinned"];
 const dbReady=(async()=>{ if(!window.claude||typeof window.claude.use!=="function") return null; try{ return await window.claude.use("db"); }catch(e){ return null; } })();
 let hasDb=false; dbReady.then(d=>{ hasDb=!!d; renderStart(); renderProfileText(); });
 let remoteRef=null, remoteUnsub=null, rTimer=null, rWriting=false, rDirty=false, applying=false;
@@ -1008,10 +1015,15 @@ function showApp(on){
 function applyStateToUI(){
   if(!OSP[st.lang]) st.lang="it";
   C=OSP[st.lang]; LBY=Object.fromEntries(C.LENSES.map(l=>[l.id,l]));
-  if(document.activeElement!==notes) notes.value=st.podNotes||"";
+  migratePod();
+  const t0=st.podTs[+st.podW]||0;
+  if(document.activeElement!==notes) notes.value=st.podNotesBy[+st.podW]||"";
   speedSel.value=st.speed||"1"; audio.playbackRate=+st.speed||1;
-  if(audio.paused&&Math.abs((audio.currentTime||0)-(st.podT||0))>2){ try{audio.currentTime=st.podT||0;}catch(e){} }
-  seek.value=Math.floor(st.podT||0); document.getElementById("tCur").textContent=mmss(st.podT||0);
+  const want=curEp().src;
+  if(!audio.getAttribute("src")||!audio.getAttribute("src").endsWith(want)){ audio.src=want; restored=false; }
+  if(audio.paused&&Math.abs((audio.currentTime||0)-t0)>2){ try{audio.currentTime=t0;}catch(e){} }
+  seek.value=Math.floor(t0); document.getElementById("tCur").textContent=mmss(t0);
+  renderEps(); renderSubsText(); loadSubs();
   renderChrome();
 }
 function statePayload(){ const o={}; SYNC_FIELDS.forEach(k=>o[k]=st[k]); o.updatedAt=st.updatedAt||Date.now(); return o; }
@@ -1086,7 +1098,7 @@ function activate(slug){
   lsSet(ACTIVE_KEY,slug);
   let local=lsGet(KEY+":"+slug,null);
   if(!local&&!lsGet("osp1-legacy-used",false)){ const legacy=lsGet(KEY,null); if(legacy){ local=legacy; lsSet("osp1-legacy-used",true); } }
-  st={...DEFAULT_ST,lang:st.lang,...(local||{})};
+  st={...freshState(),lang:st.lang,...(local||{})};
   qz={deck:[],i:0,filter:"all",ok:0,done:0}; pr={deck:[],i:0,ok:0,done:0}; les={det:null}; hardState();
   lsSet(KEY+":"+slug,st);
   showApp(true); applyStateToUI();
