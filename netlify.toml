@@ -19,3 +19,8 @@
   [headers.values]
     Content-Type = "audio/mp4"
     Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/subs/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"

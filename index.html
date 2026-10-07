@@ -248,6 +248,16 @@ textarea:focus{border-color:var(--ink)}
 .sync-status{font-family:var(--mono);font-size:12px;color:var(--ink-2)}
 .sync-status[data-err="true"]{color:var(--bad)}
 @media (max-width:640px){.pod-grid{grid-template-columns:1fr}.pctrl label{margin-left:0}}
+/* sottotitoli */
+.subs-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.subs-now{margin:0;font-size:clamp(18px,2.6vw,22px);line-height:1.4;min-height:2.8em;border-left:4px solid var(--hi);padding:4px 0 4px 16px;max-width:60ch}
+.subs-list{list-style:none;margin:0;padding:0;max-height:320px;overflow-y:auto;border:1px solid var(--rule);border-radius:3px;background:var(--ground)}
+.subs-list li{padding:8px 12px;display:grid;grid-template-columns:52px 1fr;gap:12px;cursor:pointer;border-bottom:1px solid var(--rule);font-size:15px}
+.subs-list li:last-child{border-bottom:0}
+.subs-list li:hover{background:var(--paper)}
+.subs-list li .tc{font-family:var(--mono);font-size:12px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.subs-list li.on{background:var(--hi-soft)}
+.subs-list li.on .tx{font-weight:600}
 </style>
 
 
@@ -322,6 +332,18 @@ textarea:focus{border-color:var(--ink)}
         </label>
       </div>
     </div>
+    <section class="block" id="subsBox">
+      <div class="subs-head">
+        <h3 id="subsT"></h3>
+        <div class="row">
+          <select id="subsLang" aria-label="Lingua"></select>
+          <button class="sbtn" id="subsFollow" aria-pressed="true"></button>
+        </div>
+      </div>
+      <p class="subs-now" id="subsNow"></p>
+      <ol class="subs-list" id="subsList"></ol>
+      <p class="legend" id="subsHint"></p>
+    </section>
     <div class="pod-grid">
       <section class="block"><h3 id="methodT"></h3><ol class="steps" id="method"></ol></section>
       <section class="block"><h3 id="qT"></h3><ul class="facts" id="podQs"></ul></section>
@@ -399,7 +421,7 @@ function renderChrome(){
   document.getElementById("lede").innerHTML=esc(u.lede).replace(/\[\[(.+?)\]\]/,"<mark>$1</mark>");
   document.getElementById("legend").textContent=u.legend;
   document.querySelectorAll(".tab").forEach(t=>t.querySelector(".tl").textContent=t.dataset.view==="hard"?u.hard.tab:u.tabs[t.dataset.view]);
-  renderLenses(); renderCounts(); renderPodcastText(); if(typeof renderEps==="function") renderEps(); renderProfileText(); renderStart();
+  renderLenses(); renderCounts(); renderPodcastText(); if(typeof renderEps==="function") renderEps(); if(typeof renderSubsText==="function") renderSubsText(); renderProfileText(); renderStart();
 }
 function renderLenses(){
   const row=document.getElementById("lensRow");
@@ -671,6 +693,7 @@ function loadEp(w,autoplay){
   seek.value=0; document.getElementById("tCur").textContent="0:00"; document.getElementById("tDur").textContent="--:--";
   notes.value=st.podNotesBy[+st.podW]||"";
   renderEps();
+  if(typeof loadSubs==="function") loadSubs();
   if(autoplay||was) audio.play().catch(()=>{});
 }
 document.getElementById("podEps").addEventListener("click",ev=>{
@@ -723,6 +746,70 @@ document.getElementById("markBtn").addEventListener("click",()=>{
 });
 audio.src=curEp().src; renderEps();
 {const t0=st.podTs[+st.podW]||0; if(t0>0){seek.value=Math.floor(t0); document.getElementById("tCur").textContent=mmss(t0);}}
+
+/* ---------- sottotitoli ---------- */
+const SUB_LANGS=[["it","Italiano"],["en","English"],["de","Deutsch"],["es","Espanol"],["hr","Hrvatski"]];
+const SUB_UI={
+  it:{t:"Sottotitoli",follow:"Segui l'audio",hint:"Tocca una riga per saltare a quel punto.",none:"Sottotitoli non ancora disponibili per questo episodio."},
+  en:{t:"Subtitles",follow:"Follow the audio",hint:"Tap a line to jump to that moment.",none:"Subtitles are not available yet for this episode."},
+  de:{t:"Untertitel",follow:"Audio folgen",hint:"Tippe eine Zeile an, um dorthin zu springen.",none:"Fuer diese Folge gibt es noch keine Untertitel."},
+  es:{t:"Subtitulos",follow:"Seguir el audio",hint:"Toca una linea para saltar a ese momento.",none:"Todavia no hay subtitulos para este episodio."},
+  hr:{t:"Titlovi",follow:"Prati zvuk",hint:"Dotakni red da skocis na taj trenutak.",none:"Titlovi za ovu epizodu jos nisu dostupni."}
+};
+let CUES=[], curCue=-1;
+if(!st.subLang) st.subLang=st.lang;
+if(st.subFollow==null) st.subFollow=true;
+const subsNow=document.getElementById("subsNow"), subsList=document.getElementById("subsList");
+function subUI(){return SUB_UI[st.lang]||SUB_UI.en;}
+function renderSubsText(){
+  const u=subUI();
+  document.getElementById("subsT").textContent=u.t;
+  const b=document.getElementById("subsFollow");
+  b.textContent=u.follow; b.setAttribute("aria-pressed",String(!!st.subFollow));
+  document.getElementById("subsHint").textContent=CUES.length?u.hint:"";
+  const sel=document.getElementById("subsLang");
+  sel.innerHTML=SUB_LANGS.map(([c,n])=>`<option value="${c}">${n}</option>`).join("");
+  sel.value=st.subLang;
+}
+async function loadSubs(){
+  CUES=[]; curCue=-1; subsNow.textContent=""; subsList.innerHTML="";
+  const w=+st.podW, lg=st.subLang;
+  let data=null;
+  for(const cand of [lg,"en"]){
+    try{const r=await fetch(`subs/week${w}.${cand}.json`,{cache:"no-cache"}); if(r.ok){data=await r.json(); break;}}catch(e){}
+  }
+  if(!data||!data.length){subsNow.textContent=subUI().none; renderSubsText(); return;}
+  CUES=data;
+  subsList.innerHTML=CUES.map((c,i)=>`<li data-cue="${i}"><span class="tc">${mmss(c[0])}</span><span class="tx">${esc(c[2])}</span></li>`).join("");
+  renderSubsText(); syncCue(true);
+}
+function syncCue(force){
+  if(!CUES.length) return;
+  const tNow=audio.currentTime;
+  let i=curCue;
+  if(i<0||tNow<CUES[i][0]||tNow>CUES[i][1]){
+    i=CUES.findIndex(c=>tNow>=c[0]&&tNow<=c[1]);
+    if(i<0){let j=CUES.findIndex(c=>c[0]>tNow); i=j>0?j-1:(j===0?0:CUES.length-1);}
+  }
+  if(i===curCue&&!force) return;
+  const prev=subsList.querySelector("li.on"); if(prev) prev.classList.remove("on");
+  curCue=i;
+  const li=subsList.querySelector(`li[data-cue="${i}"]`);
+  if(li){li.classList.add("on"); if(st.subFollow) li.scrollIntoView({block:"nearest"});}
+  subsNow.textContent=CUES[i][2];
+}
+subsList.addEventListener("click",e=>{
+  const li=e.target.closest("li[data-cue]"); if(!li) return;
+  audio.currentTime=CUES[+li.dataset.cue][0]; syncCue(true);
+});
+document.getElementById("subsLang").addEventListener("change",e=>{st.subLang=e.target.value; save(); loadSubs();});
+document.getElementById("subsFollow").addEventListener("click",e=>{
+  st.subFollow=!st.subFollow; save(); e.currentTarget.setAttribute("aria-pressed",String(!!st.subFollow));
+  if(st.subFollow) syncCue(true);
+});
+audio.addEventListener("timeupdate",()=>syncCue(false));
+audio.addEventListener("seeked",()=>syncCue(true));
+renderSubsText(); loadSubs();
 
 /* ---------- person dialog ---------- */
 const dlg=document.getElementById("personDlg");
