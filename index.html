@@ -1015,15 +1015,17 @@ function showApp(on){
 function applyStateToUI(){
   if(!OSP[st.lang]) st.lang="it";
   C=OSP[st.lang]; LBY=Object.fromEntries(C.LENSES.map(l=>[l.id,l]));
-  migratePod();
-  const t0=st.podTs[+st.podW]||0;
-  if(document.activeElement!==notes) notes.value=st.podNotesBy[+st.podW]||"";
-  speedSel.value=st.speed||"1"; audio.playbackRate=+st.speed||1;
-  const want=curEp().src;
-  if(!audio.getAttribute("src")||!audio.getAttribute("src").endsWith(want)){ audio.src=want; restored=false; }
-  if(audio.paused&&Math.abs((audio.currentTime||0)-t0)>2){ try{audio.currentTime=t0;}catch(e){} }
-  seek.value=Math.floor(t0); document.getElementById("tCur").textContent=mmss(t0);
-  renderEps(); renderSubsText(); loadSubs();
+  try{
+    migratePod();
+    const t0=st.podTs[+st.podW]||0;
+    if(document.activeElement!==notes) notes.value=st.podNotesBy[+st.podW]||"";
+    speedSel.value=st.speed||"1"; audio.playbackRate=+st.speed||1;
+    const want=curEp().src;
+    if(!audio.getAttribute("src")||!audio.getAttribute("src").endsWith(want)){ audio.src=want; restored=false; }
+    if(audio.paused&&Math.abs((audio.currentTime||0)-t0)>2){ try{audio.currentTime=t0;}catch(e){} }
+    seek.value=Math.floor(t0); document.getElementById("tCur").textContent=mmss(t0);
+    renderEps(); renderSubsText(); loadSubs();
+  }catch(e){ console.warn("podcast:",e); }
   renderChrome();
 }
 function statePayload(){ const o={}; SYNC_FIELDS.forEach(k=>o[k]=st[k]); o.updatedAt=st.updatedAt||Date.now(); return o; }
