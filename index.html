@@ -817,6 +817,7 @@ document.getElementById("subsFollow").addEventListener("click",e=>{
 });
 audio.addEventListener("timeupdate",()=>syncCue(false));
 audio.addEventListener("seeked",()=>syncCue(true));
+setInterval(()=>{ if(!audio.paused) syncCue(false); },400);
 renderSubsText(); loadSubs();
 
 /* ---------- person dialog ---------- */
