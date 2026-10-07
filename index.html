@@ -217,6 +217,20 @@ textarea:focus{border-color:var(--ink)}
 .syncbtn .dot{width:9px;height:9px;border-radius:50%;background:var(--rule);border:1.5px solid var(--ink-2)}
 .syncbtn[data-on="true"] .dot{background:var(--ok);border-color:var(--ok)}
 .syncbtn:hover{background:var(--ground)}
+.hard-q{display:grid;gap:18px}
+.hard-type{display:inline-block;background:var(--hi);color:var(--on-hi);padding:2px 8px;border-radius:2px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+.hard-scenario{border-left:4px solid var(--ink);padding:2px 0 2px 16px;white-space:pre-line;font-size:17px;max-width:66ch;margin:0}
+.hard-answer{width:100%;font:inherit;font-size:16px;line-height:1.5;background:var(--ground);color:var(--ink);border:1.5px solid var(--rule);border-radius:3px;padding:12px;min-height:150px}
+.hard-answer:focus{border-color:var(--ink)}
+.rep-item{border-top:2px solid var(--ink);padding-top:16px;display:grid;gap:12px}
+.rep-item details{font-size:15px;color:var(--ink-2)}
+.rep-item summary{cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.rep-box{background:var(--ground);border-radius:3px;padding:12px 14px;white-space:pre-wrap;max-width:70ch}
+.rep-box.model{background:var(--ok-bg);border-left:4px solid var(--ok);white-space:normal}
+.crit{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.crit li{display:flex;gap:10px;align-items:flex-start;max-width:70ch}
+.crit input{width:20px;height:20px;accent-color:var(--ok);flex:none;margin-top:2px}
+.ai-out{background:var(--paper);border:1.5px dashed var(--ink);border-radius:3px;padding:14px 16px;white-space:pre-wrap;max-width:72ch}
 .start{margin-top:4px;max-width:720px;gap:18px}
 .start h2{font-size:clamp(30px,5.5vw,46px)}
 .start-form{display:grid;grid-template-columns:minmax(0,1fr) 170px auto;gap:12px;align-items:end}
@@ -235,7 +249,8 @@ textarea:focus{border-color:var(--ink)}
 .sync-status[data-err="true"]{color:var(--bad)}
 @media (max-width:640px){.pod-grid{grid-template-columns:1fr}.pctrl label{margin-left:0}}
 </style>
-<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+
+
 </head>
 <body>
 
@@ -280,18 +295,20 @@ textarea:focus{border-color:var(--ink)}
     <button class="tab" role="tab" data-view="cards"><span class="tl"></span></button>
     <button class="tab" role="tab" data-view="quiz"><span class="tl"></span><span class="n" id="nQuiz"></span></button>
     <button class="tab" role="tab" data-view="pairs"><span class="tl"></span><span class="n" id="nPairs"></span></button>
+    <button class="tab" role="tab" data-view="hard"><span class="tl"></span><span class="n" id="nHard"></span></button>
   </nav>
 
   <main id="view" aria-live="polite" hidden></main>
 
   <section id="podcastView" class="sheet" hidden>
     <div class="sheet-head">
-      <div class="sheet-meta mono"><span class="tag">Week 1</span><span>~21 min</span></div>
+      <div class="sheet-meta mono"><span class="tag" id="podWeekTag">Week 1</span><span id="podLen"></span></div>
       <h2 id="podTitle"></h2>
       <p class="block-p" id="podIntro"></p>
+      <div class="row" id="podEps"></div>
     </div>
     <div class="player">
-      <audio id="audio" preload="metadata" src="podcast-week1.mp4"></audio>
+      <audio id="audio" preload="metadata"></audio>
       <button class="play" id="playBtn" aria-label="Play">▶</button>
       <div class="track">
         <input type="range" id="seek" min="0" max="1265" step="1" value="0" aria-label="Posizione">
@@ -325,8 +342,8 @@ textarea:focus{border-color:var(--ink)}
   <dialog class="person" id="personDlg" aria-labelledby="personName"><div class="person-in" id="personBody"></div></dialog>
 </div>
 
-<script src="content/it.js"></script>
 <script src="content/en.js"></script>
+<script src="content/it.js"></script>
 <script src="content/de.js"></script>
 <script src="content/es.js"></script>
 <script src="content/hr.js"></script>
@@ -381,8 +398,8 @@ function renderChrome(){
   document.getElementById("h1").innerHTML=`${esc(u.h1a)} <em>${esc(u.h1b)}</em>`;
   document.getElementById("lede").innerHTML=esc(u.lede).replace(/\[\[(.+?)\]\]/,"<mark>$1</mark>");
   document.getElementById("legend").textContent=u.legend;
-  document.querySelectorAll(".tab").forEach(t=>t.querySelector(".tl").textContent=u.tabs[t.dataset.view]);
-  renderLenses(); renderCounts(); renderPodcastText(); renderProfileText(); renderStart();
+  document.querySelectorAll(".tab").forEach(t=>t.querySelector(".tl").textContent=t.dataset.view==="hard"?u.hard.tab:u.tabs[t.dataset.view]);
+  renderLenses(); renderCounts(); renderPodcastText(); if(typeof renderEps==="function") renderEps(); renderProfileText(); renderStart();
 }
 function renderLenses(){
   const row=document.getElementById("lensRow");
@@ -399,6 +416,7 @@ function renderCounts(){
   document.getElementById("nQuiz").textContent=`${qd}/${C.QUIZ.length}`;
   document.getElementById("nPairs").textContent=`${pd}/${C.PAIRS.length}`;
   document.getElementById("nLesson").textContent=`${(st.ldone||[]).length}/${C.LESSON.length}`;
+  const hd=st.hard||{}; document.getElementById("nHard").textContent=`${(hd.seen||[]).length}/${C.HARD.length}`;
 }
 document.getElementById("langSelect").addEventListener("change",e=>{
   st.lang=e.target.value; C=OSP[st.lang]; LBY=Object.fromEntries(C.LENSES.map(l=>[l.id,l])); save();
@@ -415,7 +433,7 @@ function setView(v){
   renderLenses();
   view.hidden=v==="podcast"; podView.hidden=v!=="podcast";
   if(v!=="podcast") view.innerHTML="";
-  if(v==="lesson") renderLesson(); else if(v==="cards") renderCard(); else if(v==="quiz") startQuiz(); else if(v==="pairs") startPairs();
+  if(v==="lesson") renderLesson(); else if(v==="cards") renderCard(); else if(v==="quiz") startQuiz(); else if(v==="pairs") startPairs(); else if(v==="hard") renderHard();
 }
 document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>setView(t.dataset.view)));
 
@@ -614,6 +632,51 @@ view.addEventListener("click",e=>{
 /* ---------- podcast ---------- */
 const audio=document.getElementById("audio"), seek=document.getElementById("seek"), playBtn=document.getElementById("playBtn");
 const mmss=t=>{t=Math.max(0,Math.floor(t||0));return `${Math.floor(t/60)}:${String(t%60).padStart(2,"0")}`;};
+const EPISODES=[
+  {w:1,src:"podcast-week1.mp4",t:"Origin and History",m:21},
+  {w:2,src:"podcast-week2.mp4",t:"The Purpose & Elements of Organisations",m:15},
+  {w:3,src:"podcast-week3.mp4",t:"Why Your Company Is Not a Machine",m:22}
+];
+const POD_LINE={
+  it:(e)=>`Podcast della settimana ${e.w}: ${e.t} (circa ${e.m} minuti). Ascoltarlo in modo attivo vale molto piu che ascoltarlo in sottofondo.`,
+  en:(e)=>`Week ${e.w} podcast: ${e.t} (about ${e.m} minutes). Listening actively is worth far more than listening in the background.`,
+  de:(e)=>`Podcast der Woche ${e.w}: ${e.t} (etwa ${e.m} Minuten). Aktives Zuhoeren ist viel wertvoller als Zuhoeren im Hintergrund.`,
+  es:(e)=>`Podcast de la semana ${e.w}: ${e.t} (unos ${e.m} minutos). Escucharlo de forma activa vale mucho mas que escucharlo de fondo.`,
+  hr:(e)=>`Podcast ${e.w}. tjedna: ${e.t} (oko ${e.m} minuta). Aktivno slusanje vrijedi mnogo vise od slusanja u pozadini.`
+};
+function migratePod(){
+  if(!st.podTs) st.podTs={};
+  if(!st.podNotesBy) st.podNotesBy={};
+  if(st.podT>0 && st.podTs[1]==null) st.podTs[1]=st.podT;
+  if(st.podNotes && st.podNotesBy[1]==null) st.podNotesBy[1]=st.podNotes;
+  if(!st.podW) st.podW=1;
+}
+migratePod();
+function curEp(){return EPISODES.find(e=>e.w===+st.podW)||EPISODES[0];}
+function renderEps(){
+  const box=document.getElementById("podEps"); if(!box) return;
+  box.innerHTML=EPISODES.map(e=>`<button class="sbtn" data-ep="${e.w}" aria-pressed="${e.w===+st.podW}">${e.w} · ${esc(e.t)}</button>`).join("");
+  document.getElementById("podWeekTag").textContent="Week "+st.podW;
+  const e=curEp();
+  document.getElementById("podTitle").textContent="Podcast · Week "+e.w;
+  document.getElementById("podLen").textContent="~"+e.m+" min";
+  document.getElementById("podIntro").textContent=(POD_LINE[st.lang]||POD_LINE.en)(e);
+}
+function loadEp(w,autoplay){
+  const was=!audio.paused; if(!audio.paused) audio.pause();
+  st.podTs[+st.podW]=audio.currentTime||st.podTs[+st.podW]||0;
+  st.podW=+w; save(); restored=false;
+  const e=curEp();
+  audio.src=e.src;
+  seek.value=0; document.getElementById("tCur").textContent="0:00"; document.getElementById("tDur").textContent="--:--";
+  notes.value=st.podNotesBy[+st.podW]||"";
+  renderEps();
+  if(autoplay||was) audio.play().catch(()=>{});
+}
+document.getElementById("podEps").addEventListener("click",ev=>{
+  const b=ev.target.closest("[data-ep]"); if(b) loadEp(b.dataset.ep,true);
+});
+
 function renderPodcastText(){
   const p=U().pod;
   document.getElementById("podTitle").textContent=p.title;
@@ -632,31 +695,34 @@ function renderPodcastText(){
 }
 let restored=false;
 audio.addEventListener("loadedmetadata",()=>{
-  if(isFinite(audio.duration)){seek.max=Math.floor(audio.duration); document.getElementById("tDur").textContent=mmss(audio.duration);}
-  if(!restored&&st.podT>0){audio.currentTime=st.podT; restored=true;}
+  if(isFinite(audio.duration)){seek.max=Math.floor(audio.duration); document.getElementById("tDur").textContent=mmss(audio.duration);
+    document.getElementById("podLen").textContent="~"+Math.round(audio.duration/60)+" min";}
+  const t0=st.podTs[+st.podW]||0;
+  if(!restored&&t0>0){audio.currentTime=t0; restored=true;}
   audio.playbackRate=+st.speed||1;
 });
 let lastSave=0;
 audio.addEventListener("timeupdate",()=>{
   seek.value=Math.floor(audio.currentTime); document.getElementById("tCur").textContent=mmss(audio.currentTime);
-  if(Math.abs(audio.currentTime-lastSave)>5){lastSave=audio.currentTime; st.podT=audio.currentTime; save();}
+  if(Math.abs(audio.currentTime-lastSave)>5){lastSave=audio.currentTime; st.podTs[+st.podW]=audio.currentTime; save();}
 });
 audio.addEventListener("play",()=>{playBtn.textContent="❚❚"; playBtn.setAttribute("aria-label","Pause");});
-audio.addEventListener("pause",()=>{playBtn.textContent="▶"; playBtn.setAttribute("aria-label","Play"); st.podT=audio.currentTime; save();});
+audio.addEventListener("pause",()=>{playBtn.textContent="▶"; playBtn.setAttribute("aria-label","Play"); st.podTs[+st.podW]=audio.currentTime; save();});
 playBtn.addEventListener("click",()=>{audio.paused?audio.play():audio.pause();});
 seek.addEventListener("input",()=>{audio.currentTime=+seek.value; document.getElementById("tCur").textContent=mmss(+seek.value);});
 document.getElementById("back15").addEventListener("click",()=>{audio.currentTime=Math.max(0,audio.currentTime-15);});
 document.getElementById("fwd15").addEventListener("click",()=>{audio.currentTime=Math.min(audio.duration||1e9,audio.currentTime+15);});
 const speedSel=document.getElementById("speed"); speedSel.value=st.speed||"1";
 speedSel.addEventListener("change",()=>{st.speed=speedSel.value; audio.playbackRate=+st.speed; save();});
-const notes=document.getElementById("podNotes"); notes.value=st.podNotes||"";
-notes.addEventListener("input",()=>{st.podNotes=notes.value; save();});
+const notes=document.getElementById("podNotes"); notes.value=st.podNotesBy[+st.podW]||"";
+notes.addEventListener("input",()=>{st.podNotesBy[+st.podW]=notes.value; save();});
 document.getElementById("markBtn").addEventListener("click",()=>{
   const line=`[${mmss(audio.currentTime)}] `;
   notes.value=(notes.value&&!notes.value.endsWith("\n")?notes.value+"\n":notes.value)+line;
-  st.podNotes=notes.value; save(); notes.focus(); notes.setSelectionRange(notes.value.length,notes.value.length);
+  st.podNotesBy[+st.podW]=notes.value; save(); notes.focus(); notes.setSelectionRange(notes.value.length,notes.value.length);
 });
-if(st.podT>0){seek.value=Math.floor(st.podT); document.getElementById("tCur").textContent=mmss(st.podT);}
+audio.src=curEp().src; renderEps();
+{const t0=st.podTs[+st.podW]||0; if(t0>0){seek.value=Math.floor(t0); document.getElementById("tCur").textContent=mmss(t0);}}
 
 /* ---------- person dialog ---------- */
 const dlg=document.getElementById("personDlg");
@@ -688,9 +754,129 @@ document.addEventListener("click",e=>{
   if(e.target===dlg) dlg.close();
 },true);
 
+
+/* ---------- hard mode ---------- */
+const SESSION_SIZE=6;
+function hardState(){ st.hard=st.hard||{stage:"intro",deck:[],i:0,answers:{},checks:{},seen:[],unlocked:false,ai:""}; return st.hard; }
+const allMastered=()=>C.LENSES.every(l=>mastery(l.id)>=1);
+function newDeck(){
+  const byType=t=>shuffle(C.HARD.filter(h=>h.type===t).map(h=>h.id));
+  const plan=[["free",2],["dual",2],["blind",1],["twist",1]];
+  const seen=hardState().seen||[];
+  let deck=[];
+  plan.forEach(([t,n])=>{ const pool=byType(t); const fresh=pool.filter(id=>!seen.includes(id)); deck=deck.concat((fresh.length>=n?fresh:pool).slice(0,n)); });
+  return shuffle(deck).slice(0,SESSION_SIZE);
+}
+function renderHard(){
+  const u=U().hard, h=hardState();
+  if(h.stage!=="q"&&h.stage!=="report"){
+    const locked=!allMastered()&&!h.unlocked;
+    view.innerHTML=`<article class="sheet">
+      <div class="sheet-head"><div class="sheet-meta mono"><span class="tag">${esc(u.tab)}</span><span>${C.HARD.length} ${esc(u.count)}</span></div>
+      <h2>${esc(locked?u.lockedT:u.introT)}</h2></div>
+      <p class="block-p">${esc(locked?u.lockedP:u.introP)}</p>
+      <ul class="chips">${Object.values(u.types).map(t=>`<li>${esc(t)}</li>`).join("")}</ul>
+      <div class="row"><button class="btn primary" data-hstart>${esc(locked?u.open:u.start)}</button></div>
+    </article>`;
+    return;
+  }
+  if(h.stage==="q"){
+    const item=C.HARD.find(x=>x.id===h.deck[h.i]);
+    if(!item){ h.stage="report"; save(); return renderHard(); }
+    const last=h.i===h.deck.length-1;
+    view.innerHTML=`<article class="sheet hard-q">
+      <div class="sheet-meta mono"><span class="hard-type">${esc(u.types[item.type])}</span><span class="progress">${esc(u.q)} ${h.i+1} / ${h.deck.length}</span><span>${esc(U().examLike)}</span></div>
+      <p class="hard-scenario">${esc(item.s)}</p>
+      <p class="ask">${esc(item.a)}</p>
+      <textarea class="hard-answer" id="hardAnswer" placeholder="${esc(u.ph)}">${esc(h.answers[item.id]||"")}</textarea>
+      <div class="sheet-foot"><span class="legend">${esc(u.skipWarn)}</span>
+        <button class="btn primary" data-hnext>${esc(last?u.finish:u.next)}</button></div>
+    </article>`;
+    document.getElementById("hardAnswer").focus();
+    return;
+  }
+  const items=h.deck.map(id=>C.HARD.find(x=>x.id===id)).filter(Boolean);
+  const ticked=items.reduce((n,it)=>n+((h.checks[it.id]||[]).filter(Boolean).length),0);
+  const total=items.reduce((n,it)=>n+it.checks.length,0);
+  view.innerHTML=`<article class="sheet">
+    <div class="sheet-head"><div class="sheet-meta mono"><span class="tag">${esc(u.reportT)}</span><span>${esc(fmt(u.score,{ok:ticked,tot:total}))}</span></div>
+    <h2>${esc(u.reportT)}</h2><p class="block-p">${esc(u.reportP)}</p></div>
+    <div class="row"><button class="btn primary" data-hcopy>${esc(u.copy)}</button><button class="btn" id="hardAiBtn" hidden>${esc(u.ai)}</button><button class="btn" data-hagain>${esc(u.again)}</button></div>
+    <p class="sync-status" id="hardMsg"></p>
+    <div id="hardAi"></div>
+    ${items.map(it=>`<section class="rep-item">
+      <div class="sheet-meta mono"><span class="hard-type">${esc(u.types[it.type])}</span><span>${esc(u.lensLabel)}: ${esc(LBY[it.lens].code)} · ${esc(LBY[it.lens].name)}</span>${it.rival?`<span>${esc(u.rivalLabel)}: ${esc(LBY[it.rival].code)}</span>`:""}</div>
+      <details><summary>${esc(u.scenarioLabel)}</summary><p class="hard-scenario" style="margin-top:10px">${esc(it.s)}</p><p class="ask" style="font-size:17px">${esc(it.a)}</p></details>
+      <div class="block"><h3>${esc(u.yours)}</h3><div class="rep-box">${esc(h.answers[it.id]||u.empty)}</div></div>
+      <div class="block"><h3>${esc(u.modelA)}</h3><div class="rep-box model">${lk(it.model)}</div></div>
+      <div class="block"><h3>${esc(u.criteria)}</h3><ul class="crit">${it.checks.map((c,k)=>`<li><input type="checkbox" id="c-${it.id}-${k}" data-hcheck="${it.id}" data-k="${k}" ${(h.checks[it.id]||[])[k]?"checked":""}><label for="c-${it.id}-${k}">${esc(c)}</label></li>`).join("")}</ul></div>
+    </section>`).join("")}
+  </article>`;
+  if(h.ai) document.getElementById("hardAi").innerHTML=`<div class="block"><h3>${esc(u.aiTitle)}</h3><div class="ai-out">${esc(h.ai)}</div></div>`;
+  claude_sample_ready.then(fn=>{ if(fn&&st.view==="hard"&&hardState().stage==="report"){ const b=document.getElementById("hardAiBtn"); if(b) b.hidden=false; } });
+}
+function hardTranscript(){
+  const u=U().hard, h=hardState();
+  const items=h.deck.map(id=>C.HARD.find(x=>x.id===id)).filter(Boolean);
+  return u.prompt+"\n\n"+items.map((it,n)=>[
+    `### ${u.q} ${n+1} — ${u.types[it.type]}`,
+    `${u.scenarioLabel}: ${it.s}`,
+    `${it.a}`,
+    `${u.yours}: ${h.answers[it.id]||u.empty}`,
+    `${u.modelA}: ${it.model}`,
+    `${u.criteria}: ${it.checks.map(c=>"- "+c).join("\n")}`
+  ].join("\n")).join("\n\n");
+}
+const claude_sample_ready=(async()=>{ if(!window.claude||typeof window.claude.use!=="function") return null; try{ return await window.claude.use("sample"); }catch(e){ return null; } })();
+view.addEventListener("click",async e=>{
+  if(st.view!=="hard") return;
+  const u=U().hard, h=hardState();
+  if(e.target.closest("[data-hstart]")){ h.unlocked=true; h.stage="q"; h.deck=newDeck(); h.i=0; h.answers={}; h.checks={}; h.ai=""; save(); renderHard(); view.scrollIntoView({block:"start"}); return; }
+  if(e.target.closest("[data-hnext]")){
+    const item=C.HARD.find(x=>x.id===h.deck[h.i]);
+    const ta=document.getElementById("hardAnswer");
+    if(item&&ta) h.answers[item.id]=ta.value.trim();
+    h.seen=[...new Set([...(h.seen||[]),item?item.id:null].filter(Boolean))];
+    if(h.i>=h.deck.length-1){ h.stage="report"; } else { h.i++; }
+    save(); renderCounts(); renderHard(); view.scrollIntoView({block:"start"}); return;
+  }
+  if(e.target.closest("[data-hagain]")){ h.stage="intro"; h.ai=""; save(); renderHard(); view.scrollIntoView({block:"start"}); return; }
+  if(e.target.closest("[data-hcopy]")){
+    const text=hardTranscript(); const msg=document.getElementById("hardMsg");
+    try{ await navigator.clipboard.writeText(text); msg.dataset.err="false"; msg.textContent=u.copied; }
+    catch(err){ msg.dataset.err="true"; msg.textContent=u.copyFail; document.getElementById("hardAi").innerHTML=`<textarea class="hard-answer" readonly>${esc(text)}</textarea>`; }
+    return;
+  }
+  if(e.target.closest("#hardAiBtn")){
+    const sample=await claude_sample_ready; if(!sample) return;
+    const box=document.getElementById("hardAi"), msg=document.getElementById("hardMsg");
+    msg.dataset.err="false"; msg.textContent=u.aiWait;
+    box.innerHTML=`<div class="block"><h3>${esc(u.aiTitle)}</h3><div class="ai-out" id="aiOut"></div></div>`;
+    try{
+      const res=await sample(hardTranscript(),{modelTier:"complex",onText:({text})=>{ const o=document.getElementById("aiOut"); if(o) o.textContent=text; }});
+      h.ai=res.text; save(); msg.textContent="";
+      const o=document.getElementById("aiOut"); if(o) o.textContent=res.text;
+    }catch(err){ msg.dataset.err="true"; msg.textContent=u.aiErr; }
+    return;
+  }
+});
+view.addEventListener("change",e=>{
+  if(st.view!=="hard") return;
+  const c=e.target.closest("[data-hcheck]"); if(!c) return;
+  const h=hardState(), id=c.dataset.hcheck, k=+c.dataset.k;
+  const it=C.HARD.find(x=>x.id===id); if(!it) return;
+  const arr=h.checks[id]||new Array(it.checks.length).fill(false);
+  arr[k]=c.checked; h.checks[id]=arr; save();
+  const items=h.deck.map(x=>C.HARD.find(y=>y.id===x)).filter(Boolean);
+  const ticked=items.reduce((n,x)=>n+((h.checks[x.id]||[]).filter(Boolean).length),0);
+  const total=items.reduce((n,x)=>n+x.checks.length,0);
+  const meta=document.querySelector(".sheet-head .sheet-meta span:last-child");
+  if(meta) meta.textContent=fmt(U().hard.score,{ok:ticked,tot:total});
+});
+
 /* ---------- profiles ---------- */
 const PROFILES_KEY="osp1-profiles", ACTIVE_KEY="osp1-active";
-const SYNC_FIELDS=["correct","wrong","ldone","lang","les","recall","podT","podNotes","speed","view","lens"];
+const SYNC_FIELDS=["correct","wrong","ldone","lang","les","recall","podT","podNotes","speed","view","lens","hard"];
 const dbReady=(async()=>{ if(!window.claude||typeof window.claude.use!=="function") return null; try{ return await window.claude.use("db"); }catch(e){ return null; } })();
 let hasDb=false; dbReady.then(d=>{ hasDb=!!d; renderStart(); renderProfileText(); });
 let remoteRef=null, remoteUnsub=null, rTimer=null, rWriting=false, rDirty=false, applying=false;
@@ -814,10 +1000,10 @@ function activate(slug){
   let local=lsGet(KEY+":"+slug,null);
   if(!local&&!lsGet("osp1-legacy-used",false)){ const legacy=lsGet(KEY,null); if(legacy){ local=legacy; lsSet("osp1-legacy-used",true); } }
   st={...DEFAULT_ST,lang:st.lang,...(local||{})};
-  qz={deck:[],i:0,filter:"all",ok:0,done:0}; pr={deck:[],i:0,ok:0,done:0}; les={det:null};
+  qz={deck:[],i:0,filter:"all",ok:0,done:0}; pr={deck:[],i:0,ok:0,done:0}; les={det:null}; hardState();
   lsSet(KEY+":"+slug,st);
   showApp(true); applyStateToUI();
-  setView(["lesson","podcast","cards","quiz","pairs"].includes(st.view)?st.view:"lesson");
+  setView(["lesson","podcast","cards","quiz","pairs","hard"].includes(st.view)?st.view:"lesson");
   connectRemote();
   return true;
 }
@@ -871,5 +1057,5 @@ renderChrome();
 { const active=lsGet(ACTIVE_KEY,null); if(!(active&&activate(active))){ showApp(false); renderStart(); } }
 </script>
 
-</body>
-</html>
+
+</body></html>
