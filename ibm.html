@@ -464,12 +464,14 @@ function renderStart(){
     const slug=slugify(name), ph=await hash("hol:"+slug+":"+pin);
     const local=ls.get("hol-p:"+slug,null);
     if(local&&local.pinHash!==ph){er.textContent=u.errWrong;er.hidden=false;return}
+    let seed=null;
+    if(!local){try{const r=await fetch("ibm-seed.json",{cache:"no-cache"});if(r.ok){const all=await r.json();seed=all[slug]||null}}catch(e){seed=null}}
     let remote=null;
     if(db){try{const snap=await db.doc("profiles/"+slug).get();remote=snap&&snap.exists?snap.data():null}catch(e){remote=null}}
     if(remote&&remote.pinHash&&remote.pinHash!==ph){er.textContent=u.errWrong;er.hidden=false;return}
     profile={slug,name,pinHash:ph};
     const a=local&&local.state||null, b=remote&&remote.state||null;
-    st=(a&&b)?((a.updatedAt||0)>=(b.updatedAt||0)?a:b):(a||b||fresh());
+    st=(a&&b)?((a.updatedAt||0)>=(b.updatedAt||0)?a:b):(a||b||seed||fresh());
     ls.set("hol-last",name); persist(true); view="parts"; render();
   });
 }
