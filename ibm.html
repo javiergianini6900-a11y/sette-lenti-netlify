@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<style>[hidden]{display:none!important}body{margin:0}</style>
+<title>The House of Layers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Literata:ital,opsz,wght@0,7..72,400..600;1,7..72,400&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: a single reading column like a novel, with a house of chapters as the progress bar */
+:root{
+  --paper:#EEF1F4; --sheet:#FBFCFD; --ink:#18222E; --ink2:#566273; --rule:#C9D1DA;
+  --brick:#A8432E; --brick-soft:#A8432E1A; --sage:#2F6B57; --sage-soft:#2F6B571A;
+  --display:"Bricolage Grotesque","Avenir Next",system-ui,sans-serif;
+  --body:"Literata",Georgia,serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#11161C; --sheet:#182029; --ink:#E4E9EF; --ink2:#9AA6B4; --rule:#2C3743;
+  --brick:#E07A5F; --brick-soft:#E07A5F22; --sage:#6FC2A2; --sage-soft:#6FC2A21F; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11161C; --sheet:#182029; --ink:#E4E9EF; --ink2:#9AA6B4; --rule:#2C3743;
+  --brick:#E07A5F; --brick-soft:#E07A5F22; --sage:#6FC2A2; --sage-soft:#6FC2A21F; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.7;padding-inline:16px;padding-block:18px 64px}
+.wrap{max-width:720px;margin:0 auto;display:grid;gap:22px}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--brick);outline-offset:2px}
+.mono{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.langs{display:flex;gap:6px;flex-wrap:wrap}
+.pill{border:1.5px solid var(--rule);background:var(--sheet);border-radius:999px;padding:5px 11px;font-family:var(--mono);font-size:12px}
+.pill[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(34px,7vw,58px);line-height:.95;letter-spacing:-.02em;margin:0;text-wrap:balance}
+.lede{margin:0;color:var(--ink2);max-width:58ch;font-size:17px}
+.card{background:var(--sheet);border:1px solid var(--rule);border-radius:6px;padding:clamp(18px,4vw,30px);display:grid;gap:16px}
+.field{display:grid;gap:6px}
+.field input{font:inherit;font-size:18px;background:var(--paper);color:var(--ink);border:2px solid var(--rule);border-radius:4px;padding:10px 12px;width:100%}
+.field input:focus{border-color:var(--ink)}
+.form{display:grid;grid-template-columns:minmax(0,1fr) 150px;gap:12px}
+@media (max-width:520px){.form{grid-template-columns:1fr}}
+.btn{border:2px solid var(--ink);background:var(--sheet);border-radius:4px;padding:9px 16px;font-family:var(--display);font-weight:700;font-size:15px}
+.btn.primary{background:var(--ink);color:var(--paper)}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.err{color:var(--brick);margin:0;font-size:15px}
+.note{font-size:14px;color:var(--ink2);margin:0}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.parts{display:grid;gap:10px}
+.part{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;text-align:left;border:1.5px solid var(--rule);background:var(--sheet);border-radius:6px;padding:14px 16px}
+.part b{font-family:var(--display);font-size:19px}
+.part span{color:var(--ink2);font-size:15px;line-height:1.4}
+.part .num{font-family:var(--display);font-weight:800;font-size:28px;color:var(--brick)}
+.part[disabled]{opacity:.5;cursor:default}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:3;background:var(--paper);padding-block:8px;display:flex;gap:10px;align-items:center;justify-content:space-between;border-bottom:1px solid var(--rule)}
+.steps{display:flex;gap:4px}
+.step{width:26px;height:26px;border:1.5px solid var(--ink);border-radius:3px;background:var(--sheet);font-family:var(--mono);font-size:10px;padding:0}
+.step.done{background:var(--sage-soft);border-color:var(--sage)}
+.step[aria-current="true"]{background:var(--ink);color:var(--paper)}
+.step:disabled{opacity:.3;cursor:default}
+article.ch{display:grid;gap:18px}
+article.ch h2{font-family:var(--display);font-weight:800;font-size:clamp(26px,4.5vw,38px);line-height:1.05;margin:6px 0 0;letter-spacing:-.01em;text-wrap:balance}
+article.ch p{margin:0;max-width:62ch}
+article.ch q{quotes:"\201C" "\201D";font-style:italic;color:var(--brick)}
+.choice{border:2px dashed var(--ink2);border-radius:6px;padding:16px;display:grid;gap:10px}
+.choice .q{font-family:var(--display);font-weight:700;font-size:19px;margin:0}
+.opt{border:1.5px solid var(--rule);background:var(--sheet);border-radius:4px;padding:10px 12px;text-align:left;font-size:16px}
+.opt:hover:not(:disabled){border-color:var(--ink)}
+.opt[aria-pressed="true"]{border-color:var(--brick);background:var(--brick-soft)}
+.opt:disabled{cursor:default}
+.reply{margin:0;font-style:italic;color:var(--ink2)}
+.write{border-top:3px solid var(--ink);padding-top:18px;display:grid;gap:10px}
+.write .q{font-family:var(--display);font-weight:700;font-size:20px;line-height:1.3;margin:0}
+textarea{width:100%;min-height:160px;font:inherit;font-size:17px;line-height:1.6;background:var(--sheet);color:var(--ink);border:2px solid var(--rule);border-radius:4px;padding:12px 14px}
+textarea:focus{border-color:var(--ink)}
+.count{font-family:var(--mono);font-size:12px;color:var(--ink2)}
+.count.ok{color:var(--sage)}
+.nb{display:grid;gap:18px}
+.nb section{display:grid;gap:6px;border-left:4px solid var(--sage);padding-left:14px}
+.nb h3{margin:0;font-family:var(--display);font-size:17px}
+.nb p{margin:0;white-space:pre-wrap;font-size:16.5px}
+.end{background:var(--sheet);border:2px solid var(--ink);border-radius:6px;padding:18px;display:grid;gap:10px}
+.sync{font-family:var(--mono);font-size:11px;color:var(--ink2)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+const STORY = {};
+STORY.en = [
+{id:"p0", t:"Prologue · A strange day in July",
+ p:["On 14 July 2026, something happened that almost nobody outside the business world noticed.",
+ "A company founded in 1911, one of the oldest technology companies in the world, told the stock market that its last three months had gone worse than expected. Soon after, it lost about a quarter of its value in a single day. Billions of dollars, gone.",
+ "Its chief executive wrote a letter. One sentence stood out: <q>We did not adapt and move quickly enough.</q>",
+ "Around the same time, someone who had worked there for about a year was asked how fast the company really is. The answer came without hesitation: <q>We are pretty good in speed.</q>",
+ "The boss says: too slow. The insider says: fast. One of them must be wrong. Or not?",
+ "By the end of this story you will be able to answer that question better than most people who read the news that day. You will even be able to explain it to a room full of people. But first you have to step inside."],
+ task:"Before reading on, write what you think: how can a company be fast and too slow at the same time? Guess freely. There is no wrong answer yet."},
+{id:"c1", t:"Chapter 1 · The company you have never seen",
+ p:["You have probably never bought anything from this company. There is no shop, no app, no logo on your phone. And yet, if you have a bank account, there is a good chance that when you pay with your card, one of its machines is working somewhere in the dark.",
+ "That is because it does not sell to people like you. It sells to other organisations: banks, hospitals, airlines, insurers, governments. Its clients are not people. They are institutions.",
+ "It sells three kinds of things.",
+ "<b>Software</b>: programs that other companies install and use, for example to store their data or to run artificial intelligence. Today this is about half of its business.",
+ "<b>Consulting</b>: its people go inside a client company, sometimes for months, and do the work with them, like a very large agency.",
+ "<b>Infrastructure</b>: the physical machines. The most famous is a computer the size of a wardrobe, called a mainframe, that can process millions of bank transactions a day without stopping.",
+ "More than a quarter of a million people work for it, in over 170 countries. The headquarters are in the United States, near New York. In Switzerland it has offices in Zurich and a famous research laboratory on the shore of Lake Zurich.",
+ "Keep one detail in mind, because it will matter later: most big clients buy all three things at the same time. Software, people and machines, from one company. So someone inside has to make three different parts work together for the same client."],
+ task:"Explain to a friend who has never heard of this company what it does, in three or four sentences. Use your own example, not the bank."},
+{id:"c2", t:"Chapter 2 · Your first coffee",
+ p:["It is your first week. You are {N}. You study and work part time, and you have been given an unusual job: you assist the boss of the whole Swiss branch. You prepare documents for decisions, you follow projects that touch many departments, you sit in rooms where students do not usually sit.",
+ "On your first day you get an organisation chart: boxes and lines that show who reports to whom. You study it carefully. You think you understand how the place works.",
+ "Then someone gives you a piece of advice you will hear again and again: network. Have coffee with people. Lots of them."],
+ choice:{q:"You want to understand how things really work here. What do you do first?",
+  o:["Study the organisation chart even more carefully","Read the internal rules and processes","Start inviting people for coffee"],
+  r:["The chart tells you who should talk to whom. It will not tell you who actually decides. Read on.","Useful, but the rules that matter most here are the ones nobody wrote down. Read on.","That is exactly what the real person behind this story did, even while admitting to not being “the coffee guy type”."]},
+ p2:["So you do the coffee chats. Slowly you notice something the chart does not show. Two managers have exactly the same title, in boxes of exactly the same size. But when one of them speaks, the room listens more. That one has been in the company for twenty years. The other for three.",
+ "You also notice that departments which bring in good results carry more weight in every discussion, whatever the chart says.",
+ "The real insider put it like this: that is <q>invisible in the org chart</q>.",
+ "Every organisation has two maps. The official one, drawn on paper. And the real one, made of trust, history and results, which you can only learn by talking to people. Nobody hands you the second map. You have to draw it yourself."],
+ task:"Think of a place you know well: a school, a team, a job, a family. Describe one rule that everybody follows but nobody ever wrote down. How did you learn it?"},
+{id:"c3", t:"Chapter 3 · The ladder",
+ p:["A project you follow needs one more person. Just one. The work is there, the client is waiting."],
+ choice:{q:"Who do you think can approve one extra person for the Swiss team?",
+  o:["The Swiss boss, who runs the branch","Someone in another country","Nobody needs to: you simply hire someone"],
+  r:["That is what most people would guess. Look what happens.","Right, and not only one other country. Look.","In a company of more than a quarter of a million people, nothing is that simple."]},
+ p2:["Here is the ladder. The Swiss branch belongs to a region called DACH: Germany, Austria and Switzerland together, led from Germany. DACH belongs to a bigger region, EMEA: Europe, the Middle East and Africa. And EMEA reports to the chief executive in America.",
+ "Your request climbs one step at a time. Switzerland asks DACH. If DACH says yes, it may go up to EMEA. If EMEA says no, it stops there. Nobody will ever ask the chief executive. One no, anywhere on the ladder, and the story is over.",
+ "Now imagine something different. Out of nowhere, a huge contract appears in Switzerland, worth many millions. That news flies up the ladder in no time, because the top needs it: they have to tell their shareholders how the quarter will end.",
+ "So speed does not depend on how urgent something is for you. It depends on how much the top needs it.",
+ "One more thing. Because the region is led from Germany, people there easily assume that Switzerland works like Germany. It does not: a different political system, a different attitude to security, a country full of banks. Part of your boss's job is to keep explaining that difference. Again and again.",
+ "A careful note: the insider said this was a personal opinion, a rule of thumb. Sometimes, the insider added, you can skip a step and call someone higher up directly, but you must be very sure why you are calling."],
+ task:"In your own words: why does a request that only matters to Switzerland move more slowly than one the top cares about? Use the ladder in your answer."},
+{id:"c4", t:"Chapter 4 · A house with too many rooms",
+ p:["After a few months you notice something strange. Whatever a client asks for, the company can probably do it. It is so old and so big that at some point it has built almost everything.",
+ "Picture a house that has been extended for more than a hundred years. Nobody ever knocked anything down. Each generation added a floor, a wing, a new staircase. Now it has hundreds of rooms, and there is a room for every need.",
+ "But here is the problem: nobody knows all the rooms. Not the guests, not even the people who live there. Asked what the company really offers, the insider answered honestly: <q>It's not graspable. Also as an employee, it's not graspable. What do we actually have?</q>",
+ "So who finds a way through this house? On huge contracts, a small team of about five people called <b>deal makers</b>. They know the whole building and its internal rules well enough to shape a solution that works for the company and for the client.",
+ "And for every client there is a <b>seller</b>, the person who holds the relationship. The seller brings in the experts and, when the deal is very big, the deal makers. Many people touch the same client. The insider's own words: <q>not always ideal</q>.",
+ "Yet the same person added something important: having so much also makes the company able to adapt to almost anything. <q>Pros and cons.</q>"],
+ task:"Write one advantage and one disadvantage of a company that has almost everything. Then say which one weighs more for you, and why."},
+{id:"c5", t:"Chapter 5 · The summer storm",
+ p:["Remember the prologue? Now you are inside when it happens.",
+ "A quick explanation first. The company belongs to its <b>shareholders</b>: thousands of people and investment funds who each own a small piece of it. Every three months, a period called a <b>quarter</b>, the company has to tell them how business is going. If the news is bad, many sell their pieces at once, and the price falls.",
+ "In July 2026 the news was bad. Many clients had moved money away from software and towards buying machines and chips, before prices went up. The price of a piece of the company fell by about a quarter in one day.",
+ "Inside, you feel it at once. Your boss has difficult conversations every day. Emails arrive every hour. Budgets are cut, and someone has to decide where. The pressure comes from the top.",
+ "But something else happens, something you did not expect. People start pulling in the same direction. Managers of different departments, who normally compete, now share one goal: hit the targets of the next quarters. The insider called it a feeling of unity: <q>It's crisis, and we are trying to make the best out of it as a group.</q>",
+ "There is a slogan that comes from the top: <b>speed over perfection</b>. Do 80% of the work in 20% of the time, launch, then fix the rest. You make a mistake yourself: an email goes out in the name of the wrong leader. Your boss shrugs: <q>never mind, let's keep running.</q> Small mistakes are forgiven. Lose a big contract, you are told, and <q>you will feel it</q>. And how safe you feel making mistakes depends a lot on which manager you have."],
+ task:"How did the crisis change the company from the inside? Write one thing that got worse and one that got better. Why do you think both happened at the same time?"},
+{id:"c6", t:"Chapter 6 · Back to the mystery",
+ p:["Go back to the prologue. The boss said: too slow. The insider said: fast. You now know enough to see that both were telling the truth.",
+ "Inside, day to day, the company is fast. Speed is pushed from the top, people work quickly, small mistakes are forgiven.",
+ "But speed is not the same everywhere. It is slow at the <b>joints</b>: where a Swiss need has to climb a tall ladder, where one client is served by several parts that each see only their own rooms, where a contract slips into the next quarter. And it is slow compared with a market that moves faster still.",
+ "Picture the house again. More than a hundred years old, never demolished, a new floor for every era. It still stands, and that is remarkable. But where an old floor meets a new one, the doors stick. What keeps the house liveable is not the plan on paper. It is the people who know where everything is: the ones with twenty years in the building, the predecessors, the deal makers, the sellers.",
+ "That is the whole idea of our presentation, in one picture.",
+ "The company has a name. You may have guessed it by now. It is <b>IBM</b>.",
+ "Everything that happened to you in this story was told to us by a real person who works there."],
+ task:"Answer the mystery in your own words, in five or six sentences, as if you were opening the presentation: how can IBM be fast and too slow at the same time? This text is the start of your script."}
+];
+
+STORY.it = [
+{id:"p0", t:"Prologo · Uno strano giorno di luglio",
+ p:["Il 14 luglio 2026 è successa una cosa che quasi nessuno, fuori dal mondo degli affari, ha notato.",
+ "Un'azienda fondata nel 1911, una delle aziende tecnologiche più antiche del mondo, ha comunicato alla borsa che gli ultimi tre mesi erano andati peggio del previsto. Subito dopo ha perso circa un quarto del suo valore in un solo giorno. Miliardi di dollari, spariti.",
+ "Il suo amministratore delegato ha scritto una lettera. Una frase spiccava: <q>We did not adapt and move quickly enough.</q> Non ci siamo adattati e non ci siamo mossi abbastanza in fretta.",
+ "Più o meno nello stesso periodo, a una persona che ci lavorava da circa un anno è stato chiesto quanto è veloce davvero l'azienda. La risposta è arrivata senza esitare: <q>We are pretty good in speed.</q> Siamo piuttosto veloci.",
+ "Il capo dice: troppo lenti. Chi ci lavora dice: veloci. Uno dei due deve sbagliarsi. O forse no?",
+ "Alla fine di questa storia saprai rispondere meglio della maggior parte delle persone che quel giorno hanno letto le notizie. Saprai persino spiegarlo davanti a una sala piena. Ma prima devi entrare."],
+ task:"Prima di andare avanti, scrivi cosa ne pensi: come può un'azienda essere veloce e troppo lenta nello stesso momento? Tira a indovinare. Per ora non esistono risposte sbagliate."},
+{id:"c1", t:"Capitolo 1 · L'azienda che non hai mai visto",
+ p:["Probabilmente non hai mai comprato niente da questa azienda. Non ha negozi, non ha app, non c'è il suo logo sul tuo telefono. Eppure, se hai un conto in banca, è molto probabile che quando paghi con la carta una delle sue macchine stia lavorando da qualche parte, al buio.",
+ "Questo perché non vende a persone come te. Vende ad altre organizzazioni: banche, ospedali, compagnie aeree, assicurazioni, governi. I suoi clienti non sono persone, sono istituzioni.",
+ "Vende tre tipi di cose.",
+ "<b>Software</b>: programmi che altre aziende installano e usano, per esempio per conservare i loro dati o per far funzionare l'intelligenza artificiale. Oggi sono circa metà del suo business.",
+ "<b>Consulenza</b>: le sue persone entrano in un'azienda cliente, a volte per mesi, e fanno il lavoro insieme a loro, come un'agenzia molto grande.",
+ "<b>Infrastruttura</b>: le macchine fisiche. La più famosa è un computer grande come un armadio, chiamato mainframe, che può gestire milioni di operazioni bancarie al giorno senza mai fermarsi.",
+ "Ci lavorano più di un quarto di milione di persone, in oltre 170 paesi. La sede è negli Stati Uniti, vicino a New York. In Svizzera ha uffici a Zurigo e un famoso laboratorio di ricerca sulla riva del lago di Zurigo.",
+ "Tieni a mente un dettaglio, perché più avanti conterà: la maggior parte dei grandi clienti compra tutte e tre le cose insieme. Software, persone e macchine, dalla stessa azienda. Quindi qualcuno, dentro, deve far lavorare insieme tre parti diverse per lo stesso cliente."],
+ task:"Spiega a un amico che non ha mai sentito parlare di questa azienda cosa fa, in tre o quattro frasi. Usa un esempio tuo, non quello della banca."},
+{id:"c2", t:"Capitolo 2 · Il primo caffè",
+ p:["È la tua prima settimana. Ti chiami {N}. Studi e lavori part-time, e ti hanno dato un incarico insolito: assisti il capo di tutta la filiale svizzera. Prepari i documenti per le decisioni, segui progetti che toccano molti reparti, siedi in stanze dove di solito gli studenti non entrano.",
+ "Il primo giorno ricevi un organigramma: caselle e linee che mostrano chi risponde a chi. Lo studi con attenzione. Pensi di aver capito come funziona il posto.",
+ "Poi qualcuno ti dà un consiglio che sentirai ripetere ancora e ancora: fai rete. Prendi un caffè con le persone. Con tante persone."],
+ choice:{q:"Vuoi capire come funzionano davvero le cose qui. Cosa fai per prima cosa?",
+  o:["Studio l'organigramma ancora più attentamente","Leggo le regole e i processi interni","Comincio a invitare persone per un caffè"],
+  r:["L'organigramma ti dice chi dovrebbe parlare con chi. Non ti dice chi decide davvero. Continua a leggere.","Utile, ma qui le regole che contano di più sono quelle che nessuno ha scritto. Continua a leggere.","È proprio quello che ha fatto la persona vera dietro questa storia, pur ammettendo di non essere “il tipo da caffè”."]},
+ p2:["Quindi fai i caffè. Piano piano noti qualcosa che l'organigramma non mostra. Due manager hanno esattamente lo stesso titolo, in caselle esattamente della stessa grandezza. Ma quando parla uno dei due, la stanza ascolta di più. Quello è in azienda da vent'anni. L'altro da tre.",
+ "Noti anche che i reparti che portano buoni risultati pesano di più in ogni discussione, qualunque cosa dica l'organigramma.",
+ "Chi ci lavora davvero l'ha detto così: è <q>invisible in the org chart</q>, invisibile nell'organigramma.",
+ "Ogni organizzazione ha due mappe. Quella ufficiale, disegnata sulla carta. E quella vera, fatta di fiducia, di storia e di risultati, che puoi imparare solo parlando con le persone. Nessuno ti consegna la seconda mappa. Devi disegnarla tu."],
+ task:"Pensa a un posto che conosci bene: una scuola, una squadra, un lavoro, una famiglia. Descrivi una regola che tutti seguono ma che nessuno ha mai scritto. Come l'hai imparata?"},
+{id:"c3", t:"Capitolo 3 · La scala",
+ p:["Un progetto che segui ha bisogno di una persona in più. Una sola. Il lavoro c'è, il cliente aspetta."],
+ choice:{q:"Secondo te, chi può approvare una persona in più per il team svizzero?",
+  o:["Il capo svizzero, che dirige la filiale","Qualcuno in un altro paese","Nessuno: si assume qualcuno e basta"],
+  r:["È quello che penserebbe quasi chiunque. Guarda cosa succede.","Esatto, e non in un solo altro paese. Guarda.","In un'azienda di oltre un quarto di milione di persone, niente è così semplice."]},
+ p2:["Ecco la scala. La filiale svizzera fa parte di una regione chiamata DACH: Germania, Austria e Svizzera insieme, guidate dalla Germania. DACH fa parte di una regione più grande, EMEA: Europa, Medio Oriente e Africa. Ed EMEA risponde all'amministratore delegato in America.",
+ "La tua richiesta sale un gradino alla volta. La Svizzera chiede a DACH. Se DACH dice sì, può salire fino a EMEA. Se EMEA dice no, si ferma lì. Nessuno chiederà mai all'amministratore delegato. Un solo no, in qualsiasi punto della scala, e la storia è finita.",
+ "Ora immagina un'altra cosa. All'improvviso, in Svizzera, compare un contratto enorme, da molti milioni. Quella notizia vola su per la scala in un attimo, perché alla cima serve: deve dire ai suoi azionisti come finirà il trimestre.",
+ "Quindi la velocità non dipende da quanto una cosa è urgente per te. Dipende da quanto serve alla cima.",
+ "Ancora una cosa. Siccome la regione è guidata dalla Germania, lì si tende a pensare che la Svizzera funzioni come la Germania. Non è così: un sistema politico diverso, un altro modo di vedere la sicurezza, un paese pieno di banche. Una parte del lavoro del tuo capo è spiegare questa differenza. Ancora e ancora.",
+ "Una nota di prudenza: chi ce l'ha raccontato ha detto che è un'opinione personale, una regola pratica. A volte, ha aggiunto, puoi saltare un gradino e chiamare direttamente qualcuno più in alto, ma devi avere ben chiaro perché chiami."],
+ task:"Con parole tue: perché una richiesta che interessa solo la Svizzera si muove più lentamente di una che interessa alla cima? Usa la scala nella tua risposta."},
+{id:"c4", t:"Capitolo 4 · Una casa con troppe stanze",
+ p:["Dopo qualche mese noti una cosa strana. Qualunque cosa chieda un cliente, l'azienda probabilmente la sa fare. È così vecchia e così grande che, prima o poi, ha costruito quasi tutto.",
+ "Immagina una casa che viene ampliata da più di cent'anni. Nessuno ha mai abbattuto niente. Ogni generazione ha aggiunto un piano, un'ala, una scala nuova. Ora ha centinaia di stanze, e c'è una stanza per ogni bisogno.",
+ "Ma ecco il problema: nessuno conosce tutte le stanze. Né gli ospiti, né chi ci abita. Alla domanda su cosa offra davvero l'azienda, la risposta di chi ci lavora è stata onesta: <q>It's not graspable. Also as an employee, it's not graspable. What do we actually have?</q> Non è afferrabile, nemmeno per chi ci lavora. Cosa abbiamo davvero?",
+ "Allora chi trova la strada in questa casa? Sui contratti enormi, un piccolo gruppo di circa cinque persone chiamate <b>deal maker</b>. Conoscono tutto l'edificio e le sue regole interne abbastanza bene da dare forma a una soluzione che funzioni per l'azienda e per il cliente.",
+ "E per ogni cliente c'è un <b>venditore</b>, la persona che tiene la relazione. Il venditore chiama gli esperti e, quando il contratto è molto grande, i deal maker. Tante persone toccano lo stesso cliente. Parole di chi ci lavora: <q>not always ideal</q>, non sempre ideale.",
+ "Eppure la stessa persona ha aggiunto una cosa importante: avere così tanto permette anche all'azienda di adattarsi a quasi tutto. <q>Pros and cons.</q> Pro e contro."],
+ task:"Scrivi un vantaggio e uno svantaggio di un'azienda che ha quasi tutto. Poi di' quale pesa di più per te, e perché."},
+{id:"c5", t:"Capitolo 5 · La tempesta d'estate",
+ p:["Ricordi il prologo? Ora sei dentro, quando succede.",
+ "Prima una spiegazione veloce. L'azienda appartiene ai suoi <b>azionisti</b>: migliaia di persone e fondi d'investimento che ne possiedono ciascuno un pezzetto. Ogni tre mesi, un periodo chiamato <b>trimestre</b>, l'azienda deve dire loro come vanno gli affari. Se la notizia è brutta, molti vendono i loro pezzi tutti insieme, e il prezzo crolla.",
+ "A luglio 2026 la notizia era brutta. Molti clienti avevano spostato i soldi dal software all'acquisto di macchine e chip, prima che i prezzi salissero. Il prezzo di un pezzo dell'azienda è sceso di circa un quarto in un solo giorno.",
+ "Dentro lo senti subito. Il tuo capo ha conversazioni difficili ogni giorno. Le email arrivano ogni ora. I budget vengono tagliati, e qualcuno deve decidere dove. La pressione arriva dall'alto.",
+ "Ma succede anche un'altra cosa, che non ti aspettavi. Le persone cominciano a tirare nella stessa direzione. Manager di reparti diversi, che di solito si fanno concorrenza, ora hanno un solo obiettivo: raggiungere i risultati dei prossimi trimestri. Chi ci lavora l'ha chiamato un senso di unità: <q>It's crisis, and we are trying to make the best out of it as a group.</q> È una crisi, e cerchiamo di tirarne fuori il meglio come gruppo.",
+ "C'è uno slogan che arriva dall'alto: <b>speed over perfection</b>, la velocità prima della perfezione. Fai l'80% del lavoro nel 20% del tempo, lancia, poi sistemi il resto. Sbagli anche tu: una email parte a nome della persona sbagliata. Il tuo capo fa spallucce: <q>never mind, let's keep running</q>, non importa, andiamo avanti. I piccoli errori si perdonano. Se perdi un grande contratto, ti dicono, <q>you will feel it</q>, lo sentirai. E quanto ti senti al sicuro nello sbagliare dipende molto da quale manager hai."],
+ task:"Come ha cambiato l'azienda, da dentro, la crisi? Scrivi una cosa che è peggiorata e una che è migliorata. Perché secondo te sono successe entrambe nello stesso momento?"},
+{id:"c6", t:"Capitolo 6 · Ritorno al mistero",
+ p:["Torna al prologo. Il capo diceva: troppo lenti. Chi ci lavora diceva: veloci. Ora sai abbastanza per vedere che dicevano entrambi la verità.",
+ "Dentro, giorno per giorno, l'azienda è veloce. La velocità è spinta dall'alto, le persone lavorano in fretta, i piccoli errori si perdonano.",
+ "Ma la velocità non è uguale ovunque. È lenta nelle <b>giunture</b>: dove un bisogno svizzero deve salire una scala alta, dove un solo cliente è servito da più parti che vedono solo le proprie stanze, dove un contratto scivola al trimestre dopo. Ed è lenta rispetto a un mercato che si muove ancora più in fretta.",
+ "Pensa di nuovo alla casa. Più di cent'anni, mai demolita, un piano nuovo per ogni epoca. È ancora in piedi, ed è una cosa notevole. Ma dove un piano vecchio incontra uno nuovo, le porte si incastrano. Quello che la rende abitabile non è la pianta sulla carta. Sono le persone che sanno dove si trova ogni cosa: chi è nell'edificio da vent'anni, chi aveva il tuo posto prima di te, i deal maker, i venditori.",
+ "Questa è tutta l'idea della nostra presentazione, in un'immagine sola.",
+ "L'azienda ha un nome. Forse l'hai già indovinato. È <b>IBM</b>.",
+ "Tutto quello che ti è successo in questa storia ce l'ha raccontato una persona vera che ci lavora."],
+ task:"Rispondi al mistero con parole tue, in cinque o sei frasi, come se stessi aprendo la presentazione: come può IBM essere veloce e troppo lenta allo stesso tempo? Questo testo è l'inizio del tuo copione."}
+];
+
+STORY.es = [
+{id:"p0", t:"Prólogo · Un día extraño de julio",
+ p:["El 14 de julio de 2026 pasó algo que casi nadie, fuera del mundo de los negocios, notó.",
+ "Una empresa fundada en 1911, una de las empresas tecnológicas más antiguas del mundo, anunció a la bolsa que sus últimos tres meses habían ido peor de lo esperado. Poco después perdió cerca de una cuarta parte de su valor en un solo día. Miles de millones de dólares, desaparecidos.",
+ "Su director ejecutivo escribió una carta. Una frase destacaba: <q>We did not adapt and move quickly enough.</q> No nos adaptamos ni nos movimos lo bastante rápido.",
+ "Más o menos al mismo tiempo, a alguien que llevaba un año trabajando allí le preguntaron lo rápida que es de verdad la empresa. La respuesta llegó sin dudar: <q>We are pretty good in speed.</q> Somos bastante rápidos.",
+ "El jefe dice: demasiado lentos. Quien trabaja dentro dice: rápidos. Uno de los dos debe equivocarse. ¿O no?",
+ "Al final de esta historia sabrás responder mejor que la mayoría de quienes leyeron las noticias ese día. Incluso sabrás explicarlo ante una sala llena. Pero primero tienes que entrar."],
+ task:"Antes de seguir, escribe lo que piensas: ¿cómo puede una empresa ser rápida y demasiado lenta a la vez? Adivina con libertad. Todavía no hay respuestas equivocadas."},
+{id:"c1", t:"Capítulo 1 · La empresa que nunca has visto",
+ p:["Probablemente nunca le has comprado nada a esta empresa. No tiene tiendas, no tiene app, su logo no está en tu teléfono. Y sin embargo, si tienes una cuenta en el banco, es muy probable que cuando pagas con tarjeta una de sus máquinas esté trabajando en algún lugar, a oscuras.",
+ "Es porque no vende a personas como tú. Vende a otras organizaciones: bancos, hospitales, aerolíneas, aseguradoras, gobiernos. Sus clientes no son personas. Son instituciones.",
+ "Vende tres tipos de cosas.",
+ "<b>Software</b>: programas que otras empresas instalan y usan, por ejemplo para guardar sus datos o para hacer funcionar la inteligencia artificial. Hoy es más o menos la mitad de su negocio.",
+ "<b>Consultoría</b>: su gente entra en una empresa cliente, a veces durante meses, y hace el trabajo junto con ella, como una agencia muy grande.",
+ "<b>Infraestructura</b>: las máquinas físicas. La más famosa es un ordenador del tamaño de un armario, llamado mainframe, que puede procesar millones de operaciones bancarias al día sin detenerse nunca.",
+ "Trabajan en ella más de un cuarto de millón de personas, en más de 170 países. La sede está en Estados Unidos, cerca de Nueva York. En Suiza tiene oficinas en Zúrich y un famoso laboratorio de investigación a orillas del lago de Zúrich.",
+ "Guarda un detalle en la memoria, porque importará más adelante: la mayoría de los grandes clientes compra las tres cosas a la vez. Software, personas y máquinas, de la misma empresa. Así que alguien, dentro, tiene que hacer que tres partes distintas trabajen juntas para el mismo cliente."],
+ task:"Explícale a alguien que nunca ha oído hablar de esta empresa qué hace, en tres o cuatro frases. Usa un ejemplo tuyo, no el del banco."},
+{id:"c2", t:"Capítulo 2 · Tu primer café",
+ p:["Es tu primera semana. Te llamas {N}. Estudias y trabajas a tiempo parcial, y te han dado un trabajo poco común: asistes al jefe de toda la filial suiza. Preparas documentos para las decisiones, sigues proyectos que tocan muchos departamentos, te sientas en salas donde los estudiantes no suelen entrar.",
+ "El primer día recibes un organigrama: cajas y líneas que muestran quién responde ante quién. Lo estudias con atención. Crees que entiendes cómo funciona el lugar.",
+ "Entonces alguien te da un consejo que oirás una y otra vez: haz red. Toma café con la gente. Con mucha gente."],
+ choice:{q:"Quieres entender cómo funcionan de verdad las cosas aquí. ¿Qué haces primero?",
+  o:["Estudio el organigrama todavía con más atención","Leo las normas y los procesos internos","Empiezo a invitar a gente a tomar un café"],
+  r:["El organigrama te dice quién debería hablar con quién. No te dice quién decide de verdad. Sigue leyendo.","Útil, pero aquí las reglas que más importan son las que nadie escribió. Sigue leyendo.","Es justo lo que hizo la persona real detrás de esta historia, aun admitiendo no ser “del tipo que toma cafés”."]},
+ p2:["Así que tomas los cafés. Poco a poco notas algo que el organigrama no muestra. Dos jefes tienen exactamente el mismo cargo, en cajas exactamente del mismo tamaño. Pero cuando habla uno de ellos, la sala escucha más. Ese lleva veinte años en la empresa. El otro, tres.",
+ "También notas que los departamentos que traen buenos resultados pesan más en cada discusión, diga lo que diga el organigrama.",
+ "Quien trabaja allí lo dijo así: es <q>invisible in the org chart</q>, invisible en el organigrama.",
+ "Toda organización tiene dos mapas. El oficial, dibujado en papel. Y el real, hecho de confianza, de historia y de resultados, que solo puedes aprender hablando con la gente. Nadie te entrega el segundo mapa. Tienes que dibujarlo tú."],
+ task:"Piensa en un lugar que conoces bien: un colegio, un equipo, un trabajo, una familia. Describe una regla que todos siguen pero que nadie escribió nunca. ¿Cómo la aprendiste?"},
+{id:"c3", t:"Capítulo 3 · La escalera",
+ p:["Un proyecto que sigues necesita una persona más. Solo una. El trabajo está ahí, el cliente espera."],
+ choice:{q:"¿Quién crees que puede aprobar una persona más para el equipo suizo?",
+  o:["El jefe suizo, que dirige la filial","Alguien en otro país","Nadie: simplemente se contrata a alguien"],
+  r:["Es lo que pensaría casi cualquiera. Mira lo que pasa.","Exacto, y no en un solo país. Mira.","En una empresa de más de un cuarto de millón de personas, nada es tan simple."]},
+ p2:["Esta es la escalera. La filial suiza pertenece a una región llamada DACH: Alemania, Austria y Suiza juntas, dirigidas desde Alemania. DACH pertenece a una región más grande, EMEA: Europa, Oriente Medio y África. Y EMEA responde ante el director ejecutivo en América.",
+ "Tu petición sube un peldaño cada vez. Suiza pregunta a DACH. Si DACH dice que sí, puede subir hasta EMEA. Si EMEA dice que no, se queda ahí. Nadie preguntará nunca al director ejecutivo. Un solo no, en cualquier punto de la escalera, y la historia se acaba.",
+ "Ahora imagina otra cosa. De repente aparece en Suiza un contrato enorme, de muchos millones. Esa noticia sube la escalera en un instante, porque la cima la necesita: tiene que decir a sus accionistas cómo terminará el trimestre.",
+ "Así que la velocidad no depende de lo urgente que sea algo para ti. Depende de cuánto lo necesite la cima.",
+ "Una cosa más. Como la región se dirige desde Alemania, allí es fácil suponer que Suiza funciona como Alemania. No es así: otro sistema político, otra actitud ante la seguridad, un país lleno de bancos. Parte del trabajo de tu jefe es explicar esa diferencia. Una y otra vez.",
+ "Una nota de prudencia: quien nos lo contó dijo que era una opinión personal, una regla práctica. A veces, añadió, se puede saltar un peldaño y llamar directamente a alguien más arriba, pero hay que tener muy claro por qué se llama."],
+ task:"Con tus palabras: ¿por qué una petición que solo importa a Suiza va más lenta que una que le importa a la cima? Usa la escalera en tu respuesta."},
+{id:"c4", t:"Capítulo 4 · Una casa con demasiadas habitaciones",
+ p:["Después de unos meses notas algo extraño. Pida lo que pida un cliente, la empresa probablemente sabe hacerlo. Es tan vieja y tan grande que, en algún momento, ha construido casi de todo.",
+ "Imagina una casa que lleva más de cien años ampliándose. Nadie derribó nunca nada. Cada generación añadió un piso, un ala, una escalera nueva. Ahora tiene cientos de habitaciones, y hay una habitación para cada necesidad.",
+ "Pero aquí está el problema: nadie conoce todas las habitaciones. Ni los invitados, ni quienes viven en ella. Cuando le preguntaron qué ofrece de verdad la empresa, quien trabaja allí respondió con sinceridad: <q>It's not graspable. Also as an employee, it's not graspable. What do we actually have?</q> No se puede abarcar, ni siquiera trabajando dentro. ¿Qué tenemos realmente?",
+ "Entonces, ¿quién encuentra el camino en esta casa? En los contratos enormes, un pequeño equipo de unas cinco personas llamadas <b>deal makers</b>. Conocen todo el edificio y sus reglas internas lo bastante bien como para dar forma a una solución que funcione para la empresa y para el cliente.",
+ "Y para cada cliente hay un <b>vendedor</b>, la persona que mantiene la relación. El vendedor llama a los expertos y, cuando el contrato es muy grande, a los deal makers. Mucha gente toca al mismo cliente. Palabras de quien trabaja allí: <q>not always ideal</q>, no siempre es lo ideal.",
+ "Y sin embargo, la misma persona añadió algo importante: tener tanto también permite a la empresa adaptarse a casi todo. <q>Pros and cons.</q> Ventajas e inconvenientes."],
+ task:"Escribe una ventaja y una desventaja de una empresa que lo tiene casi todo. Después di cuál pesa más para ti, y por qué."},
+{id:"c5", t:"Capítulo 5 · La tormenta de verano",
+ p:["¿Recuerdas el prólogo? Ahora estás dentro cuando ocurre.",
+ "Primero una explicación rápida. La empresa pertenece a sus <b>accionistas</b>: miles de personas y fondos de inversión que poseen cada uno un trocito. Cada tres meses, un periodo llamado <b>trimestre</b>, la empresa tiene que contarles cómo va el negocio. Si la noticia es mala, muchos venden sus trozos a la vez, y el precio se hunde.",
+ "En julio de 2026 la noticia fue mala. Muchos clientes habían pasado su dinero del software a comprar máquinas y chips, antes de que subieran los precios. El precio de un trozo de la empresa cayó cerca de una cuarta parte en un solo día.",
+ "Dentro lo notas enseguida. Tu jefe tiene conversaciones difíciles cada día. Los correos llegan cada hora. Se recortan presupuestos, y alguien tiene que decidir dónde. La presión viene de arriba.",
+ "Pero pasa también otra cosa, algo que no esperabas. La gente empieza a tirar en la misma dirección. Jefes de departamentos distintos, que normalmente compiten, ahora comparten un solo objetivo: alcanzar los resultados de los próximos trimestres. Quien trabaja allí lo llamó un sentimiento de unidad: <q>It's crisis, and we are trying to make the best out of it as a group.</q> Es una crisis, e intentamos sacar lo mejor de ella como grupo.",
+ "Hay un lema que viene de arriba: <b>speed over perfection</b>, la velocidad antes que la perfección. Haz el 80% del trabajo en el 20% del tiempo, lánzalo y después arregla el resto. Tú también te equivocas: un correo sale en nombre de la persona equivocada. Tu jefe se encoge de hombros: <q>never mind, let's keep running</q>, no importa, sigamos. Los errores pequeños se perdonan. Si pierdes un gran contrato, te dicen, <q>you will feel it</q>, lo notarás. Y lo seguro que te sientes al equivocarte depende mucho del jefe que tengas."],
+ task:"¿Cómo cambió la crisis a la empresa por dentro? Escribe una cosa que empeoró y una que mejoró. ¿Por qué crees que pasaron las dos a la vez?"},
+{id:"c6", t:"Capítulo 6 · De vuelta al misterio",
+ p:["Vuelve al prólogo. El jefe decía: demasiado lentos. Quien trabaja dentro decía: rápidos. Ahora sabes lo suficiente para ver que los dos decían la verdad.",
+ "Por dentro, día a día, la empresa es rápida. La velocidad se impulsa desde arriba, la gente trabaja deprisa, los errores pequeños se perdonan.",
+ "Pero la velocidad no es igual en todas partes. Es lenta en las <b>juntas</b>: donde una necesidad suiza tiene que subir una escalera alta, donde un solo cliente es atendido por varias partes que solo ven sus propias habitaciones, donde un contrato se resbala al trimestre siguiente. Y es lenta comparada con un mercado que se mueve todavía más rápido.",
+ "Piensa otra vez en la casa. Más de cien años, nunca derribada, un piso nuevo para cada época. Sigue en pie, y eso es admirable. Pero donde un piso viejo se encuentra con uno nuevo, las puertas se atascan. Lo que la mantiene habitable no es el plano en papel. Son las personas que saben dónde está cada cosa: quienes llevan veinte años en el edificio, quienes ocuparon tu puesto antes, los deal makers, los vendedores.",
+ "Esta es toda la idea de nuestra presentación, en una sola imagen.",
+ "La empresa tiene nombre. Quizá ya lo has adivinado. Es <b>IBM</b>.",
+ "Todo lo que te pasó en esta historia nos lo contó una persona real que trabaja allí."],
+ task:"Responde al misterio con tus palabras, en cinco o seis frases, como si abrieras la presentación: ¿cómo puede IBM ser rápida y demasiado lenta a la vez? Este texto es el comienzo de tu guion."}
+];
+
+STORY.hr = [
+{id:"p0", t:"Prolog · Neobičan dan u srpnju",
+ p:["Dana 14. srpnja 2026. dogodilo se nešto što gotovo nitko izvan poslovnog svijeta nije primijetio.",
+ "Tvrtka osnovana 1911., jedna od najstarijih tehnoloških tvrtki na svijetu, objavila je burzi da su joj posljednja tri mjeseca prošla lošije od očekivanog. Ubrzo nakon toga u jednom je danu izgubila otprilike četvrtinu svoje vrijednosti. Milijarde dolara, nestale.",
+ "Njezin glavni izvršni direktor napisao je pismo. Jedna se rečenica isticala: <q>We did not adapt and move quickly enough.</q> Nismo se prilagodili i nismo se kretali dovoljno brzo.",
+ "Otprilike u isto vrijeme, nekoga tko je ondje radio oko godinu dana pitali su koliko je tvrtka zapravo brza. Odgovor je stigao bez oklijevanja: <q>We are pretty good in speed.</q> Prilično smo brzi.",
+ "Šef kaže: prespori. Netko iznutra kaže: brzi. Jedan od njih mora biti u krivu. Ili ne?",
+ "Na kraju ove priče znat ćeš odgovoriti bolje od većine ljudi koji su toga dana čitali vijesti. Znat ćeš to čak objasniti pred punom dvoranom. Ali prvo moraš ući."],
+ task:"Prije nego što nastaviš, napiši što misliš: kako tvrtka može biti brza i prespora u isto vrijeme? Slobodno pogađaj. Pogrešnih odgovora još nema."},
+{id:"c1", t:"1. poglavlje · Tvrtka koju nikad nisi vidio/la",
+ p:["Od ove tvrtke vjerojatno nikad ništa nisi kupio/la. Nema trgovinu, nema aplikaciju, njezin logo nije na tvom mobitelu. Pa ipak, ako imaš bankovni račun, velika je vjerojatnost da dok plaćaš karticom jedan od njezinih strojeva negdje radi, u mraku.",
+ "To je zato što ne prodaje ljudima poput tebe. Prodaje drugim organizacijama: bankama, bolnicama, zrakoplovnim tvrtkama, osiguravajućim društvima, vladama. Njezini klijenti nisu ljudi. To su institucije.",
+ "Prodaje tri vrste stvari.",
+ "<b>Softver</b>: programe koje druge tvrtke instaliraju i koriste, na primjer za čuvanje podataka ili za pokretanje umjetne inteligencije. Danas je to otprilike polovica njezina poslovanja.",
+ "<b>Savjetovanje</b>: njezini ljudi ulaze u tvrtku klijenta, ponekad mjesecima, i rade posao zajedno s njima, kao vrlo velika agencija.",
+ "<b>Infrastruktura</b>: fizički strojevi. Najpoznatiji je računalo veliko kao ormar, koje se zove mainframe, i koje može obraditi milijune bankovnih transakcija dnevno bez zaustavljanja.",
+ "U njoj radi više od četvrt milijuna ljudi, u više od 170 zemalja. Sjedište je u Sjedinjenim Državama, blizu New Yorka. U Švicarskoj ima urede u Zürichu i poznati istraživački laboratorij na obali Ciriškog jezera.",
+ "Zapamti jedan detalj, jer će kasnije biti važan: većina velikih klijenata kupuje sve tri stvari odjednom. Softver, ljude i strojeve, od iste tvrtke. Dakle netko iznutra mora natjerati tri različita dijela da rade zajedno za istog klijenta."],
+ task:"Objasni nekome tko nikad nije čuo za ovu tvrtku što ona radi, u tri ili četiri rečenice. Koristi vlastiti primjer, ne onaj s bankom."},
+{id:"c2", t:"2. poglavlje · Tvoja prva kava",
+ p:["Tvoj je prvi tjedan. Zoveš se {N}. Studiraš i radiš pola radnog vremena, a dobiješ neobičan posao: pomažeš šefu cijele švicarske podružnice. Pripremaš dokumente za odluke, pratiš projekte koji dotiču mnoge odjele, sjediš u prostorijama u koje studenti obično ne ulaze.",
+ "Prvog dana dobiješ organigram: kućice i crte koje pokazuju tko kome odgovara. Pažljivo ga proučiš. Misliš da razumiješ kako to mjesto funkcionira.",
+ "Onda ti netko da savjet koji ćeš čuti iznova i iznova: umrežavaj se. Idi na kavu s ljudima. S puno ljudi."],
+ choice:{q:"Želiš razumjeti kako ovdje stvari stvarno funkcioniraju. Što radiš prvo?",
+  o:["Proučavam organigram još pažljivije","Čitam interna pravila i procese","Počinjem pozivati ljude na kavu"],
+  r:["Organigram ti govori tko bi s kim trebao razgovarati. Ne govori ti tko zapravo odlučuje. Čitaj dalje.","Korisno, ali ovdje su najvažnija pravila ona koja nitko nije zapisao. Čitaj dalje.","Upravo je to učinila stvarna osoba iza ove priče, iako priznaje da nije “tip za kavice”."]},
+ p2:["Dakle, ideš na kave. Polako primjećuješ nešto što organigram ne pokazuje. Dva menadžera imaju potpuno istu titulu, u kućicama potpuno iste veličine. Ali kad jedan od njih progovori, prostorija ga više sluša. Taj je u tvrtki dvadeset godina. Drugi tri.",
+ "Primjećuješ i da odjeli koji donose dobre rezultate imaju veću težinu u svakoj raspravi, što god organigram govorio.",
+ "Netko tko ondje stvarno radi rekao je to ovako: to je <q>invisible in the org chart</q>, nevidljivo u organigramu.",
+ "Svaka organizacija ima dvije karte. Službenu, nacrtanu na papiru. I stvarnu, sastavljenu od povjerenja, povijesti i rezultata, koju možeš naučiti samo razgovarajući s ljudima. Drugu kartu ti nitko ne daje. Moraš je nacrtati sam/a."],
+ task:"Sjeti se mjesta koje dobro poznaješ: škole, ekipe, posla, obitelji. Opiši jedno pravilo koje svi poštuju, a nitko ga nikad nije zapisao. Kako si ga naučio/la?"},
+{id:"c3", t:"3. poglavlje · Ljestve",
+ p:["Projekt koji pratiš treba još jednu osobu. Samo jednu. Posla ima, klijent čeka."],
+ choice:{q:"Što misliš, tko može odobriti jednu osobu više za švicarski tim?",
+  o:["Švicarski šef, koji vodi podružnicu","Netko u drugoj zemlji","Nitko: jednostavno se nekoga zaposli"],
+  r:["To bi pomislio gotovo svatko. Pogledaj što se događa.","Točno, i to ne samo u jednoj drugoj zemlji. Pogledaj.","U tvrtki s više od četvrt milijuna ljudi ništa nije tako jednostavno."]},
+ p2:["Evo ljestava. Švicarska podružnica pripada regiji koja se zove DACH: Njemačka, Austrija i Švicarska zajedno, a vodi se iz Njemačke. DACH pripada većoj regiji, EMEA: Europa, Bliski istok i Afrika. A EMEA odgovara glavnom izvršnom direktoru u Americi.",
+ "Tvoj se zahtjev penje prečku po prečku. Švicarska pita DACH. Ako DACH kaže da, može stići do EMEA-e. Ako EMEA kaže ne, tu staje. Glavnog direktora nitko nikad neće ni pitati. Jedno ne, bilo gdje na ljestvama, i priča je gotova.",
+ "A sad zamisli nešto drugo. Odjednom se u Švicarskoj pojavi ogroman ugovor, vrijedan mnogo milijuna. Ta vijest u trenu odleti uz ljestve, jer je vrhu potrebna: mora reći dioničarima kako će završiti tromjesečje.",
+ "Dakle brzina ne ovisi o tome koliko je nešto hitno tebi. Ovisi o tome koliko to treba vrhu.",
+ "Još nešto. Budući da se regija vodi iz Njemačke, ondje je lako pretpostaviti da Švicarska funkcionira kao Njemačka. Ne funkcionira: drugačiji politički sustav, drugačiji odnos prema sigurnosti, zemlja puna banaka. Dio posla tvog šefa jest da tu razliku objašnjava. Iznova i iznova.",
+ "Oprezna napomena: osoba koja nam je to ispričala rekla je da je to osobno mišljenje, pravilo iz iskustva. Ponekad se, dodala je, može preskočiti prečka i izravno nazvati nekoga više, ali treba biti potpuno jasno zašto se zove."],
+ task:"Svojim riječima: zašto se zahtjev koji je važan samo Švicarskoj kreće sporije od onoga do kojeg je stalo vrhu? Upotrijebi ljestve u odgovoru."},
+{id:"c4", t:"4. poglavlje · Kuća s previše soba",
+ p:["Nakon nekoliko mjeseci primjećuješ nešto čudno. Što god klijent tražio, tvrtka to vjerojatno zna napraviti. Toliko je stara i velika da je u nekom trenutku izgradila gotovo sve.",
+ "Zamisli kuću koja se dograđuje više od sto godina. Nitko nikad ništa nije srušio. Svaka je generacija dodala kat, krilo, nove stepenice. Sad ima stotine soba, i postoji soba za svaku potrebu.",
+ "Ali tu je problem: nitko ne poznaje sve sobe. Ni gosti, ni oni koji u njoj žive. Na pitanje što tvrtka zapravo nudi, osoba iznutra iskreno je odgovorila: <q>It's not graspable. Also as an employee, it's not graspable. What do we actually have?</q> Ne može se obuhvatiti, čak ni kad radiš unutra. Što mi to zapravo imamo?",
+ "Tko se onda snalazi u ovoj kući? Kod ogromnih ugovora, mali tim od otprilike pet ljudi koji se zovu <b>deal makeri</b>. Poznaju cijelu zgradu i njezina interna pravila dovoljno dobro da oblikuju rješenje koje odgovara i tvrtki i klijentu.",
+ "A za svakog klijenta postoji <b>prodavač</b>, osoba koja drži odnos. Prodavač dovodi stručnjake i, kad je posao vrlo velik, deal makere. Mnogo ljudi dotiče istog klijenta. Riječi osobe iznutra: <q>not always ideal</q>, ne uvijek idealno.",
+ "Pa ipak, ista je osoba dodala nešto važno: imati toliko toga također omogućuje tvrtki da se prilagodi gotovo svemu. <q>Pros and cons.</q> Prednosti i nedostaci."],
+ task:"Napiši jednu prednost i jedan nedostatak tvrtke koja ima gotovo sve. Zatim reci što ti je važnije, i zašto."},
+{id:"c5", t:"5. poglavlje · Ljetna oluja",
+ p:["Sjećaš se prologa? Sad si unutra kad se to događa.",
+ "Prvo kratko objašnjenje. Tvrtka pripada svojim <b>dioničarima</b>: tisućama ljudi i investicijskih fondova od kojih svatko posjeduje mali komadić. Svaka tri mjeseca, razdoblje koje se zove <b>tromjesečje</b>, tvrtka im mora reći kako ide posao. Ako je vijest loša, mnogi istodobno prodaju svoje komadiće i cijena pada.",
+ "U srpnju 2026. vijest je bila loša. Mnogi su klijenti novac preusmjerili sa softvera na kupnju strojeva i čipova, prije nego što cijene porastu. Cijena jednog komadića tvrtke u jednom je danu pala za otprilike četvrtinu.",
+ "Iznutra to odmah osjetiš. Tvoj šef svaki dan vodi teške razgovore. E-poruke stižu svakog sata. Proračuni se režu, a netko mora odlučiti gdje. Pritisak dolazi odozgo.",
+ "Ali događa se i nešto drugo, nešto što nisi očekivao/la. Ljudi počinju vući u istom smjeru. Menadžeri različitih odjela, koji se inače natječu, sad imaju jedan cilj: ostvariti rezultate sljedećih tromjesečja. Osoba iznutra nazvala je to osjećajem zajedništva: <q>It's crisis, and we are trying to make the best out of it as a group.</q> Kriza je, i trudimo se izvući najbolje iz nje kao grupa.",
+ "Postoji slogan koji dolazi odozgo: <b>speed over perfection</b>, brzina prije savršenstva. Napravi 80% posla u 20% vremena, pokreni, pa popravi ostatak. I ti pogriješiš: e-poruka ode u ime pogrešne osobe. Šef slegne ramenima: <q>never mind, let's keep running</q>, nema veze, idemo dalje. Male se pogreške opraštaju. Izgubiš li veliki ugovor, kažu ti, <q>you will feel it</q>, osjetit ćeš to. A koliko se sigurno osjećaš kad griješiš uvelike ovisi o tome kojeg menadžera imaš."],
+ task:"Kako je kriza promijenila tvrtku iznutra? Napiši jednu stvar koja se pogoršala i jednu koja se poboljšala. Zašto misliš da su se obje dogodile u isto vrijeme?"},
+{id:"c6", t:"6. poglavlje · Povratak misteriju",
+ p:["Vrati se na prolog. Šef je rekao: prespori. Osoba iznutra rekla je: brzi. Sad znaš dovoljno da vidiš da su oboje govorili istinu.",
+ "Iznutra, iz dana u dan, tvrtka je brza. Brzina se gura odozgo, ljudi rade brzo, male se pogreške opraštaju.",
+ "Ali brzina nije svugdje ista. Spora je na <b>spojevima</b>: gdje se švicarska potreba mora popeti visokim ljestvama, gdje jednog klijenta poslužuje više dijelova od kojih svaki vidi samo svoje sobe, gdje ugovor sklizne u sljedeće tromjesečje. I spora je u usporedbi s tržištem koje se kreće još brže.",
+ "Ponovno zamisli kuću. Više od sto godina stara, nikad srušena, novi kat za svako doba. I dalje stoji, i to je izvanredno. Ali gdje se stari kat spaja s novim, vrata zapinju. Ono što je čini nastanjivom nije nacrt na papiru. To su ljudi koji znaju gdje se što nalazi: oni koji su u zgradi dvadeset godina, prethodnici, deal makeri, prodavači.",
+ "To je cijela ideja naše prezentacije, u jednoj slici.",
+ "Tvrtka ima ime. Možda si ga već pogodio/la. To je <b>IBM</b>.",
+ "Sve što ti se dogodilo u ovoj priči ispričala nam je stvarna osoba koja ondje radi."],
+ task:"Odgovori na misterij svojim riječima, u pet ili šest rečenica, kao da otvaraš prezentaciju: kako IBM može biti brz i prespor u isto vrijeme? Ovaj tekst je početak tvog scenarija."}
+];
+
+
+const UI={
+en:{lang:"Language",title:"The House of Layers",lede:"A story in three parts. You start knowing nothing about the company. By the end you can explain it to a room full of people, in your own words.",
+ enterT:"Who is reading?",name:"Your name",pin:"Your code (4 to 8 digits)",enter:"Start reading",
+ pinNote:"The name you type becomes the main character of the story. The code keeps your notebook yours: use the same name and code to come back, even on another device. Don't use a code you use anywhere else.",
+ errName:"Write a name of at least 2 letters.",errPin:"The code must have 4 to 8 digits.",errWrong:"This name already exists with a different code. Check your code, or add your surname's initial.",
+ hello:"Hello, {N}.",parts:[["Part 1","The stranger","You know nothing. A mystery, a company, a ladder, a storm."],["Part 2","The evidence","The real words, numbers and dates behind every scene. Available by Sunday."],["Part 3","The analyst","The names the course gives to everything you discovered. Available by Sunday."]],
+ soon:"Soon",open:"Open",notebook:"My notebook",switchP:"Change reader",
+ write:"Write before you continue",minW:"{n} of {m} words",unlock:"Write at least {m} words to continue.",
+ next:"Next chapter",prev:"Back",finish:"Finish Part 1",chooseFirst:"Choose an answer to continue the story.",
+ nbT:"My notebook",nbLede:"Everything you wrote, in order. This is the beginning of your own script.",copy:"Copy all",copied:"Copied",copyFail:"Select the text and copy it by hand.",empty:"Nothing written yet.",
+ endT:"End of Part 1",endP:"In Part 2 you will meet the real evidence behind every scene: the exact words of the insider, the numbers, the dates. In Part 3 you will learn the names the course gives to everything you just discovered.",
+ back:"Back to the parts",saved:"Saved on this device",savedOnline:"Saved online",saving:"Saving…"},
+it:{lang:"Lingua",title:"La casa dei piani",lede:"Una storia in tre parti. All'inizio non sai niente dell'azienda. Alla fine sai spiegarla davanti a una sala piena, con parole tue.",
+ enterT:"Chi sta leggendo?",name:"Il tuo nome",pin:"Il tuo codice (da 4 a 8 cifre)",enter:"Inizia a leggere",
+ pinNote:"Il nome che scrivi diventa il protagonista della storia. Il codice tiene il quaderno tuo: usa lo stesso nome e lo stesso codice per tornare, anche da un altro dispositivo. Non usare un codice che usi altrove.",
+ errName:"Scrivi un nome di almeno 2 lettere.",errPin:"Il codice deve avere da 4 a 8 cifre.",errWrong:"Questo nome esiste già con un altro codice. Controlla il codice, oppure aggiungi l'iniziale del cognome.",
+ hello:"Ciao, {N}.",parts:[["Parte 1","Lo straniero","Non sai niente. Un mistero, un'azienda, una scala, una tempesta."],["Parte 2","Le prove","Le parole vere, i numeri e le date dietro ogni scena. Pronta entro domenica."],["Parte 3","L'analista","I nomi che il corso dà a tutto quello che hai scoperto. Pronta entro domenica."]],
+ soon:"Presto",open:"Apri",notebook:"Il mio quaderno",switchP:"Cambia lettore",
+ write:"Scrivi prima di continuare",minW:"{n} di {m} parole",unlock:"Scrivi almeno {m} parole per continuare.",
+ next:"Capitolo successivo",prev:"Indietro",finish:"Concludi la Parte 1",chooseFirst:"Scegli una risposta per far proseguire la storia.",
+ nbT:"Il mio quaderno",nbLede:"Tutto quello che hai scritto, in ordine. È l'inizio del tuo copione.",copy:"Copia tutto",copied:"Copiato",copyFail:"Seleziona il testo e copialo a mano.",empty:"Ancora niente di scritto.",
+ endT:"Fine della Parte 1",endP:"Nella Parte 2 incontrerai le prove vere dietro ogni scena: le parole esatte di chi ci lavora, i numeri, le date. Nella Parte 3 imparerai i nomi che il corso dà a tutto quello che hai appena scoperto.",
+ back:"Torna alle parti",saved:"Salvato su questo dispositivo",savedOnline:"Salvato online",saving:"Salvataggio…"},
+es:{lang:"Idioma",title:"La casa de los pisos",lede:"Una historia en tres partes. Empiezas sin saber nada de la empresa. Al final sabes explicarla ante una sala llena, con tus propias palabras.",
+ enterT:"¿Quién está leyendo?",name:"Tu nombre",pin:"Tu código (de 4 a 8 cifras)",enter:"Empezar a leer",
+ pinNote:"El nombre que escribas será el protagonista de la historia. El código protege tu cuaderno: usa el mismo nombre y código para volver, incluso desde otro dispositivo. No uses un código que uses en otro sitio.",
+ errName:"Escribe un nombre de al menos 2 letras.",errPin:"El código debe tener de 4 a 8 cifras.",errWrong:"Este nombre ya existe con otro código. Revisa el código o añade la inicial de tu apellido.",
+ hello:"Hola, {N}.",parts:[["Parte 1","El forastero","No sabes nada. Un misterio, una empresa, una escalera, una tormenta."],["Parte 2","Las pruebas","Las palabras reales, los números y las fechas detrás de cada escena. Lista el domingo."],["Parte 3","El analista","Los nombres que el curso da a todo lo que has descubierto. Lista el domingo."]],
+ soon:"Pronto",open:"Abrir",notebook:"Mi cuaderno",switchP:"Cambiar de lector",
+ write:"Escribe antes de seguir",minW:"{n} de {m} palabras",unlock:"Escribe al menos {m} palabras para seguir.",
+ next:"Capítulo siguiente",prev:"Atrás",finish:"Terminar la Parte 1",chooseFirst:"Elige una respuesta para que la historia continúe.",
+ nbT:"Mi cuaderno",nbLede:"Todo lo que has escrito, en orden. Es el comienzo de tu propio guion.",copy:"Copiar todo",copied:"Copiado",copyFail:"Selecciona el texto y cópialo a mano.",empty:"Todavía no has escrito nada.",
+ endT:"Fin de la Parte 1",endP:"En la Parte 2 conocerás las pruebas reales detrás de cada escena: las palabras exactas de quien trabaja allí, los números, las fechas. En la Parte 3 aprenderás los nombres que el curso da a todo lo que acabas de descubrir.",
+ back:"Volver a las partes",saved:"Guardado en este dispositivo",savedOnline:"Guardado en línea",saving:"Guardando…"},
+hr:{lang:"Jezik",title:"Kuća od katova",lede:"Priča u tri dijela. Počinješ ne znajući ništa o tvrtki. Na kraju je znaš objasniti pred punom dvoranom, svojim riječima.",
+ enterT:"Tko čita?",name:"Tvoje ime",pin:"Tvoj kod (4 do 8 znamenki)",enter:"Počni čitati",
+ pinNote:"Ime koje upišeš postaje glavni lik priče. Kod čuva tvoju bilježnicu: upotrijebi isto ime i kod da se vratiš, i s drugog uređaja. Ne koristi kod koji koristiš negdje drugdje.",
+ errName:"Upiši ime od barem 2 slova.",errPin:"Kod mora imati 4 do 8 znamenki.",errWrong:"Ovo ime već postoji s drugim kodom. Provjeri kod ili dodaj početno slovo prezimena.",
+ hello:"Bok, {N}.",parts:[["1. dio","Stranac","Ne znaš ništa. Misterij, tvrtka, ljestve, oluja."],["2. dio","Dokazi","Prave riječi, brojke i datumi iza svake scene. Spremno do nedjelje."],["3. dio","Analitičar","Imena koja kolegij daje svemu što si otkrio/la. Spremno do nedjelje."]],
+ soon:"Uskoro",open:"Otvori",notebook:"Moja bilježnica",switchP:"Promijeni čitatelja",
+ write:"Napiši prije nego što nastaviš",minW:"{n} od {m} riječi",unlock:"Napiši barem {m} riječi da nastaviš.",
+ next:"Sljedeće poglavlje",prev:"Natrag",finish:"Završi 1. dio",chooseFirst:"Odaberi odgovor da se priča nastavi.",
+ nbT:"Moja bilježnica",nbLede:"Sve što si napisao/la, redom. Ovo je početak tvog vlastitog scenarija.",copy:"Kopiraj sve",copied:"Kopirano",copyFail:"Označi tekst i kopiraj ga ručno.",empty:"Još ništa nije napisano.",
+ endT:"Kraj 1. dijela",endP:"U 2. dijelu upoznat ćeš stvarne dokaze iza svake scene: točne riječi osobe iznutra, brojke, datume. U 3. dijelu naučit ćeš imena koja kolegij daje svemu što si upravo otkrio/la.",
+ back:"Natrag na dijelove",saved:"Spremljeno na ovom uređaju",savedOnline:"Spremljeno online",saving:"Spremanje…"}
+};
+const MINW=25;
+const ls={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+let lang=ls.get("hol-lang","en"); if(!UI[lang])lang="en";
+let profile=null, st=null, view="start", db=null, syncState="local", saveTimer=null, choiceShown={};
+const app=document.getElementById("app");
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const U=()=>UI[lang];
+const words=s=>(s||"").trim().split(/\s+/).filter(Boolean).length;
+const slugify=s=>s.trim().toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,40);
+async function hash(s){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
+const fresh=()=>({ch:0,maxCh:0,answers:{},choices:{},updatedAt:0});
+
+function langBar(){return `<div class="langs" role="group" aria-label="${U().lang}">${["en","it","es","hr"].map(l=>`<button class="pill" data-lang="${l}" aria-pressed="${l===lang}">${l.toUpperCase()}</button>`).join("")}</div>`}
+function fill(s){return s.replaceAll("{N}",`<b>${esc(profile?profile.name:"")}</b>`)}
+
+function render(){
+  document.documentElement.lang=lang;
+  if(view==="start")return renderStart();
+  if(view==="parts")return renderParts();
+  if(view==="read")return renderRead();
+  if(view==="nb")return renderNb();
+  if(view==="end")return renderEnd();
+}
+function renderStart(){
+  const u=U();
+  app.innerHTML=`<div class="top"><span class="mono">OSP-1 · IBM · Group 2</span>${langBar()}</div>
+  <h1>${u.title}</h1><p class="lede">${u.lede}</p>
+  <form class="card" id="f" novalidate>
+    <div class="mono">${u.enterT}</div>
+    <div class="form">
+      <div class="field"><label class="mono" for="nm">${u.name}</label><input id="nm" autocomplete="given-name" maxlength="40"></div>
+      <div class="field"><label class="mono" for="pn">${u.pin}</label><input id="pn" inputmode="numeric" maxlength="8" type="password" autocomplete="off"></div>
+    </div>
+    <p class="err" id="er" hidden></p>
+    <div class="row"><button class="btn primary" type="submit">${u.enter}</button></div>
+    <p class="note">${u.pinNote}</p>
+  </form>`;
+  const last=ls.get("hol-last",null); if(last) document.getElementById("nm").value=last;
+  document.getElementById("f").addEventListener("submit",async e=>{
+    e.preventDefault();
+    const name=document.getElementById("nm").value.trim(), pin=document.getElementById("pn").value.trim(), er=document.getElementById("er");
+    er.hidden=true;
+    if(name.length<2||!slugify(name)){er.textContent=u.errName;er.hidden=false;return}
+    if(!/^\d{4,8}$/.test(pin)){er.textContent=u.errPin;er.hidden=false;return}
+    const slug=slugify(name), ph=await hash("hol:"+slug+":"+pin);
+    const local=ls.get("hol-p:"+slug,null);
+    if(local&&local.pinHash!==ph){er.textContent=u.errWrong;er.hidden=false;return}
+    let remote=null;
+    if(db){try{const snap=await db.doc("profiles/"+slug).get();remote=snap&&snap.exists?snap.data():null}catch(e){remote=null}}
+    if(remote&&remote.pinHash&&remote.pinHash!==ph){er.textContent=u.errWrong;er.hidden=false;return}
+    profile={slug,name,pinHash:ph};
+    const a=local&&local.state||null, b=remote&&remote.state||null;
+    st=(a&&b)?((a.updatedAt||0)>=(b.updatedAt||0)?a:b):(a||b||fresh());
+    ls.set("hol-last",name); persist(true); view="parts"; render();
+  });
+}
+function renderParts(){
+  const u=U();
+  app.innerHTML=`<div class="top"><span class="mono">${u.title}</span>${langBar()}</div>
+  <h1>${fill(u.hello).replace(/<\/?b>/g,"")}</h1>
+  <div class="parts">${u.parts.map((p,i)=>`<button class="part" data-part="${i}" ${i>0?"disabled":""}><span class="num">${i+1}</span><span><b>${p[1]}</b><br>${p[2]}</span><span class="mono">${i>0?u.soon:u.open}</span></button>`).join("")}</div>
+  <div class="row"><button class="btn" id="nbB">${u.notebook}</button><button class="btn" id="swB">${u.switchP}</button><span class="sync" id="sy"></span></div>`;
+  setSync();
+  app.querySelector('[data-part="0"]').onclick=()=>{view="read";render();window.scrollTo(0,0)};
+  document.getElementById("nbB").onclick=()=>{view="nb";render()};
+  document.getElementById("swB").onclick=()=>{profile=null;st=null;view="start";render()};
+}
+function stepsBar(){
+  const S=STORY[lang];
+  return `<div class="bar"><div class="steps">${S.map((c,i)=>`<button class="step${st.answers[c.id]&&words(st.answers[c.id])>=MINW?" done":""}" data-go="${i}" aria-current="${i===st.ch}" ${i>st.maxCh?"disabled":""} aria-label="${esc(c.t)}">${i===0?"P":i}</button>`).join("")}</div><button class="btn" id="nbB" style="padding:5px 10px;font-size:13px">${U().notebook}</button></div>`;
+}
+function renderRead(){
+  const u=U(), S=STORY[lang], c=S[st.ch];
+  const chosen=st.choices[c.id];
+  const hasChoice=!!c.choice;
+  const showRest=!hasChoice||chosen!=null;
+  const ans=st.answers[c.id]||"";
+  const n=words(ans), ok=n>=MINW, last=st.ch===S.length-1;
+  app.innerHTML=`${stepsBar()}
+  <article class="ch">
+    <span class="mono">${u.title} · ${u.parts[0][0]}</span>
+    <h2>${esc(c.t)}</h2>
+    ${c.p.map(p=>`<p>${fill(p)}</p>`).join("")}
+    ${hasChoice?`<div class="choice"><p class="q">${esc(c.choice.q)}</p>
+      ${c.choice.o.map((o,i)=>`<button class="opt" data-opt="${i}" aria-pressed="${chosen===i}" ${chosen!=null?"disabled":""}>${esc(o)}</button>`).join("")}
+      ${chosen!=null?`<p class="reply">${esc(c.choice.r[chosen])}</p>`:`<p class="note">${u.chooseFirst}</p>`}</div>`:""}
+    ${showRest&&c.p2?c.p2.map(p=>`<p>${fill(p)}</p>`).join(""):""}
+    ${showRest?`<div class="write">
+      <span class="mono">${u.write}</span>
+      <p class="q">${esc(c.task)}</p>
+      <label for="ta" class="mono" style="position:absolute;left:-9999px">${esc(c.task)}</label>
+      <textarea id="ta">${esc(ans)}</textarea>
+      <div class="row" style="justify-content:space-between"><span class="count${ok?" ok":""}" id="cnt">${u.minW.replace("{n}",n).replace("{m}",MINW)}</span><span class="sync" id="sy"></span></div>
+    </div>
+    <div class="row" style="justify-content:space-between">
+      <button class="btn" id="pv" ${st.ch===0?"disabled":""}>← ${u.prev}</button>
+      <button class="btn primary" id="nx" ${ok?"":"disabled"} title="${ok?"":u.unlock.replace("{m}",MINW)}">${last?u.finish:u.next} →</button>
+    </div>`:""}
+  </article>`;
+  setSync();
+  app.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{st.ch=+b.dataset.go;persist();render();window.scrollTo(0,0)});
+  document.getElementById("nbB").onclick=()=>{view="nb";render();window.scrollTo(0,0)};
+  app.querySelectorAll("[data-opt]").forEach(b=>b.onclick=()=>{st.choices[c.id]=+b.dataset.opt;persist();render()});
+  const ta=document.getElementById("ta");
+  if(ta){ta.addEventListener("input",()=>{st.answers[c.id]=ta.value;const k=words(ta.value),good=k>=MINW;const cnt=document.getElementById("cnt");cnt.textContent=u.minW.replace("{n}",k).replace("{m}",MINW);cnt.classList.toggle("ok",good);document.getElementById("nx").disabled=!good;persist()});
+    document.getElementById("pv").onclick=()=>{st.ch--;persist();render();window.scrollTo(0,0)};
+    document.getElementById("nx").onclick=()=>{if(last){view="end";persist(true);render();window.scrollTo(0,0);return}st.ch++;st.maxCh=Math.max(st.maxCh,st.ch);persist(true);render();window.scrollTo(0,0)};}
+}
+function nbText(){const S=STORY[lang];return S.filter(c=>st.answers[c.id]).map(c=>`${c.t}\n${c.task}\n\n${st.answers[c.id].trim()}`).join("\n\n* * *\n\n")}
+function renderNb(){
+  const u=U(), S=STORY[lang];
+  const items=S.filter(c=>st.answers[c.id]&&st.answers[c.id].trim());
+  app.innerHTML=`<div class="top"><span class="mono">${u.title}</span>${langBar()}</div>
+  <h1>${u.nbT}</h1><p class="lede">${u.nbLede}</p>
+  <div class="nb">${items.length?items.map(c=>`<section><span class="mono">${esc(c.t)}</span><h3>${esc(c.task)}</h3><p>${esc(st.answers[c.id])}</p></section>`).join(""):`<p class="note">${u.empty}</p>`}</div>
+  <div class="row"><button class="btn primary" id="cp" ${items.length?"":"disabled"}>${u.copy}</button><button class="btn" id="bk">${u.back}</button><span class="note" id="cpm"></span></div>`;
+  document.getElementById("bk").onclick=()=>{view="parts";render()};
+  document.getElementById("cp").onclick=()=>{const t=nbText(),m=document.getElementById("cpm");
+    navigator.clipboard.writeText(t).then(()=>{m.textContent=u.copied}).catch(()=>{m.textContent=u.copyFail;const s=app.querySelector(".nb");const r=document.createRange();r.selectNodeContents(s);const sel=getSelection();sel.removeAllRanges();sel.addRange(r)})};
+}
+function renderEnd(){
+  const u=U();
+  app.innerHTML=`<div class="top"><span class="mono">${u.title}</span>${langBar()}</div>
+  <div class="end"><h1 style="font-size:clamp(28px,5vw,42px)">${u.endT}</h1><p style="margin:0">${u.endP}</p>
+  <div class="row"><button class="btn primary" id="nbB">${u.notebook}</button><button class="btn" id="bk">${u.back}</button></div></div>`;
+  document.getElementById("nbB").onclick=()=>{view="nb";render()};
+  document.getElementById("bk").onclick=()=>{view="parts";render()};
+}
+function setSync(){const el=document.getElementById("sy");if(!el)return;const u=U();el.textContent=syncState==="online"?u.savedOnline:syncState==="saving"?u.saving:u.saved}
+function persist(now){
+  if(!profile||!st)return;
+  st.updatedAt=Date.now();
+  ls.set("hol-p:"+profile.slug,{pinHash:profile.pinHash,state:st});
+  if(!db)return;
+  clearTimeout(saveTimer); syncState="saving"; setSync();
+  saveTimer=setTimeout(async()=>{try{await db.doc("profiles/"+profile.slug).set({name:profile.name,pinHash:profile.pinHash,state:st,updatedAt:st.updatedAt});syncState="online"}catch(e){syncState="local"}setSync()},now?50:1200);
+}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-lang]");if(!b)return;lang=b.dataset.lang;ls.set("hol-lang",lang);render()});
+render();
+(async()=>{try{if(window.claude&&claude.use){db=await claude.use("db")}}catch(e){db=null}})();
+</script>
+
+</body>
+</html>
