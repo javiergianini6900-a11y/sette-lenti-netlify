@@ -370,46 +370,460 @@ STORY.hr = [
  task:"Odgovori na misterij svojim riječima, u pet ili šest rečenica, kao da otvaraš prezentaciju: kako IBM može biti brz i prespor u isto vrijeme? Ovaj tekst je početak tvog scenarija."}
 ];
 
+const P2={}, P3={}, NAMES={};
+P2.en=[
+{id:"e1", t:"Chapter 1 · Four kinds of truth",
+ p:["In Part 1 you heard a story. Now you check it. From here on, every sentence in our presentation carries a small tag that says where it comes from.",
+ "<b>FACT</b>: written in an official public source, such as IBM's annual report or a press release. <b>FINDING</b>: heard in our interview with someone inside IBM. <b>INTERPRETATION</b>: our own conclusion, after applying a course theory. <b>ASSUMPTION</b>: something we believe, but cannot prove yet.",
+ "Look at the mystery again. The chief executive's sentence, <q>We did not adapt and move quickly enough</q>, comes from a letter IBM published on 14 July 2026. That is a FACT. The answer <q>We are pretty good in speed</q> comes from our interview on 14 October 2026. That is a FINDING. Our claim that both are true at once is an INTERPRETATION.",
+ "Why this matters: the course rule says that output from an AI is never evidence, and that the grade rewards evidence. A tag on every claim shows the audience, and the lecturer, that you know the difference between what you saw and what you think."],
+ task:"Take three sentences from Part 1, any three, and give each one a tag (FACT, FINDING, INTERPRETATION or ASSUMPTION). Explain each choice in one line."},
+{id:"e2", t:"Chapter 2 · The company in numbers",
+ p:["IBM, International Business Machines, was founded in 1911 and has its headquarters in Armonk, near New York.",
+ "In 2025 its revenue was <b>67.5 billion dollars</b> (IBM 2025 Annual Report). Roughly 44% came from software, 31% from consulting and 23% from infrastructure. More than 80% of its revenue comes from clients who buy from all three parts at the same time, according to the chairman's own letter in that report. That is the detail Part 1 asked you to keep in mind.",
+ "IBM says about its mainframes that they are favoured by 44 of the world's 50 largest banks. This is IBM's own claim, so on a slide we write: <i>according to IBM</i>.",
+ "Its purpose, in its own words: <q>IBM aspires to be the catalyst that makes the world work better.</q> And its oldest motto is one word: THINK.",
+ "A lesson in checking. Our insider said the Swiss research lab has <q>six or seven</q> Nobel prizes. The lab's own history page says two, in Physics, in 1986 and 1987. People inside a company can be wrong about facts. Findings tell you how things work. Facts you still check at the source."],
+ task:"Which one number from this chapter would you put on the Direction slide, and why that one? Then explain in two sentences why we do not use the insider's Nobel number."},
+{id:"e3", t:"Chapter 3 · The floors of the house, with dates",
+ p:["In Part 1 the house grew one floor at a time. Here are the real floors.",
+ "<b>1910s</b>: Thomas J. Watson Sr. coins THINK. A classical company: clear hierarchy, rules, order.",
+ "<b>1993</b>: IBM loses about 8.1 billion dollars, one of the biggest losses in corporate history. The plan on the table is to split it into independent companies. The new chief executive, Lou Gerstner, stops the plan. In his own words: <q>In 1993 we made a very important decision to keep the company together.</q> IBM becomes one integrated company.",
+ "<b>From 2013</b>: Enterprise Design Thinking spreads agile, design-led teams through IBM.",
+ "<b>2019</b>: IBM buys Red Hat, an open-source software company, for about 34 billion dollars. <b>2021</b>: it separates its infrastructure services business, which becomes an independent company called Kyndryl.",
+ "None of these steps replaced the one before. The hierarchy is still there. The integration is still there. The agile teams sit on top. The ecosystem of bought and separated companies sits around them. That is what we mean by layers, not replacements.",
+ "One caution: this history comes from IBM's own sources and from Gerstner himself. Our interview says nothing about it. That is why it gets only one slide."],
+ task:"Why does it matter that no layer was removed? Explain it with one concrete consequence you saw in Part 1."},
+{id:"e4", t:"Chapter 4 · The ladder, in the insider's words",
+ p:["Here are the exact words behind Chapter 3 of Part 1. Read them slowly: on slide 6 you will quote them.",
+ "On the shape: <q>if you look at the org chart for IBM, it's super tall.</q> On why countries are grouped: <q>it's a way to facilitate coordination and control</q>, because <q>the general strategy or how we should work in the different countries comes from the top.</q>",
+ "On Switzerland inside DACH: <q>since DACH is led through Germany, it's of course easy to assume that it's the same as Germany, but it isn't.</q> The differences named: the political system, <q>how we value security</q>, and <q>we are a country of banks</q>.",
+ "On speed: <q>if it's of relevance for global, it goes rather fast, if it's just a Swiss need you need to go through the rows.</q> On extra headcount: if the regional level says no, <q>we will not ask</q> the chief executive. <q>So it's done.</q>",
+ "And now the part people forget. The insider introduced the speed rule with <q>that's my opinion, a rule of thumb</q>, and added <q>sometimes you can jump it</q>, and that you can call someone higher up if <q>you are really sure why you are calling them</q>.",
+ "On the slide, that becomes: FINDING, insider's rule of thumb. Leaving the hedge out would turn an opinion into a fact. The insider will be in the room, and will notice."],
+ task:"Write the one sentence you would say out loud on slide 6 about the ladder, including the insider's hedge. Then write why the hedge makes you more credible, not less."},
+{id:"e5", t:"Chapter 5 · The people and the culture, in their words",
+ p:["Behind Chapter 2 of Part 1: networking was pushed during hiring, and coffee chats taught the insider <q>the power dynamics in the company, in the departments which were closest to me</q>. Then: <q>that is invisible in the org chart, right? You have certain managers which have been there for 20 years. They have way more influence than the others, even though they are on the same level.</q> We checked this sentence on three transcriptions: the word is <i>invisible</i>.",
+ "Behind Chapter 4: <q>we have five people</q>, the deal makers, who <q>work across different brands, across different offerings, across different segmentations</q> and <q>help, usually in these cases, to find a way</q>. Probably a Swiss team: say so. And the portfolio: <q>It's not graspable. Also as an employee it's not graspable.</q> But also: <q>that also helps to be adaptable to the environment. Pros and cons.</q>",
+ "Behind Chapter 5: <q>We experienced way more pressure from the top</q>, and <q>It's a joint adventure</q>. The slogan: <q>speed over perfection</q>, <q>really pushed also from the top</q>. Safety: <q>it also highly depends which manager</q>, and with a big deal lost, <q>you will feel it</q>. Freedom: <q>if you perform well, you have quite a lot of freedom</q>, and <q>as long as you perform, it's fine</q>."],
+ task:"Choose the three quotes from this chapter you would most want to defend in the Q&A after the talk. For each, say in one line what it proves."},
+{id:"e6", t:"Chapter 6 · How far can we trust this?",
+ p:["All our findings come from one person. That person is a working student who has been at IBM for about a year, in the support unit of the general manager of IBM Switzerland, and is also our lecturer.",
+ "That position cuts both ways. It is a wide view: close to the top of the Swiss organisation, in contact with many departments. But it is one view, from one place, and it can shape what was chosen to be said.",
+ "Our data ends with the second quarter of 2026. IBM publishes its third-quarter results on 21 October at 17:00 New York time, a few hours after our talk. If someone asks, we say so.",
+ "Naming the limits is not a weakness. It is what the course calls separating evidence from assumption, and it is part of a well-founded diagnosis."],
+ task:"Someone in the audience asks: how do you know this is true for all of IBM, and not just for one person in Zurich? Write your answer in four or five sentences."}
+];
+
+P3.en=[
+{id:"a1", t:"Chapter 1 · Labelling or explaining",
+ p:["You now know the story and the evidence. Part 3 gives you the tools the course uses to explain it.",
+ "First, the most important distinction for the grade. <b>Labelling</b> is saying: IBM is a matrix. <b>Explaining</b> is saying: IBM sells through three units to the same client, so someone has to decide who leads, and that is where it slows down. Same facts. The second sentence uses theory to show a mechanism, a cause and an effect.",
+ "Our frame comes from Chapter 6 of the course: the <b>Organizational Viability Framework</b>. An organisation stays viable when three things fit together: <b>Direction</b> (purpose, strategy), <b>Structure</b> (roles, processes, decision rights) and <b>People</b> (motivation, culture, relationships).",
+ "Inside the triangle sit three tensions, and a viable organisation manages both ends of each instead of choosing one: <b>ambidexterity</b>, exploring the new versus exploiting what works today; <b>adaptability</b>, transforming versus staying stable; <b>coherence</b>, autonomy versus control.",
+ "The whole presentation walks this triangle, corner by corner, and ends on the tensions."],
+ task:"Write one sentence about IBM that only labels, and then rewrite it so that it explains. Use something from Part 1 or 2."},
+{id:"a2", t:"Chapter 2 · No single best way",
+ p:["Contingency theory says there is no single best way to organise. The right structure depends on the environment.",
+ "Tom Burns and G. M. Stalker gave it two classic words. A <b>mechanistic</b> organisation has strict hierarchy and fixed rules: it works in a stable environment. An <b>organic</b> organisation has flexible roles and lateral communication: it works when things change fast.",
+ "Our layers are contingency in action. Each floor of the house answered a new environment: the hierarchy for a stable market, integration for clients who wanted one solution, agile teams for software and speed, the ecosystem for AI and open source.",
+ "It also explains something that looks like a weakness. Asked about competitors, the insider said: <q>in all the different offerings we have, we have a bit different competitors.</q> Each business faces its own market, so separate units make sense. That is why we do not recommend merging them.",
+ "Blind spot: contingency explains fit with the environment, but says little about power and politics inside."],
+ task:"Using contingency theory, explain why IBM stays divided into separate businesses even though its clients buy from all of them at once."},
+{id:"a3", t:"Chapter 3 · Only variety absorbs variety",
+ p:["W. Ross Ashby's <b>law of requisite variety</b>: to handle a situation, a system needs at least as many possible responses as the situation has variations. Only variety absorbs variety.",
+ "Think of a goalkeeper who can make only one kind of save. Every other shot is a goal. The more kinds of shot, the more kinds of save you need, and you need them where the shots come in, not in an office far away.",
+ "At IBM, the company as a whole has enormous variety: <q>we actually have nearly everything</q>. That is Ashby working in IBM's favour, and the insider said so too: it helps IBM adapt. But the ability to decide sits high on the ladder. At the Swiss edge, where local situations arrive, the variety of decisions available is small. That is the friction.",
+ "Stafford Beer turned this into the <b>Viable System Model</b>: a viable organisation needs units with real operational autonomy, plus coordination that keeps the whole together. At IBM Switzerland, coordination dominates autonomy.",
+ "This is the theory behind Recommendation 1: give the country a defined envelope of decisions and put a deadline on escalations."],
+ task:"Explain Recommendation 1 using Ashby's law, in your own words, without using the word “variety” more than once."},
+{id:"a4", t:"Chapter 4 · The invisible levels",
+ p:["Every organisation has a formal side, the chart, and an <b>informal organization</b>: relationships, trust and unwritten rules that decide how work really gets done. The two maps from Part 1.",
+ "Edgar Schein describes culture on three levels. <b>Artifacts</b>: what you can see and hear, like the slogan <q>speed over perfection</q>. <b>Espoused values</b>: what the organisation says it values, like THINK. <b>Underlying assumptions</b>: what people believe without saying it. Ours, as an interpretation: results buy freedom, and quarterly numbers set the clock.",
+ "When what is said and what is rewarded do not match, you have a gap between espoused and enacted values. Our evidence: safety <q>highly depends which manager</q>.",
+ "Amy Edmondson calls the feeling that you can admit a mistake without being punished <b>psychological safety</b>. Our insider had it, with a small mistake. Not with a big lost deal.",
+ "This is the theory behind Recommendation 2: support the people who integrate, and train managers in psychological safety, without turning the informal into yet another formal layer."],
+ task:"Explain why the underlying assumption on our Schein slide is marked INTERPRETATION, and why that is exactly what Schein would expect."},
+{id:"a5", t:"Chapter 5 · Where IBM sits",
+ p:["Now put everything on the triangle.",
+ "<b>Ambidexterity</b>: IBM explores mostly by buying companies and through its research labs. After the summer of 2026 it was pulled toward exploitation: budget cuts, quarterly targets.",
+ "<b>Adaptability</b>: it transforms by adding layers, so stability accumulates. Fast inside, <q>not fast enough</q> for the market, in its chief executive's words.",
+ "<b>Coherence</b>: autonomy on condition of results. Freedom when you perform, questions and central pressure when results fall.",
+ "Viability check from the course: is IBM functioning today? Yes. Surviving? Yes. Developing for tomorrow? At risk. That last one is our judgement, and we tag it as such.",
+ "Strengths and costs belong together: the breadth that makes IBM adaptable is the same breadth that nobody can grasp."],
+ task:"Pick one of the three tensions and defend where we placed IBM on it, using one FACT and one FINDING."},
+{id:"a6", t:"Chapter 6 · The final boss",
+ p:["After the talk there are five minutes of questions, and the person asking may be the same person we interviewed. Here are five questions that could come.",
+ "<b>1.</b> Isn't the Swiss decision envelope just a new layer, the thing you say IBM should avoid?",
+ "<b>2.</b> You say the chain slows Switzerland down. What is the cost of that, concretely?",
+ "<b>3.</b> Why do you call this a problem of viability, if IBM is profitable and over a hundred years old?",
+ "<b>4.</b> Your underlying assumption, quarterly numbers set the clock: where is the evidence?",
+ "<b>5.</b> If you could ask me one more question, what would it be?"],
+ task:"Choose the hardest of the five questions for you and write your answer, as you would say it in the room.",
+ reveal:"What a strong answer contains. <b>1.</b> No: it is a set of decision rights inside the existing country level, not a new box. Name its trade-off honestly. <b>2.</b> The headcount example and deals slipping into the next quarter; say that the insider called the speed rule a personal rule of thumb. <b>3.</b> Viability is not only survival: functioning today, surviving, and developing for tomorrow. The CEO's own letter questions the third. <b>4.</b> It is an interpretation, built from findings: speed over perfection pushed from the top, pressure after Q2, deals that slip past quarter end. Say it is ours. <b>5.</b> Use it: ask how decisions on the Swiss decision envelope would actually be taken, which turns the Q&A into a conversation."}
+];
+
+NAMES.en=[
+{id:"n1", n:"Thomas J. Watson Sr.", y:"1874 to 1956", h:"IBM's history", w:"Led the company that became IBM from 1914 and made it a global business.", i:"He coined the motto THINK in the 1910s. It is the oldest layer of our house and one of IBM's espoused values on our Schein slide.", s:"Slides 4 and 8"},
+{id:"n2", n:"Lou Gerstner", y:"born 1942", h:"IBM's history", w:"IBM's chief executive from 1993 to 2002, brought in from outside during the company's worst crisis.", i:"In 1993 he stopped the plan to split IBM into separate companies: “we made a very important decision to keep the company together.” That is our integration layer.", s:"Slide 4"},
+{id:"n3", n:"Arvind Krishna", y:"chief executive since 2020", h:"IBM today", w:"IBM's current chief executive and chairman.", i:"Author of the July 2026 letter: “We did not adapt and move quickly enough.” The first quote of our talk.", s:"Slide 2, and the top of the ladder on slide 6"},
+{id:"n4", n:"W. Ross Ashby", y:"1903 to 1972", h:"Theory · Chapter 6", w:"British psychiatrist and a founder of cybernetics, the science of control and feedback.", i:"Law of requisite variety: only variety absorbs variety. The ability to respond must sit where the situations arrive, at the edge.", s:"Slides 6, 10 and 11"},
+{id:"n5", n:"Stafford Beer", y:"1926 to 2002", h:"Theory · Chapter 6", w:"British management thinker who applied cybernetics to organisations.", i:"Viable System Model: a viable organisation needs units with operational autonomy plus coordination of the whole. At IBM Switzerland, coordination dominates.", s:"Slides 6 and 11"},
+{id:"n6", n:"Tom Burns and G. M. Stalker", y:"1961", h:"Theory · contingency", w:"British researchers who studied how firms cope with technological change.", i:"Mechanistic versus organic organisations: strict hierarchy fits a stable world, flexible roles fit a changing one. Our labels for the layers come from them.", s:"Slide 4"},
+{id:"n7", n:"Edgar Schein", y:"1928 to 2023", h:"Theory · Chapter 7", w:"Professor at MIT, the classic author on organisational culture.", i:"Three levels of culture: artifacts, espoused values, underlying assumptions. The frame of our culture slide.", s:"Slide 8"},
+{id:"n8", n:"Amy Edmondson", y:"born 1959", h:"Theory · Chapter 7", w:"Professor at Harvard Business School.", i:"Psychological safety: people can admit mistakes, ask and disagree without fear. At IBM it depends on the manager, which is why Recommendation 2 trains managers.", s:"Slides 8 and 12"}
+];
+
+P2.it=[
+{id:"e1", t:"Capitolo 1 · Quattro tipi di verità",
+ p:["Nella Parte 1 hai ascoltato una storia. Ora la verifichi. Da qui in avanti, ogni frase della nostra presentazione porta una piccola etichetta che dice da dove viene.",
+ "<b>FACT</b>: scritto in una fonte pubblica ufficiale, come il rapporto annuale di IBM o un comunicato stampa. <b>FINDING</b>: sentito nella nostra intervista con qualcuno che lavora in IBM. <b>INTERPRETATION</b>: una nostra conclusione, dopo aver applicato una teoria del corso. <b>ASSUMPTION</b>: qualcosa che crediamo, ma che non possiamo ancora dimostrare.",
+ "Riguarda il mistero. La frase dell'amministratore delegato, <q>We did not adapt and move quickly enough</q>, viene da una lettera pubblicata da IBM il 14 luglio 2026. È un FACT. La risposta <q>We are pretty good in speed</q> viene dalla nostra intervista del 14 ottobre 2026. È un FINDING. La nostra tesi che siano vere entrambe è una INTERPRETATION.",
+ "Perché conta: la regola del corso dice che quello che produce un'AI non è mai una prova, e il voto premia le prove. Un'etichetta su ogni affermazione mostra al pubblico, e al docente, che sai distinguere tra quello che hai visto e quello che pensi."],
+ task:"Prendi tre frasi qualsiasi dalla Parte 1 e dai a ciascuna un'etichetta (FACT, FINDING, INTERPRETATION o ASSUMPTION). Spiega ogni scelta in una riga."},
+{id:"e2", t:"Capitolo 2 · L'azienda in numeri",
+ p:["IBM, International Business Machines, è stata fondata nel 1911 e ha sede ad Armonk, vicino a New York.",
+ "Nel 2025 i suoi ricavi sono stati di <b>67,5 miliardi di dollari</b> (rapporto annuale IBM 2025). Circa il 44% dal software, il 31% dalla consulenza e il 23% dall'infrastruttura. Più dell'80% dei ricavi viene da clienti che comprano da tutte e tre le parti insieme, secondo la lettera del presidente nello stesso rapporto. È il dettaglio che la Parte 1 ti chiedeva di ricordare.",
+ "IBM dice dei suoi mainframe che sono preferiti da 44 delle 50 banche più grandi del mondo. È un'affermazione di IBM stessa, quindi su una slide scriviamo: <i>secondo IBM</i>.",
+ "Il suo scopo, con parole sue: <q>IBM aspires to be the catalyst that makes the world work better.</q> E il suo motto più antico è una sola parola: THINK.",
+ "Una lezione di verifica. Chi abbiamo intervistato ha detto che il laboratorio svizzero ha <q>six or seven</q> premi Nobel. La pagina storica del laboratorio dice due, in fisica, nel 1986 e nel 1987. Anche chi lavora dentro un'azienda può sbagliare sui fatti. I findings ti dicono come funzionano le cose. I fatti li controlli comunque alla fonte."],
+ task:"Quale numero di questo capitolo metteresti sulla slide della Direzione, e perché proprio quello? Poi spiega in due frasi perché non usiamo il numero dei Nobel dato nell'intervista."},
+{id:"e3", t:"Capitolo 3 · I piani della casa, con le date",
+ p:["Nella Parte 1 la casa cresceva un piano alla volta. Ecco i piani veri.",
+ "<b>Anni 1910</b>: Thomas J. Watson Sr. conia THINK. Un'azienda classica: gerarchia chiara, regole, ordine.",
+ "<b>1993</b>: IBM perde circa 8,1 miliardi di dollari, una delle perdite più grandi nella storia delle imprese. Sul tavolo c'è il piano di dividerla in aziende indipendenti. Il nuovo amministratore delegato, Lou Gerstner, ferma il piano. Con parole sue: <q>In 1993 we made a very important decision to keep the company together.</q> IBM diventa un'azienda integrata.",
+ "<b>Dal 2013</b>: l'Enterprise Design Thinking diffonde in IBM squadre agili guidate dal design.",
+ "<b>2019</b>: IBM compra Red Hat, un'azienda di software open source, per circa 34 miliardi di dollari. <b>2021</b>: separa il suo business dei servizi di infrastruttura, che diventa un'azienda indipendente chiamata Kyndryl.",
+ "Nessuno di questi passi ha sostituito quello prima. La gerarchia c'è ancora. L'integrazione c'è ancora. Le squadre agili stanno sopra. L'ecosistema di aziende comprate e separate sta intorno. Ecco cosa intendiamo con strati, non sostituzioni.",
+ "Una cautela: questa storia viene dalle fonti di IBM e da Gerstner stesso. La nostra intervista non ne parla. Per questo ha una sola slide."],
+ task:"Perché conta che nessuno strato sia stato tolto? Spiegalo con una conseguenza concreta che hai visto nella Parte 1."},
+{id:"e4", t:"Capitolo 4 · La scala, con le parole di chi ci lavora",
+ p:["Ecco le parole esatte dietro il Capitolo 3 della Parte 1. Leggile con calma: sulla slide 6 le citerai.",
+ "Sulla forma: <q>if you look at the org chart for IBM, it's super tall.</q> Sul perché i paesi sono raggruppati: <q>it's a way to facilitate coordination and control</q>, perché <q>the general strategy or how we should work in the different countries comes from the top.</q>",
+ "Sulla Svizzera dentro DACH: <q>since DACH is led through Germany, it's of course easy to assume that it's the same as Germany, but it isn't.</q> Le differenze nominate: il sistema politico, <q>how we value security</q>, e <q>we are a country of banks</q>.",
+ "Sulla velocità: <q>if it's of relevance for global, it goes rather fast, if it's just a Swiss need you need to go through the rows.</q> Sul personale in più: se il livello regionale dice no, <q>we will not ask</q> l'amministratore delegato. <q>So it's done.</q>",
+ "E ora la parte che tutti dimenticano. La regola sulla velocità è stata introdotta con <q>that's my opinion, a rule of thumb</q>, con l'aggiunta <q>sometimes you can jump it</q>, e che si può chiamare qualcuno più in alto se <q>you are really sure why you are calling them</q>.",
+ "Sulla slide diventa: FINDING, regola pratica di chi ci lavora. Togliere la cautela trasformerebbe un'opinione in un fatto. Chi ce l'ha detto sarà in sala, e se ne accorgerà."],
+ task:"Scrivi la frase che diresti ad alta voce sulla slide 6 a proposito della scala, con la cautela inclusa. Poi scrivi perché la cautela ti rende più credibile, non meno."},
+{id:"e5", t:"Capitolo 5 · Le persone e la cultura, con le loro parole",
+ p:["Dietro il Capitolo 2 della Parte 1: durante l'assunzione la rete è stata molto incoraggiata, e i caffè hanno mostrato <q>the power dynamics in the company, in the departments which were closest to me</q>. Poi: <q>that is invisible in the org chart, right? You have certain managers which have been there for 20 years. They have way more influence than the others, even though they are on the same level.</q> Abbiamo controllato questa frase su tre trascrizioni: la parola è <i>invisible</i>.",
+ "Dietro il Capitolo 4: <q>we have five people</q>, i deal maker, che <q>work across different brands, across different offerings, across different segmentations</q> e <q>help, usually in these cases, to find a way</q>. Probabilmente un gruppo svizzero: dillo. E l'offerta: <q>It's not graspable. Also as an employee it's not graspable.</q> Ma anche: <q>that also helps to be adaptable to the environment. Pros and cons.</q>",
+ "Dietro il Capitolo 5: <q>We experienced way more pressure from the top</q>, e <q>It's a joint adventure</q>. Lo slogan: <q>speed over perfection</q>, <q>really pushed also from the top</q>. La sicurezza: <q>it also highly depends which manager</q>, e con un grande contratto perso <q>you will feel it</q>. La libertà: <q>if you perform well, you have quite a lot of freedom</q>, e <q>as long as you perform, it's fine</q>."],
+ task:"Scegli le tre citazioni di questo capitolo che vorresti di più difendere nelle domande dopo la presentazione. Per ognuna, di' in una riga cosa dimostra."},
+{id:"e6", t:"Capitolo 6 · Quanto possiamo fidarci?",
+ p:["Tutti i nostri findings vengono da una sola persona, che studia e lavora in IBM da circa un anno, nell'unità di supporto del direttore generale di IBM Svizzera, e che è anche il nostro docente.",
+ "Quella posizione ha due lati. È una vista ampia: vicino alla cima dell'organizzazione svizzera, in contatto con molti reparti. Ma è una vista sola, da un punto solo, e può influenzare quello che si è scelto di dire.",
+ "I nostri dati arrivano fino al secondo trimestre del 2026. IBM pubblica i risultati del terzo trimestre il 21 ottobre alle 17:00 ora di New York, poche ore dopo la nostra presentazione. Se qualcuno lo chiede, lo diciamo.",
+ "Dichiarare i limiti non è una debolezza. È quello che il corso chiama separare le prove dalle supposizioni, e fa parte di una diagnosi ben fondata."],
+ task:"Qualcuno nel pubblico chiede: come fate a sapere che questo vale per tutta IBM, e non solo per una persona a Zurigo? Scrivi la tua risposta in quattro o cinque frasi."}
+];
+
+P3.it=[
+{id:"a1", t:"Capitolo 1 · Etichettare o spiegare",
+ p:["Ora conosci la storia e le prove. La Parte 3 ti dà gli strumenti che il corso usa per spiegarle.",
+ "Prima, la distinzione più importante per il voto. <b>Etichettare</b> è dire: IBM è una matrice. <b>Spiegare</b> è dire: IBM vende con tre unità allo stesso cliente, quindi qualcuno deve decidere chi guida, ed è lì che rallenta. Stessi fatti. La seconda frase usa la teoria per mostrare un meccanismo, una causa e un effetto.",
+ "Il nostro quadro viene dal capitolo 6 del corso: l'<b>Organizational Viability Framework</b>. Un'organizzazione resta viva quando tre cose stanno insieme: <b>Direzione</b> (scopo, strategia), <b>Struttura</b> (ruoli, processi, diritti di decisione) e <b>Persone</b> (motivazione, cultura, relazioni).",
+ "Dentro il triangolo ci sono tre tensioni, e un'organizzazione viva gestisce entrambi gli estremi di ciascuna invece di sceglierne uno: <b>ambidestrezza</b>, esplorare il nuovo contro sfruttare ciò che funziona oggi; <b>adattabilità</b>, trasformarsi contro restare stabili; <b>coerenza</b>, autonomia contro controllo.",
+ "Tutta la presentazione percorre questo triangolo, angolo per angolo, e finisce sulle tensioni."],
+ task:"Scrivi una frase su IBM che si limita a etichettare, poi riscrivila in modo che spieghi. Usa qualcosa della Parte 1 o 2."},
+{id:"a2", t:"Capitolo 2 · Non esiste un modo migliore",
+ p:["La teoria della contingenza dice che non esiste un unico modo migliore di organizzarsi. La struttura giusta dipende dall'ambiente.",
+ "Tom Burns e G. M. Stalker le hanno dato due parole classiche. Un'organizzazione <b>meccanicistica</b> ha gerarchia rigida e regole fisse: funziona in un ambiente stabile. Un'organizzazione <b>organica</b> ha ruoli flessibili e comunicazione orizzontale: funziona quando le cose cambiano in fretta.",
+ "I nostri strati sono la contingenza in azione. Ogni piano della casa ha risposto a un ambiente nuovo: la gerarchia per un mercato stabile, l'integrazione per clienti che volevano una soluzione sola, le squadre agili per il software e la velocità, l'ecosistema per l'AI e l'open source.",
+ "Spiega anche qualcosa che sembra un difetto. Sui concorrenti ci è stato detto: <q>in all the different offerings we have, we have a bit different competitors.</q> Ogni business affronta il suo mercato, quindi unità separate hanno senso. Per questo non raccomandiamo di unirle.",
+ "Punto cieco: la contingenza spiega l'adattamento all'ambiente, ma dice poco sul potere e sulla politica interna."],
+ task:"Con la teoria della contingenza, spiega perché IBM resta divisa in business separati anche se i suoi clienti comprano da tutti insieme."},
+{id:"a3", t:"Capitolo 3 · Solo la varietà assorbe la varietà",
+ p:["La <b>legge della varietà necessaria</b> di W. Ross Ashby: per gestire una situazione, un sistema ha bisogno di almeno tante risposte possibili quante sono le variazioni della situazione. Solo la varietà assorbe la varietà.",
+ "Pensa a un portiere che sa fare un solo tipo di parata. Ogni altro tiro è gol. Più tipi di tiro, più tipi di parata servono, e servono dove arrivano i tiri, non in un ufficio lontano.",
+ "IBM nel suo insieme ha una varietà enorme: <q>we actually have nearly everything</q>. Questo è Ashby che lavora a favore di IBM, e ce l'ha detto anche chi ci lavora: aiuta IBM ad adattarsi. Ma la capacità di decidere sta in alto sulla scala. Al confine svizzero, dove arrivano le situazioni locali, la varietà di decisioni disponibili è piccola. Ecco l'attrito.",
+ "Stafford Beer ne ha fatto il <b>Viable System Model</b>: un'organizzazione viva ha bisogno di unità con vera autonomia operativa, più una coordinazione che tiene insieme il tutto. In IBM Svizzera la coordinazione domina sull'autonomia.",
+ "È la teoria dietro la Raccomandazione 1: dare al paese un margine definito di decisioni e mettere una scadenza alle escalation."],
+ task:"Spiega la Raccomandazione 1 con la legge di Ashby, con parole tue, usando la parola “varietà” al massimo una volta."},
+{id:"a4", t:"Capitolo 4 · I livelli invisibili",
+ p:["Ogni organizzazione ha un lato formale, l'organigramma, e un'<b>organizzazione informale</b>: relazioni, fiducia e regole non scritte che decidono come si lavora davvero. Le due mappe della Parte 1.",
+ "Edgar Schein descrive la cultura su tre livelli. <b>Artefatti</b>: ciò che vedi e senti, come lo slogan <q>speed over perfection</q>. <b>Valori dichiarati</b>: ciò che l'organizzazione dice di apprezzare, come THINK. <b>Presupposti di fondo</b>: ciò che le persone credono senza dirlo. Il nostro, come interpretazione: i risultati comprano libertà, e i numeri del trimestre dettano il tempo.",
+ "Quando ciò che si dice e ciò che si premia non coincidono, c'è uno scarto tra valori dichiarati e valori praticati. La nostra prova: la sicurezza <q>highly depends which manager</q>.",
+ "Amy Edmondson chiama <b>sicurezza psicologica</b> la sensazione di poter ammettere un errore senza essere puniti. Chi abbiamo intervistato l'ha avuta, con un piccolo errore. Non con un grande contratto perso.",
+ "È la teoria dietro la Raccomandazione 2: sostenere le persone che collegano, e formare i manager alla sicurezza psicologica, senza trasformare l'informale nell'ennesimo strato formale."],
+ task:"Spiega perché il presupposto di fondo sulla nostra slide di Schein è segnato INTERPRETATION, e perché è proprio quello che Schein si aspetterebbe."},
+{id:"a5", t:"Capitolo 5 · Dove sta IBM",
+ p:["Ora metti tutto sul triangolo.",
+ "<b>Ambidestrezza</b>: IBM esplora soprattutto comprando aziende e con i suoi laboratori di ricerca. Dopo l'estate del 2026 è stata tirata verso lo sfruttamento: tagli di budget, obiettivi trimestrali.",
+ "<b>Adattabilità</b>: si trasforma aggiungendo strati, quindi la stabilità si accumula. Veloce dentro, <q>not fast enough</q> per il mercato, nelle parole del suo amministratore delegato.",
+ "<b>Coerenza</b>: autonomia a condizione dei risultati. Libertà se rendi, domande e pressione centrale quando i risultati calano.",
+ "Il controllo di viabilità del corso: IBM funziona oggi? Sì. Sopravvive? Sì. Si sviluppa per domani? A rischio. L'ultimo è un nostro giudizio, e lo etichettiamo come tale.",
+ "Punti di forza e costi vanno insieme: l'ampiezza che rende IBM adattabile è la stessa ampiezza che nessuno riesce ad afferrare."],
+ task:"Scegli una delle tre tensioni e difendi dove abbiamo messo IBM, usando un FACT e un FINDING."},
+{id:"a6", t:"Capitolo 6 · Il boss finale",
+ p:["Dopo la presentazione ci sono cinque minuti di domande, e chi chiede potrebbe essere la stessa persona che abbiamo intervistato. Ecco cinque domande che potrebbero arrivare.",
+ "<b>1.</b> Il margine di decisione svizzero non è solo un nuovo strato, proprio quello che dite che IBM dovrebbe evitare?",
+ "<b>2.</b> Dite che la catena rallenta la Svizzera. Qual è il costo, concretamente?",
+ "<b>3.</b> Perché lo chiamate un problema di viabilità, se IBM è redditizia e ha più di cent'anni?",
+ "<b>4.</b> Il vostro presupposto di fondo, i numeri del trimestre dettano il tempo: dov'è la prova?",
+ "<b>5.</b> Se poteste farmi un'altra domanda, quale sarebbe?"],
+ task:"Scegli la domanda più difficile per te e scrivi la tua risposta, come la diresti in sala.",
+ reveal:"Cosa contiene una risposta forte. <b>1.</b> No: è un insieme di diritti di decisione dentro il livello paese che esiste già, non una nuova casella. Nomina onestamente il suo prezzo. <b>2.</b> L'esempio del personale e i contratti che scivolano al trimestre dopo; di' che la regola sulla velocità era una regola pratica personale. <b>3.</b> La viabilità non è solo sopravvivere: funzionare oggi, sopravvivere, svilupparsi per domani. La lettera stessa dell'amministratore delegato mette in dubbio il terzo punto. <b>4.</b> È un'interpretazione costruita sui findings: speed over perfection spinto dall'alto, la pressione dopo il secondo trimestre, i contratti che slittano oltre la fine del trimestre. Di' che è nostra. <b>5.</b> Usala: chiedi come verrebbero prese davvero le decisioni del margine svizzero, così le domande diventano una conversazione."}
+];
+
+NAMES.it=[
+{id:"n1", n:"Thomas J. Watson Sr.", y:"1874 - 1956", h:"La storia di IBM", w:"Ha guidato dal 1914 l'azienda che è diventata IBM e l'ha resa globale.", i:"Ha coniato il motto THINK negli anni 1910. È lo strato più antico della nostra casa e uno dei valori dichiarati sulla slide di Schein.", s:"Slide 4 e 8"},
+{id:"n2", n:"Lou Gerstner", y:"nato nel 1942", h:"La storia di IBM", w:"Amministratore delegato di IBM dal 1993 al 2002, arrivato da fuori nella crisi peggiore dell'azienda.", i:"Nel 1993 ha fermato il piano di dividere IBM in aziende separate: “we made a very important decision to keep the company together.” È il nostro strato dell'integrazione.", s:"Slide 4"},
+{id:"n3", n:"Arvind Krishna", y:"amministratore delegato dal 2020", h:"IBM oggi", w:"L'attuale amministratore delegato e presidente di IBM.", i:"Autore della lettera di luglio 2026: “We did not adapt and move quickly enough.” La prima citazione della presentazione.", s:"Slide 2, e la cima della scala sulla slide 6"},
+{id:"n4", n:"W. Ross Ashby", y:"1903 - 1972", h:"Teoria · capitolo 6", w:"Psichiatra britannico, tra i fondatori della cibernetica, la scienza del controllo e del feedback.", i:"Legge della varietà necessaria: solo la varietà assorbe la varietà. La capacità di rispondere deve stare dove arrivano le situazioni, al confine.", s:"Slide 6, 10 e 11"},
+{id:"n5", n:"Stafford Beer", y:"1926 - 2002", h:"Teoria · capitolo 6", w:"Pensatore britannico del management che ha applicato la cibernetica alle organizzazioni.", i:"Viable System Model: un'organizzazione viva ha bisogno di unità con autonomia operativa più una coordinazione del tutto. In IBM Svizzera domina la coordinazione.", s:"Slide 6 e 11"},
+{id:"n6", n:"Tom Burns e G. M. Stalker", y:"1961", h:"Teoria · contingenza", w:"Ricercatori britannici che hanno studiato come le aziende affrontano il cambiamento tecnologico.", i:"Organizzazioni meccanicistiche contro organiche: la gerarchia rigida va bene in un mondo stabile, i ruoli flessibili in un mondo che cambia. Le etichette dei nostri strati vengono da loro.", s:"Slide 4"},
+{id:"n7", n:"Edgar Schein", y:"1928 - 2023", h:"Teoria · capitolo 7", w:"Professore al MIT, l'autore classico sulla cultura organizzativa.", i:"Tre livelli della cultura: artefatti, valori dichiarati, presupposti di fondo. Il quadro della nostra slide sulla cultura.", s:"Slide 8"},
+{id:"n8", n:"Amy Edmondson", y:"nata nel 1959", h:"Teoria · capitolo 7", w:"Professoressa alla Harvard Business School.", i:"Sicurezza psicologica: poter ammettere errori, chiedere e dissentire senza paura. In IBM dipende dal manager, per questo la Raccomandazione 2 forma i manager.", s:"Slide 8 e 12"}
+];
+
+P2.es=[
+{id:"e1", t:"Capítulo 1 · Cuatro tipos de verdad",
+ p:["En la Parte 1 escuchaste una historia. Ahora la compruebas. A partir de aquí, cada frase de nuestra presentación lleva una pequeña etiqueta que dice de dónde viene.",
+ "<b>FACT</b>: escrito en una fuente pública oficial, como el informe anual de IBM o un comunicado de prensa. <b>FINDING</b>: oído en nuestra entrevista con alguien de dentro de IBM. <b>INTERPRETATION</b>: una conclusión nuestra, tras aplicar una teoría del curso. <b>ASSUMPTION</b>: algo que creemos, pero que todavía no podemos demostrar.",
+ "Mira otra vez el misterio. La frase del director ejecutivo, <q>We did not adapt and move quickly enough</q>, viene de una carta que IBM publicó el 14 de julio de 2026. Es un FACT. La respuesta <q>We are pretty good in speed</q> viene de nuestra entrevista del 14 de octubre de 2026. Es un FINDING. Nuestra afirmación de que ambas son ciertas a la vez es una INTERPRETATION.",
+ "Por qué importa: la regla del curso dice que lo que produce una IA nunca es una prueba, y la nota premia las pruebas. Una etiqueta en cada afirmación muestra al público, y al profesor, que sabes distinguir entre lo que has visto y lo que piensas."],
+ task:"Toma tres frases cualesquiera de la Parte 1 y dale a cada una una etiqueta (FACT, FINDING, INTERPRETATION o ASSUMPTION). Explica cada elección en una línea."},
+{id:"e2", t:"Capítulo 2 · La empresa en cifras",
+ p:["IBM, International Business Machines, se fundó en 1911 y tiene su sede en Armonk, cerca de Nueva York.",
+ "En 2025 sus ingresos fueron de <b>67.500 millones de dólares</b> (informe anual de IBM 2025). Cerca del 44% vino del software, el 31% de la consultoría y el 23% de la infraestructura. Más del 80% de los ingresos viene de clientes que compran a las tres partes a la vez, según la propia carta del presidente en ese informe. Es el detalle que la Parte 1 te pidió recordar.",
+ "IBM dice de sus mainframes que los prefieren 44 de los 50 bancos más grandes del mundo. Es una afirmación de la propia IBM, así que en una diapositiva escribimos: <i>según IBM</i>.",
+ "Su propósito, con sus palabras: <q>IBM aspires to be the catalyst that makes the world work better.</q> Y su lema más antiguo es una sola palabra: THINK.",
+ "Una lección de verificación. La persona entrevistada dijo que el laboratorio suizo tiene <q>six or seven</q> premios Nobel. La página de historia del laboratorio dice dos, en Física, en 1986 y 1987. También quien trabaja dentro puede equivocarse con los datos. Los findings te dicen cómo funcionan las cosas. Los hechos los compruebas en la fuente."],
+ task:"¿Qué cifra de este capítulo pondrías en la diapositiva de Dirección, y por qué esa? Después explica en dos frases por qué no usamos el número de Nobel de la entrevista."},
+{id:"e3", t:"Capítulo 3 · Los pisos de la casa, con fechas",
+ p:["En la Parte 1 la casa crecía piso a piso. Estos son los pisos reales.",
+ "<b>Años 1910</b>: Thomas J. Watson Sr. acuña THINK. Una empresa clásica: jerarquía clara, normas, orden.",
+ "<b>1993</b>: IBM pierde unos 8.100 millones de dólares, una de las mayores pérdidas de la historia empresarial. Sobre la mesa está el plan de dividirla en empresas independientes. El nuevo director ejecutivo, Lou Gerstner, detiene el plan. Con sus palabras: <q>In 1993 we made a very important decision to keep the company together.</q> IBM se convierte en una empresa integrada.",
+ "<b>Desde 2013</b>: el Enterprise Design Thinking extiende por IBM equipos ágiles guiados por el diseño.",
+ "<b>2019</b>: IBM compra Red Hat, una empresa de software de código abierto, por unos 34.000 millones de dólares. <b>2021</b>: separa su negocio de servicios de infraestructura, que se convierte en una empresa independiente llamada Kyndryl.",
+ "Ninguno de estos pasos sustituyó al anterior. La jerarquía sigue ahí. La integración sigue ahí. Los equipos ágiles están encima. El ecosistema de empresas compradas y separadas está alrededor. Eso es lo que queremos decir con capas, no sustituciones.",
+ "Una precaución: esta historia viene de fuentes de IBM y del propio Gerstner. Nuestra entrevista no dice nada de ella. Por eso tiene una sola diapositiva."],
+ task:"¿Por qué importa que no se quitara ninguna capa? Explícalo con una consecuencia concreta que viste en la Parte 1."},
+{id:"e4", t:"Capítulo 4 · La escalera, con palabras de dentro",
+ p:["Estas son las palabras exactas detrás del Capítulo 3 de la Parte 1. Léelas despacio: en la diapositiva 6 las citarás.",
+ "Sobre la forma: <q>if you look at the org chart for IBM, it's super tall.</q> Sobre por qué se agrupan los países: <q>it's a way to facilitate coordination and control</q>, porque <q>the general strategy or how we should work in the different countries comes from the top.</q>",
+ "Sobre Suiza dentro de DACH: <q>since DACH is led through Germany, it's of course easy to assume that it's the same as Germany, but it isn't.</q> Las diferencias nombradas: el sistema político, <q>how we value security</q> y <q>we are a country of banks</q>.",
+ "Sobre la velocidad: <q>if it's of relevance for global, it goes rather fast, if it's just a Swiss need you need to go through the rows.</q> Sobre más personal: si el nivel regional dice que no, <q>we will not ask</q> al director ejecutivo. <q>So it's done.</q>",
+ "Y ahora la parte que todos olvidan. La regla de la velocidad se presentó con <q>that's my opinion, a rule of thumb</q>, con el añadido <q>sometimes you can jump it</q>, y que se puede llamar a alguien más arriba si <q>you are really sure why you are calling them</q>.",
+ "En la diapositiva queda así: FINDING, regla práctica de quien trabaja dentro. Quitar la cautela convertiría una opinión en un hecho. Esa persona estará en la sala, y lo notará."],
+ task:"Escribe la frase que dirías en voz alta en la diapositiva 6 sobre la escalera, con la cautela incluida. Después escribe por qué la cautela te hace más creíble, no menos."},
+{id:"e5", t:"Capítulo 5 · Las personas y la cultura, con sus palabras",
+ p:["Detrás del Capítulo 2 de la Parte 1: durante la contratación se insistió mucho en hacer red, y los cafés mostraron <q>the power dynamics in the company, in the departments which were closest to me</q>. Después: <q>that is invisible in the org chart, right? You have certain managers which have been there for 20 years. They have way more influence than the others, even though they are on the same level.</q> Comprobamos esta frase en tres transcripciones: la palabra es <i>invisible</i>.",
+ "Detrás del Capítulo 4: <q>we have five people</q>, los deal makers, que <q>work across different brands, across different offerings, across different segmentations</q> y <q>help, usually in these cases, to find a way</q>. Probablemente un equipo suizo: dilo. Y la oferta: <q>It's not graspable. Also as an employee it's not graspable.</q> Pero también: <q>that also helps to be adaptable to the environment. Pros and cons.</q>",
+ "Detrás del Capítulo 5: <q>We experienced way more pressure from the top</q> y <q>It's a joint adventure</q>. El lema: <q>speed over perfection</q>, <q>really pushed also from the top</q>. La seguridad: <q>it also highly depends which manager</q>, y con un gran contrato perdido <q>you will feel it</q>. La libertad: <q>if you perform well, you have quite a lot of freedom</q> y <q>as long as you perform, it's fine</q>."],
+ task:"Elige las tres citas de este capítulo que más querrías defender en las preguntas después de la presentación. Para cada una, di en una línea qué demuestra."},
+{id:"e6", t:"Capítulo 6 · ¿Cuánto podemos fiarnos?",
+ p:["Todos nuestros findings vienen de una sola persona, que estudia y trabaja en IBM desde hace un año, en la unidad de apoyo del director general de IBM Suiza, y que además es nuestro profesor.",
+ "Esa posición tiene dos caras. Es una vista amplia: cerca de la cima de la organización suiza, en contacto con muchos departamentos. Pero es una sola vista, desde un solo lugar, y puede influir en lo que se eligió decir.",
+ "Nuestros datos llegan hasta el segundo trimestre de 2026. IBM publica los resultados del tercer trimestre el 21 de octubre a las 17:00, hora de Nueva York, pocas horas después de nuestra presentación. Si alguien lo pregunta, lo decimos.",
+ "Nombrar los límites no es una debilidad. Es lo que el curso llama separar pruebas de suposiciones, y forma parte de un diagnóstico bien fundado."],
+ task:"Alguien del público pregunta: ¿cómo sabéis que esto vale para toda IBM y no solo para una persona en Zúrich? Escribe tu respuesta en cuatro o cinco frases."}
+];
+
+P3.es=[
+{id:"a1", t:"Capítulo 1 · Etiquetar o explicar",
+ p:["Ya conoces la historia y las pruebas. La Parte 3 te da las herramientas que usa el curso para explicarlas.",
+ "Primero, la distinción más importante para la nota. <b>Etiquetar</b> es decir: IBM es una matriz. <b>Explicar</b> es decir: IBM vende con tres unidades al mismo cliente, así que alguien tiene que decidir quién lidera, y ahí es donde se frena. Mismos hechos. La segunda frase usa la teoría para mostrar un mecanismo, una causa y un efecto.",
+ "Nuestro marco viene del capítulo 6 del curso: el <b>Organizational Viability Framework</b>. Una organización sigue siendo viable cuando tres cosas encajan: <b>Dirección</b> (propósito, estrategia), <b>Estructura</b> (roles, procesos, derechos de decisión) y <b>Personas</b> (motivación, cultura, relaciones).",
+ "Dentro del triángulo hay tres tensiones, y una organización viable gestiona los dos extremos de cada una en lugar de elegir uno: <b>ambidestreza</b>, explorar lo nuevo frente a explotar lo que funciona hoy; <b>adaptabilidad</b>, transformarse frente a mantenerse estable; <b>coherencia</b>, autonomía frente a control.",
+ "Toda la presentación recorre este triángulo, esquina por esquina, y termina en las tensiones."],
+ task:"Escribe una frase sobre IBM que solo etiquete, y después reescríbela para que explique. Usa algo de la Parte 1 o 2."},
+{id:"a2", t:"Capítulo 2 · No hay una única mejor manera",
+ p:["La teoría de la contingencia dice que no hay una única mejor manera de organizarse. La estructura adecuada depende del entorno.",
+ "Tom Burns y G. M. Stalker le dieron dos palabras clásicas. Una organización <b>mecanicista</b> tiene jerarquía estricta y reglas fijas: funciona en un entorno estable. Una organización <b>orgánica</b> tiene roles flexibles y comunicación lateral: funciona cuando las cosas cambian rápido.",
+ "Nuestras capas son contingencia en acción. Cada piso de la casa respondió a un entorno nuevo: la jerarquía para un mercado estable, la integración para clientes que querían una sola solución, los equipos ágiles para el software y la velocidad, el ecosistema para la IA y el código abierto.",
+ "También explica algo que parece una debilidad. Sobre los competidores nos dijeron: <q>in all the different offerings we have, we have a bit different competitors.</q> Cada negocio se enfrenta a su propio mercado, así que tener unidades separadas tiene sentido. Por eso no recomendamos fusionarlas.",
+ "Punto ciego: la contingencia explica el encaje con el entorno, pero dice poco sobre el poder y la política interna."],
+ task:"Con la teoría de la contingencia, explica por qué IBM sigue dividida en negocios separados aunque sus clientes compren de todos a la vez."},
+{id:"a3", t:"Capítulo 3 · Solo la variedad absorbe la variedad",
+ p:["La <b>ley de la variedad requerida</b> de W. Ross Ashby: para manejar una situación, un sistema necesita al menos tantas respuestas posibles como variaciones tiene la situación. Solo la variedad absorbe la variedad.",
+ "Piensa en un portero que solo sabe hacer un tipo de parada. Cualquier otro tiro es gol. Cuantos más tipos de tiro, más tipos de parada hacen falta, y hacen falta donde llegan los tiros, no en una oficina lejana.",
+ "IBM en conjunto tiene una variedad enorme: <q>we actually have nearly everything</q>. Eso es Ashby trabajando a favor de IBM, y también nos lo dijeron desde dentro: ayuda a IBM a adaptarse. Pero la capacidad de decidir está arriba en la escalera. En el borde suizo, donde llegan las situaciones locales, la variedad de decisiones disponibles es pequeña. Ahí está la fricción.",
+ "Stafford Beer lo convirtió en el <b>Viable System Model</b>: una organización viable necesita unidades con verdadera autonomía operativa, más una coordinación que mantenga unido el conjunto. En IBM Suiza, la coordinación domina sobre la autonomía.",
+ "Esta es la teoría detrás de la Recomendación 1: dar al país un margen definido de decisiones y poner un plazo a las escaladas."],
+ task:"Explica la Recomendación 1 con la ley de Ashby, con tus palabras, usando la palabra “variedad” como máximo una vez."},
+{id:"a4", t:"Capítulo 4 · Los niveles invisibles",
+ p:["Toda organización tiene un lado formal, el organigrama, y una <b>organización informal</b>: relaciones, confianza y reglas no escritas que deciden cómo se trabaja de verdad. Los dos mapas de la Parte 1.",
+ "Edgar Schein describe la cultura en tres niveles. <b>Artefactos</b>: lo que ves y oyes, como el lema <q>speed over perfection</q>. <b>Valores declarados</b>: lo que la organización dice que valora, como THINK. <b>Supuestos de fondo</b>: lo que la gente cree sin decirlo. El nuestro, como interpretación: los resultados compran libertad, y los números del trimestre marcan el reloj.",
+ "Cuando lo que se dice y lo que se premia no coinciden, hay una distancia entre los valores declarados y los practicados. Nuestra prueba: la seguridad <q>highly depends which manager</q>.",
+ "Amy Edmondson llama <b>seguridad psicológica</b> a la sensación de poder admitir un error sin ser castigado. Nuestra persona entrevistada la tuvo, con un error pequeño. No con un gran contrato perdido.",
+ "Esta es la teoría detrás de la Recomendación 2: apoyar a las personas que conectan, y formar a los jefes en seguridad psicológica, sin convertir lo informal en otra capa formal más."],
+ task:"Explica por qué el supuesto de fondo de nuestra diapositiva de Schein está marcado como INTERPRETATION, y por qué es justo lo que Schein esperaría."},
+{id:"a5", t:"Capítulo 5 · Dónde está IBM",
+ p:["Ahora pon todo sobre el triángulo.",
+ "<b>Ambidestreza</b>: IBM explora sobre todo comprando empresas y con sus laboratorios de investigación. Tras el verano de 2026 se inclinó hacia la explotación: recortes de presupuesto, objetivos trimestrales.",
+ "<b>Adaptabilidad</b>: se transforma añadiendo capas, así que la estabilidad se acumula. Rápida por dentro, <q>not fast enough</q> para el mercado, en palabras de su director ejecutivo.",
+ "<b>Coherencia</b>: autonomía condicionada a los resultados. Libertad si rindes, preguntas y presión central cuando caen los resultados.",
+ "El control de viabilidad del curso: ¿IBM funciona hoy? Sí. ¿Sobrevive? Sí. ¿Se desarrolla para mañana? En riesgo. Lo último es un juicio nuestro, y lo etiquetamos como tal.",
+ "Fortalezas y costes van juntos: la amplitud que hace a IBM adaptable es la misma amplitud que nadie consigue abarcar."],
+ task:"Elige una de las tres tensiones y defiende dónde colocamos a IBM, usando un FACT y un FINDING."},
+{id:"a6", t:"Capítulo 6 · El jefe final",
+ p:["Después de la presentación hay cinco minutos de preguntas, y quien pregunte puede ser la misma persona que entrevistamos. Estas son cinco preguntas que podrían llegar.",
+ "<b>1.</b> ¿El margen de decisión suizo no es simplemente una capa nueva, justo lo que decís que IBM debería evitar?",
+ "<b>2.</b> Decís que la cadena frena a Suiza. ¿Cuál es el coste, en concreto?",
+ "<b>3.</b> ¿Por qué lo llamáis un problema de viabilidad, si IBM es rentable y tiene más de cien años?",
+ "<b>4.</b> Vuestro supuesto de fondo, los números del trimestre marcan el reloj: ¿dónde está la prueba?",
+ "<b>5.</b> Si pudierais hacerme una pregunta más, ¿cuál sería?"],
+ task:"Elige la pregunta más difícil para ti y escribe tu respuesta, como la dirías en la sala.",
+ reveal:"Qué contiene una respuesta sólida. <b>1.</b> No: es un conjunto de derechos de decisión dentro del nivel de país que ya existe, no una caja nueva. Nombra con honestidad su coste. <b>2.</b> El ejemplo del personal y los contratos que se pasan al trimestre siguiente; di que la regla de la velocidad era una regla práctica personal. <b>3.</b> La viabilidad no es solo sobrevivir: funcionar hoy, sobrevivir y desarrollarse para mañana. La propia carta del director ejecutivo pone en duda lo tercero. <b>4.</b> Es una interpretación construida con findings: speed over perfection impulsado desde arriba, la presión tras el segundo trimestre, contratos que se pasan del cierre del trimestre. Di que es nuestra. <b>5.</b> Aprovéchala: pregunta cómo se tomarían de verdad las decisiones del margen suizo, y las preguntas se convierten en una conversación."}
+];
+
+NAMES.es=[
+{id:"n1", n:"Thomas J. Watson Sr.", y:"1874 - 1956", h:"Historia de IBM", w:"Dirigió desde 1914 la empresa que se convirtió en IBM y la hizo global.", i:"Acuñó el lema THINK en los años 1910. Es la capa más antigua de nuestra casa y uno de los valores declarados de la diapositiva de Schein.", s:"Diapositivas 4 y 8"},
+{id:"n2", n:"Lou Gerstner", y:"nacido en 1942", h:"Historia de IBM", w:"Director ejecutivo de IBM de 1993 a 2002, llegado de fuera en la peor crisis de la empresa.", i:"En 1993 detuvo el plan de dividir IBM en empresas separadas: “we made a very important decision to keep the company together.” Es nuestra capa de integración.", s:"Diapositiva 4"},
+{id:"n3", n:"Arvind Krishna", y:"director ejecutivo desde 2020", h:"IBM hoy", w:"El actual director ejecutivo y presidente de IBM.", i:"Autor de la carta de julio de 2026: “We did not adapt and move quickly enough.” La primera cita de la presentación.", s:"Diapositiva 2, y la cima de la escalera en la 6"},
+{id:"n4", n:"W. Ross Ashby", y:"1903 - 1972", h:"Teoría · capítulo 6", w:"Psiquiatra británico, uno de los fundadores de la cibernética, la ciencia del control y la retroalimentación.", i:"Ley de la variedad requerida: solo la variedad absorbe la variedad. La capacidad de responder debe estar donde llegan las situaciones, en el borde.", s:"Diapositivas 6, 10 y 11"},
+{id:"n5", n:"Stafford Beer", y:"1926 - 2002", h:"Teoría · capítulo 6", w:"Pensador británico de la gestión que aplicó la cibernética a las organizaciones.", i:"Viable System Model: una organización viable necesita unidades con autonomía operativa más coordinación del conjunto. En IBM Suiza domina la coordinación.", s:"Diapositivas 6 y 11"},
+{id:"n6", n:"Tom Burns y G. M. Stalker", y:"1961", h:"Teoría · contingencia", w:"Investigadores británicos que estudiaron cómo afrontan las empresas el cambio tecnológico.", i:"Organizaciones mecanicistas frente a orgánicas: la jerarquía estricta sirve en un mundo estable, los roles flexibles en un mundo que cambia. Las etiquetas de nuestras capas vienen de ellos.", s:"Diapositiva 4"},
+{id:"n7", n:"Edgar Schein", y:"1928 - 2023", h:"Teoría · capítulo 7", w:"Profesor del MIT, el autor clásico sobre cultura organizacional.", i:"Tres niveles de cultura: artefactos, valores declarados, supuestos de fondo. El marco de nuestra diapositiva de cultura.", s:"Diapositiva 8"},
+{id:"n8", n:"Amy Edmondson", y:"nacida en 1959", h:"Teoría · capítulo 7", w:"Profesora de la Harvard Business School.", i:"Seguridad psicológica: poder admitir errores, preguntar y discrepar sin miedo. En IBM depende del jefe, por eso la Recomendación 2 forma a los jefes.", s:"Diapositivas 8 y 12"}
+];
+
+P2.hr=[
+{id:"e1", t:"1. poglavlje · Četiri vrste istine",
+ p:["U 1. dijelu čuo/la si priču. Sad je provjeravaš. Od sada svaka rečenica naše prezentacije nosi malu oznaku koja kaže odakle dolazi.",
+ "<b>FACT</b>: zapisano u službenom javnom izvoru, poput IBM-ova godišnjeg izvješća ili priopćenja za medije. <b>FINDING</b>: čuto u našem intervjuu s nekim iz IBM-a. <b>INTERPRETATION</b>: naš vlastiti zaključak, nakon primjene teorije iz kolegija. <b>ASSUMPTION</b>: nešto u što vjerujemo, ali još ne možemo dokazati.",
+ "Pogledaj ponovno misterij. Rečenica glavnog direktora, <q>We did not adapt and move quickly enough</q>, dolazi iz pisma koje je IBM objavio 14. srpnja 2026. To je FACT. Odgovor <q>We are pretty good in speed</q> dolazi iz našeg intervjua od 14. listopada 2026. To je FINDING. Naša tvrdnja da su oba istinita u isto vrijeme je INTERPRETATION.",
+ "Zašto je to važno: pravilo kolegija kaže da ono što proizvede AI nikad nije dokaz, a ocjena nagrađuje dokaze. Oznaka na svakoj tvrdnji pokazuje publici, i predavaču, da razlikuješ ono što si vidio/la od onoga što misliš."],
+ task:"Uzmi bilo koje tri rečenice iz 1. dijela i svakoj daj oznaku (FACT, FINDING, INTERPRETATION ili ASSUMPTION). Objasni svaki izbor u jednom retku."},
+{id:"e2", t:"2. poglavlje · Tvrtka u brojkama",
+ p:["IBM, International Business Machines, osnovan je 1911. i ima sjedište u Armonku, blizu New Yorka.",
+ "U 2025. prihodi su mu bili <b>67,5 milijardi dolara</b> (IBM-ovo godišnje izvješće za 2025.). Otprilike 44% od softvera, 31% od savjetovanja i 23% od infrastrukture. Više od 80% prihoda dolazi od klijenata koji kupuju od sva tri dijela odjednom, prema pismu predsjednika u istom izvješću. To je detalj koji je 1. dio tražio da zapamtiš.",
+ "IBM za svoje mainframe računale kaže da ih preferira 44 od 50 najvećih banaka na svijetu. To je tvrdnja samog IBM-a, pa na slajdu pišemo: <i>prema IBM-u</i>.",
+ "Njegova svrha, njegovim riječima: <q>IBM aspires to be the catalyst that makes the world work better.</q> A najstariji moto mu je jedna riječ: THINK.",
+ "Lekcija o provjeravanju. Osoba iz intervjua rekla je da švicarski laboratorij ima <q>six or seven</q> Nobelovih nagrada. Povijesna stranica laboratorija kaže dvije, iz fizike, 1986. i 1987. I ljudi iznutra mogu pogriješiti u činjenicama. Findings ti govore kako stvari funkcioniraju. Činjenice ipak provjeravaš na izvoru."],
+ task:"Koju bi jednu brojku iz ovog poglavlja stavio/la na slajd o smjeru, i zašto baš nju? Zatim u dvije rečenice objasni zašto ne koristimo broj Nobelovih nagrada iz intervjua."},
+{id:"e3", t:"3. poglavlje · Katovi kuće, s datumima",
+ p:["U 1. dijelu kuća je rasla kat po kat. Evo pravih katova.",
+ "<b>1910-e</b>: Thomas J. Watson Sr. smišlja THINK. Klasična tvrtka: jasna hijerarhija, pravila, red.",
+ "<b>1993.</b>: IBM gubi oko 8,1 milijardu dolara, jedan od najvećih gubitaka u povijesti poduzeća. Na stolu je plan da se podijeli na neovisne tvrtke. Novi glavni direktor, Lou Gerstner, zaustavlja plan. Njegovim riječima: <q>In 1993 we made a very important decision to keep the company together.</q> IBM postaje jedna integrirana tvrtka.",
+ "<b>Od 2013.</b>: Enterprise Design Thinking širi IBM-om agilne timove vođene dizajnom.",
+ "<b>2019.</b>: IBM kupuje Red Hat, tvrtku za softver otvorenog koda, za oko 34 milijarde dolara. <b>2021.</b>: izdvaja poslovanje infrastrukturnih usluga, koje postaje neovisna tvrtka Kyndryl.",
+ "Nijedan od ovih koraka nije zamijenio prethodni. Hijerarhija je još tu. Integracija je još tu. Agilni timovi su na vrhu. Ekosustav kupljenih i izdvojenih tvrtki je oko njih. To mislimo kad kažemo slojevi, a ne zamjene.",
+ "Jedan oprez: ova povijest dolazi iz IBM-ovih izvora i od samog Gerstnera. Naš intervju o njoj ništa ne govori. Zato ima samo jedan slajd."],
+ task:"Zašto je važno da nijedan sloj nije uklonjen? Objasni to jednom konkretnom posljedicom koju si vidio/la u 1. dijelu."},
+{id:"e4", t:"4. poglavlje · Ljestve, riječima iznutra",
+ p:["Evo točnih riječi iza 3. poglavlja 1. dijela. Čitaj ih polako: na slajdu 6 ćeš ih citirati.",
+ "O obliku: <q>if you look at the org chart for IBM, it's super tall.</q> O tome zašto se države grupiraju: <q>it's a way to facilitate coordination and control</q>, jer <q>the general strategy or how we should work in the different countries comes from the top.</q>",
+ "O Švicarskoj unutar DACH-a: <q>since DACH is led through Germany, it's of course easy to assume that it's the same as Germany, but it isn't.</q> Navedene razlike: politički sustav, <q>how we value security</q> i <q>we are a country of banks</q>.",
+ "O brzini: <q>if it's of relevance for global, it goes rather fast, if it's just a Swiss need you need to go through the rows.</q> O dodatnom osoblju: ako regionalna razina kaže ne, <q>we will not ask</q> glavnog direktora. <q>So it's done.</q>",
+ "A sad dio koji svi zaborave. Pravilo o brzini uvedeno je riječima <q>that's my opinion, a rule of thumb</q>, uz dodatak <q>sometimes you can jump it</q>, i da se može nazvati nekoga više ako <q>you are really sure why you are calling them</q>.",
+ "Na slajdu to postaje: FINDING, pravilo iz iskustva osobe iznutra. Izostaviti ogradu pretvorilo bi mišljenje u činjenicu. Ta će osoba biti u dvorani i primijetit će."],
+ task:"Napiši rečenicu koju bi naglas rekao/la na slajdu 6 o ljestvama, s uključenom ogradom. Zatim napiši zašto te ograda čini vjerodostojnijim/om, a ne manje."},
+{id:"e5", t:"5. poglavlje · Ljudi i kultura, njihovim riječima",
+ p:["Iza 2. poglavlja 1. dijela: pri zapošljavanju se jako poticalo umrežavanje, a kave su pokazale <q>the power dynamics in the company, in the departments which were closest to me</q>. Zatim: <q>that is invisible in the org chart, right? You have certain managers which have been there for 20 years. They have way more influence than the others, even though they are on the same level.</q> Ovu smo rečenicu provjerili na tri transkripcije: riječ je <i>invisible</i>.",
+ "Iza 4. poglavlja: <q>we have five people</q>, deal makeri, koji <q>work across different brands, across different offerings, across different segmentations</q> i <q>help, usually in these cases, to find a way</q>. Vjerojatno švicarski tim: reci to. I ponuda: <q>It's not graspable. Also as an employee it's not graspable.</q> Ali i: <q>that also helps to be adaptable to the environment. Pros and cons.</q>",
+ "Iza 5. poglavlja: <q>We experienced way more pressure from the top</q> i <q>It's a joint adventure</q>. Slogan: <q>speed over perfection</q>, <q>really pushed also from the top</q>. Sigurnost: <q>it also highly depends which manager</q>, a s izgubljenim velikim poslom <q>you will feel it</q>. Sloboda: <q>if you perform well, you have quite a lot of freedom</q> i <q>as long as you perform, it's fine</q>."],
+ task:"Odaberi tri citata iz ovog poglavlja koja bi najradije branio/la u pitanjima nakon prezentacije. Za svaki u jednom retku reci što dokazuje."},
+{id:"e6", t:"6. poglavlje · Koliko možemo vjerovati?",
+ p:["Svi naši findings dolaze od jedne osobe, koja studira i radi u IBM-u oko godinu dana, u jedinici podrške glavnog direktora IBM-a Švicarska, i koja nam je ujedno predavač.",
+ "Taj položaj ima dvije strane. To je širok pogled: blizu vrha švicarske organizacije, u kontaktu s mnogim odjelima. Ali to je jedan pogled, s jednog mjesta, i može utjecati na ono što je odabrano da se kaže.",
+ "Naši podaci završavaju s drugim tromjesečjem 2026. IBM objavljuje rezultate trećeg tromjesečja 21. listopada u 17:00 po njujorškom vremenu, nekoliko sati nakon naše prezentacije. Ako netko pita, reći ćemo to.",
+ "Imenovati ograničenja nije slabost. To kolegij zove odvajanjem dokaza od pretpostavki, i dio je dobro utemeljene dijagnoze."],
+ task:"Netko iz publike pita: kako znate da to vrijedi za cijeli IBM, a ne samo za jednu osobu u Zürichu? Napiši svoj odgovor u četiri ili pet rečenica."}
+];
+
+P3.hr=[
+{id:"a1", t:"1. poglavlje · Etiketirati ili objasniti",
+ p:["Sad poznaješ priču i dokaze. 3. dio daje ti alate kojima ih kolegij objašnjava.",
+ "Prvo, najvažnija razlika za ocjenu. <b>Etiketirati</b> znači reći: IBM je matrica. <b>Objasniti</b> znači reći: IBM prodaje kroz tri jedinice istom klijentu, pa netko mora odlučiti tko vodi, i tu se usporava. Iste činjenice. Druga rečenica koristi teoriju da pokaže mehanizam, uzrok i posljedicu.",
+ "Naš okvir dolazi iz 6. poglavlja kolegija: <b>Organizational Viability Framework</b>. Organizacija ostaje održiva kad se tri stvari uklapaju: <b>smjer</b> (svrha, strategija), <b>struktura</b> (uloge, procesi, prava odlučivanja) i <b>ljudi</b> (motivacija, kultura, odnosi).",
+ "Unutar trokuta su tri napetosti, a održiva organizacija upravlja objema krajnostima svake umjesto da bira jednu: <b>ambideksternost</b>, istraživati novo nasuprot iskorištavanju onoga što danas radi; <b>prilagodljivost</b>, mijenjati se nasuprot ostati stabilan; <b>koherentnost</b>, autonomija nasuprot kontroli.",
+ "Cijela prezentacija prolazi ovaj trokut, kut po kut, i završava na napetostima."],
+ task:"Napiši jednu rečenicu o IBM-u koja samo etiketira, a zatim je preradi tako da objašnjava. Upotrijebi nešto iz 1. ili 2. dijela."},
+{id:"a2", t:"2. poglavlje · Nema jednog najboljeg načina",
+ p:["Teorija kontingencije kaže da ne postoji jedan najbolji način organiziranja. Prava struktura ovisi o okolini.",
+ "Tom Burns i G. M. Stalker dali su joj dvije klasične riječi. <b>Mehanicistička</b> organizacija ima strogu hijerarhiju i fiksna pravila: radi u stabilnoj okolini. <b>Organska</b> organizacija ima fleksibilne uloge i bočnu komunikaciju: radi kad se stvari brzo mijenjaju.",
+ "Naši slojevi su kontingencija na djelu. Svaki kat kuće odgovorio je na novu okolinu: hijerarhija za stabilno tržište, integracija za klijente koji su htjeli jedno rješenje, agilni timovi za softver i brzinu, ekosustav za AI i otvoreni kod.",
+ "Objašnjava i nešto što izgleda kao slabost. O konkurentima nam je rečeno: <q>in all the different offerings we have, we have a bit different competitors.</q> Svako poslovanje ima svoje tržište, pa odvojene jedinice imaju smisla. Zato ne preporučujemo njihovo spajanje.",
+ "Slijepa točka: kontingencija objašnjava usklađenost s okolinom, ali malo govori o moći i unutarnjoj politici."],
+ task:"Teorijom kontingencije objasni zašto IBM ostaje podijeljen na odvojena poslovanja iako njegovi klijenti kupuju od svih odjednom."},
+{id:"a3", t:"3. poglavlje · Samo raznolikost apsorbira raznolikost",
+ p:["<b>Zakon potrebne raznolikosti</b> W. Rossa Ashbyja: da bi se nosio sa situacijom, sustav treba barem onoliko mogućih odgovora koliko situacija ima varijacija. Samo raznolikost apsorbira raznolikost.",
+ "Zamisli vratara koji zna samo jednu vrstu obrane. Svaki drugi udarac je gol. Što više vrsta udaraca, to više vrsta obrana treba, i trebaju tamo gdje udarci dolaze, a ne u dalekom uredu.",
+ "IBM kao cjelina ima ogromnu raznolikost: <q>we actually have nearly everything</q>. To je Ashby u korist IBM-a, a i iznutra su nam to rekli: pomaže IBM-u da se prilagodi. Ali sposobnost odlučivanja je visoko na ljestvama. Na švicarskom rubu, gdje stižu lokalne situacije, raznolikost dostupnih odluka je mala. To je trenje.",
+ "Stafford Beer pretvorio je to u <b>Viable System Model</b>: održiva organizacija treba jedinice sa stvarnom operativnom autonomijom, plus koordinaciju koja drži cjelinu na okupu. U IBM-u Švicarska koordinacija prevladava nad autonomijom.",
+ "To je teorija iza Preporuke 1: dati državi određeni okvir odluka i postaviti rok za eskalacije."],
+ task:"Objasni Preporuku 1 Ashbyjevim zakonom, svojim riječima, koristeći riječ “raznolikost” najviše jednom."},
+{id:"a4", t:"4. poglavlje · Nevidljive razine",
+ p:["Svaka organizacija ima formalnu stranu, organigram, i <b>neformalnu organizaciju</b>: odnose, povjerenje i nepisana pravila koja odlučuju kako se posao stvarno radi. Dvije karte iz 1. dijela.",
+ "Edgar Schein opisuje kulturu na tri razine. <b>Artefakti</b>: ono što vidiš i čuješ, poput slogana <q>speed over perfection</q>. <b>Deklarirane vrijednosti</b>: ono što organizacija kaže da cijeni, poput THINK. <b>Temeljne pretpostavke</b>: ono u što ljudi vjeruju a da to ne kažu. Naša, kao tumačenje: rezultati kupuju slobodu, a tromjesečne brojke određuju sat.",
+ "Kad se ono što se govori i ono što se nagrađuje ne poklapa, postoji jaz između deklariranih i stvarno prakticiranih vrijednosti. Naš dokaz: sigurnost <q>highly depends which manager</q>.",
+ "Amy Edmondson osjećaj da možeš priznati pogrešku a da ne budeš kažnjen/a zove <b>psihološkom sigurnošću</b>. Osoba iz intervjua imala ju je, s malom pogreškom. Ne s velikim izgubljenim poslom.",
+ "To je teorija iza Preporuke 2: podržati ljude koji povezuju i educirati menadžere o psihološkoj sigurnosti, bez pretvaranja neformalnog u još jedan formalni sloj."],
+ task:"Objasni zašto je temeljna pretpostavka na našem Scheinovom slajdu označena kao INTERPRETATION i zašto je to upravo ono što bi Schein očekivao."},
+{id:"a5", t:"5. poglavlje · Gdje je IBM",
+ p:["Sad sve stavi na trokut.",
+ "<b>Ambideksternost</b>: IBM istražuje uglavnom kupujući tvrtke i kroz svoje istraživačke laboratorije. Nakon ljeta 2026. povučen je prema iskorištavanju: rezanje proračuna, tromjesečni ciljevi.",
+ "<b>Prilagodljivost</b>: mijenja se dodavanjem slojeva, pa se stabilnost gomila. Brz iznutra, <q>not fast enough</q> za tržište, riječima glavnog direktora.",
+ "<b>Koherentnost</b>: autonomija uz uvjet rezultata. Sloboda ako ostvaruješ, pitanja i središnji pritisak kad rezultati padnu.",
+ "Provjera održivosti iz kolegija: funkcionira li IBM danas? Da. Preživljava li? Da. Razvija li se za sutra? U opasnosti. Ovo posljednje je naša procjena i tako je i označavamo.",
+ "Snage i troškovi idu zajedno: širina koja IBM čini prilagodljivim ista je širina koju nitko ne može obuhvatiti."],
+ task:"Odaberi jednu od tri napetosti i obrani gdje smo smjestili IBM, koristeći jedan FACT i jedan FINDING."},
+{id:"a6", t:"6. poglavlje · Završni šef",
+ p:["Nakon prezentacije slijedi pet minuta pitanja, a pitati može ista osoba s kojom smo vodili intervju. Evo pet pitanja koja bi mogla doći.",
+ "<b>1.</b> Nije li švicarski okvir odlučivanja samo novi sloj, upravo ono što kažete da bi IBM trebao izbjegavati?",
+ "<b>2.</b> Kažete da lanac usporava Švicarsku. Koliki je trošak, konkretno?",
+ "<b>3.</b> Zašto to zovete problemom održivosti, ako je IBM profitabilan i star više od sto godina?",
+ "<b>4.</b> Vaša temeljna pretpostavka, tromjesečne brojke određuju sat: gdje je dokaz?",
+ "<b>5.</b> Kad biste mi mogli postaviti još jedno pitanje, koje bi to bilo?"],
+ task:"Odaberi pitanje koje ti je najteže i napiši svoj odgovor, onako kako bi ga rekao/la u dvorani.",
+ reveal:"Što sadrži dobar odgovor. <b>1.</b> Ne: to je skup prava odlučivanja unutar postojeće razine države, a ne nova kućica. Pošteno navedi njegovu cijenu. <b>2.</b> Primjer dodatnog osoblja i poslovi koji skliznu u sljedeće tromjesečje; reci da je pravilo o brzini bilo osobno pravilo iz iskustva. <b>3.</b> Održivost nije samo preživljavanje: funkcionirati danas, preživjeti i razvijati se za sutra. Pismo samog glavnog direktora dovodi u pitanje ovo treće. <b>4.</b> To je tumačenje izgrađeno na findings: speed over perfection guran odozgo, pritisak nakon drugog tromjesečja, poslovi koji prijeđu kraj tromjesečja. Reci da je naše. <b>5.</b> Iskoristi ga: pitaj kako bi se stvarno donosile odluke u švicarskom okviru, pa pitanja postanu razgovor."}
+];
+
+NAMES.hr=[
+{id:"n1", n:"Thomas J. Watson Sr.", y:"1874. - 1956.", h:"Povijest IBM-a", w:"Od 1914. vodio je tvrtku koja je postala IBM i učinio je globalnom.", i:"Smislio je moto THINK u 1910-ima. To je najstariji sloj naše kuće i jedna od deklariranih vrijednosti na Scheinovom slajdu.", s:"Slajdovi 4 i 8"},
+{id:"n2", n:"Lou Gerstner", y:"rođen 1942.", h:"Povijest IBM-a", w:"Glavni direktor IBM-a od 1993. do 2002., doveden izvana u najgoroj krizi tvrtke.", i:"1993. zaustavio je plan podjele IBM-a na odvojene tvrtke: “we made a very important decision to keep the company together.” To je naš sloj integracije.", s:"Slajd 4"},
+{id:"n3", n:"Arvind Krishna", y:"glavni direktor od 2020.", h:"IBM danas", w:"Sadašnji glavni direktor i predsjednik IBM-a.", i:"Autor pisma iz srpnja 2026.: “We did not adapt and move quickly enough.” Prvi citat naše prezentacije.", s:"Slajd 2, i vrh ljestava na slajdu 6"},
+{id:"n4", n:"W. Ross Ashby", y:"1903. - 1972.", h:"Teorija · 6. poglavlje", w:"Britanski psihijatar i jedan od osnivača kibernetike, znanosti o upravljanju i povratnoj sprezi.", i:"Zakon potrebne raznolikosti: samo raznolikost apsorbira raznolikost. Sposobnost odgovora mora biti tamo gdje situacije stižu, na rubu.", s:"Slajdovi 6, 10 i 11"},
+{id:"n5", n:"Stafford Beer", y:"1926. - 2002.", h:"Teorija · 6. poglavlje", w:"Britanski mislilac o menadžmentu koji je primijenio kibernetiku na organizacije.", i:"Viable System Model: održiva organizacija treba jedinice s operativnom autonomijom plus koordinaciju cjeline. U IBM-u Švicarska prevladava koordinacija.", s:"Slajdovi 6 i 11"},
+{id:"n6", n:"Tom Burns i G. M. Stalker", y:"1961.", h:"Teorija · kontingencija", w:"Britanski istraživači koji su proučavali kako se tvrtke nose s tehnološkim promjenama.", i:"Mehanicističke nasuprot organskim organizacijama: stroga hijerarhija odgovara stabilnom svijetu, fleksibilne uloge svijetu koji se mijenja. Nazivi naših slojeva dolaze od njih.", s:"Slajd 4"},
+{id:"n7", n:"Edgar Schein", y:"1928. - 2023.", h:"Teorija · 7. poglavlje", w:"Profesor na MIT-u, klasični autor o organizacijskoj kulturi.", i:"Tri razine kulture: artefakti, deklarirane vrijednosti, temeljne pretpostavke. Okvir našeg slajda o kulturi.", s:"Slajd 8"},
+{id:"n8", n:"Amy Edmondson", y:"rođena 1959.", h:"Teorija · 7. poglavlje", w:"Profesorica na Harvard Business School.", i:"Psihološka sigurnost: moći priznati pogreške, pitati i ne slagati se bez straha. U IBM-u ovisi o menadžeru, zato Preporuka 2 educira menadžere.", s:"Slajdovi 8 i 12"}
+];
+
+const PARTS={1:STORY,2:P2,3:P3};
 
 const UI={
-en:{lang:"Language",title:"The House of Layers",lede:"A story in three parts. You start knowing nothing about the company. By the end you can explain it to a room full of people, in your own words.",
+en:{namesT:"Names to know",namesLede:"Only the people our presentation mentions. Write what you remember first, then check.",namesWrite:"Who is this, and where do they appear in our talk? Write before you look.",namesCard:"Names to know",namesCardD:"Watson, Gerstner, Krishna, Ashby, Beer, Burns and Stalker, Schein, Edmondson.",who:"Who",idea:"In our talk",where:"Where",partW:"Part",finishP:"Finish Part {p}",endT2:"End of Part 2",endP2:"You now know which parts of the story are facts, which are findings and how far to trust them. Part 3 gives you the theory.",endT3:"End of the story",endP3:"You started knowing nothing about IBM. Your notebook now holds your own version of the whole presentation. Read it aloud once before Wednesday.",nbPart:"Part",lang:"Language",title:"The House of Layers",lede:"A story in three parts. You start knowing nothing about the company. By the end you can explain it to a room full of people, in your own words.",
  enterT:"Who is reading?",name:"Your name",pin:"Your code (4 to 8 digits)",enter:"Start reading",
  pinNote:"The name you type becomes the main character of the story. The code keeps your notebook yours: use the same name and code to come back, even on another device. Don't use a code you use anywhere else.",
  errName:"Write a name of at least 2 letters.",errPin:"The code must have 4 to 8 digits.",errWrong:"This name already exists with a different code. Check your code, or add your surname's initial.",
- hello:"Hello, {N}.",parts:[["Part 1","The stranger","You know nothing. A mystery, a company, a ladder, a storm."],["Part 2","The evidence","The real words, numbers and dates behind every scene. Available by Sunday."],["Part 3","The analyst","The names the course gives to everything you discovered. Available by Sunday."]],
+ hello:"Hello, {N}.",parts:[["Part 1","The stranger","You know nothing. A mystery, a company, a ladder, a storm."],["Part 2","The evidence","The real words, numbers and dates behind every scene, and how far to trust them."],["Part 3","The analyst","The course theories that explain what you discovered, and the final questions."]],
  soon:"Soon",open:"Open",notebook:"My notebook",switchP:"Change reader",
  write:"Write before you continue",minW:"{n} of {m} words",unlock:"Write at least {m} words to continue.",
  next:"Next chapter",prev:"Back",finish:"Finish Part 1",chooseFirst:"Choose an answer to continue the story.",
  nbT:"My notebook",nbLede:"Everything you wrote, in order. This is the beginning of your own script.",copy:"Copy all",copied:"Copied",copyFail:"Select the text and copy it by hand.",empty:"Nothing written yet.",
  endT:"End of Part 1",endP:"In Part 2 you will meet the real evidence behind every scene: the exact words of the insider, the numbers, the dates. In Part 3 you will learn the names the course gives to everything you just discovered.",
  back:"Back to the parts",saved:"Saved on this device",savedOnline:"Saved online",saving:"Saving…"},
-it:{lang:"Lingua",title:"La casa dei piani",lede:"Una storia in tre parti. All'inizio non sai niente dell'azienda. Alla fine sai spiegarla davanti a una sala piena, con parole tue.",
+it:{namesT:"I nomi da sapere",namesLede:"Solo le persone citate nella nostra presentazione. Prima scrivi quello che ricordi, poi controlla.",namesWrite:"Chi è, e dove compare nella nostra presentazione? Scrivi prima di guardare.",namesCard:"I nomi da sapere",namesCardD:"Watson, Gerstner, Krishna, Ashby, Beer, Burns e Stalker, Schein, Edmondson.",who:"Chi",idea:"Nella nostra presentazione",where:"Dove",partW:"Parte",finishP:"Concludi la Parte {p}",endT2:"Fine della Parte 2",endP2:"Ora sai quali parti della storia sono fatti, quali sono findings e quanto fidarti. La Parte 3 ti dà la teoria.",endT3:"Fine della storia",endP3:"Hai cominciato da zero su IBM. Ora il tuo quaderno contiene la tua versione di tutta la presentazione. Leggila ad alta voce una volta prima di mercoledì.",nbPart:"Parte",lang:"Lingua",title:"La casa dei piani",lede:"Una storia in tre parti. All'inizio non sai niente dell'azienda. Alla fine sai spiegarla davanti a una sala piena, con parole tue.",
  enterT:"Chi sta leggendo?",name:"Il tuo nome",pin:"Il tuo codice (da 4 a 8 cifre)",enter:"Inizia a leggere",
  pinNote:"Il nome che scrivi diventa il protagonista della storia. Il codice tiene il quaderno tuo: usa lo stesso nome e lo stesso codice per tornare, anche da un altro dispositivo. Non usare un codice che usi altrove.",
  errName:"Scrivi un nome di almeno 2 lettere.",errPin:"Il codice deve avere da 4 a 8 cifre.",errWrong:"Questo nome esiste già con un altro codice. Controlla il codice, oppure aggiungi l'iniziale del cognome.",
- hello:"Ciao, {N}.",parts:[["Parte 1","Lo straniero","Non sai niente. Un mistero, un'azienda, una scala, una tempesta."],["Parte 2","Le prove","Le parole vere, i numeri e le date dietro ogni scena. Pronta entro domenica."],["Parte 3","L'analista","I nomi che il corso dà a tutto quello che hai scoperto. Pronta entro domenica."]],
+ hello:"Ciao, {N}.",parts:[["Parte 1","Lo straniero","Non sai niente. Un mistero, un'azienda, una scala, una tempesta."],["Parte 2","Le prove","Le parole vere, i numeri e le date dietro ogni scena, e quanto fidarsi."],["Parte 3","L'analista","Le teorie del corso che spiegano quello che hai scoperto, e le domande finali."]],
  soon:"Presto",open:"Apri",notebook:"Il mio quaderno",switchP:"Cambia lettore",
  write:"Scrivi prima di continuare",minW:"{n} di {m} parole",unlock:"Scrivi almeno {m} parole per continuare.",
  next:"Capitolo successivo",prev:"Indietro",finish:"Concludi la Parte 1",chooseFirst:"Scegli una risposta per far proseguire la storia.",
  nbT:"Il mio quaderno",nbLede:"Tutto quello che hai scritto, in ordine. È l'inizio del tuo copione.",copy:"Copia tutto",copied:"Copiato",copyFail:"Seleziona il testo e copialo a mano.",empty:"Ancora niente di scritto.",
  endT:"Fine della Parte 1",endP:"Nella Parte 2 incontrerai le prove vere dietro ogni scena: le parole esatte di chi ci lavora, i numeri, le date. Nella Parte 3 imparerai i nomi che il corso dà a tutto quello che hai appena scoperto.",
  back:"Torna alle parti",saved:"Salvato su questo dispositivo",savedOnline:"Salvato online",saving:"Salvataggio…"},
-es:{lang:"Idioma",title:"La casa de los pisos",lede:"Una historia en tres partes. Empiezas sin saber nada de la empresa. Al final sabes explicarla ante una sala llena, con tus propias palabras.",
+es:{namesT:"Nombres que debes conocer",namesLede:"Solo las personas que cita nuestra presentación. Escribe primero lo que recuerdas, después comprueba.",namesWrite:"¿Quién es, y dónde aparece en nuestra presentación? Escribe antes de mirar.",namesCard:"Nombres que debes conocer",namesCardD:"Watson, Gerstner, Krishna, Ashby, Beer, Burns y Stalker, Schein, Edmondson.",who:"Quién",idea:"En nuestra presentación",where:"Dónde",partW:"Parte",finishP:"Terminar la Parte {p}",endT2:"Fin de la Parte 2",endP2:"Ya sabes qué partes de la historia son hechos, cuáles son findings y cuánto fiarte. La Parte 3 te da la teoría.",endT3:"Fin de la historia",endP3:"Empezaste sin saber nada de IBM. Tu cuaderno contiene ahora tu propia versión de toda la presentación. Léela en voz alta una vez antes del miércoles.",nbPart:"Parte",lang:"Idioma",title:"La casa de los pisos",lede:"Una historia en tres partes. Empiezas sin saber nada de la empresa. Al final sabes explicarla ante una sala llena, con tus propias palabras.",
  enterT:"¿Quién está leyendo?",name:"Tu nombre",pin:"Tu código (de 4 a 8 cifras)",enter:"Empezar a leer",
  pinNote:"El nombre que escribas será el protagonista de la historia. El código protege tu cuaderno: usa el mismo nombre y código para volver, incluso desde otro dispositivo. No uses un código que uses en otro sitio.",
  errName:"Escribe un nombre de al menos 2 letras.",errPin:"El código debe tener de 4 a 8 cifras.",errWrong:"Este nombre ya existe con otro código. Revisa el código o añade la inicial de tu apellido.",
- hello:"Hola, {N}.",parts:[["Parte 1","El forastero","No sabes nada. Un misterio, una empresa, una escalera, una tormenta."],["Parte 2","Las pruebas","Las palabras reales, los números y las fechas detrás de cada escena. Lista el domingo."],["Parte 3","El analista","Los nombres que el curso da a todo lo que has descubierto. Lista el domingo."]],
+ hello:"Hola, {N}.",parts:[["Parte 1","El forastero","No sabes nada. Un misterio, una empresa, una escalera, una tormenta."],["Parte 2","Las pruebas","Las palabras reales, los números y las fechas detrás de cada escena, y cuánto fiarse."],["Parte 3","El analista","Las teorías del curso que explican lo que has descubierto, y las preguntas finales."]],
  soon:"Pronto",open:"Abrir",notebook:"Mi cuaderno",switchP:"Cambiar de lector",
  write:"Escribe antes de seguir",minW:"{n} de {m} palabras",unlock:"Escribe al menos {m} palabras para seguir.",
  next:"Capítulo siguiente",prev:"Atrás",finish:"Terminar la Parte 1",chooseFirst:"Elige una respuesta para que la historia continúe.",
  nbT:"Mi cuaderno",nbLede:"Todo lo que has escrito, en orden. Es el comienzo de tu propio guion.",copy:"Copiar todo",copied:"Copiado",copyFail:"Selecciona el texto y cópialo a mano.",empty:"Todavía no has escrito nada.",
  endT:"Fin de la Parte 1",endP:"En la Parte 2 conocerás las pruebas reales detrás de cada escena: las palabras exactas de quien trabaja allí, los números, las fechas. En la Parte 3 aprenderás los nombres que el curso da a todo lo que acabas de descubrir.",
  back:"Volver a las partes",saved:"Guardado en este dispositivo",savedOnline:"Guardado en línea",saving:"Guardando…"},
-hr:{lang:"Jezik",title:"Kuća od katova",lede:"Priča u tri dijela. Počinješ ne znajući ništa o tvrtki. Na kraju je znaš objasniti pred punom dvoranom, svojim riječima.",
+hr:{namesT:"Imena koja treba znati",namesLede:"Samo osobe koje spominje naša prezentacija. Prvo napiši što pamtiš, zatim provjeri.",namesWrite:"Tko je to i gdje se pojavljuje u našoj prezentaciji? Napiši prije nego što pogledaš.",namesCard:"Imena koja treba znati",namesCardD:"Watson, Gerstner, Krishna, Ashby, Beer, Burns i Stalker, Schein, Edmondson.",who:"Tko",idea:"U našoj prezentaciji",where:"Gdje",partW:"Dio",finishP:"Završi {p}. dio",endT2:"Kraj 2. dijela",endP2:"Sad znaš koji su dijelovi priče činjenice, koji su findings i koliko im vjerovati. 3. dio daje ti teoriju.",endT3:"Kraj priče",endP3:"Počeo/la si ne znajući ništa o IBM-u. Tvoja bilježnica sad sadrži tvoju verziju cijele prezentacije. Pročitaj je jednom naglas prije srijede.",nbPart:"Dio",lang:"Jezik",title:"Kuća od katova",lede:"Priča u tri dijela. Počinješ ne znajući ništa o tvrtki. Na kraju je znaš objasniti pred punom dvoranom, svojim riječima.",
  enterT:"Tko čita?",name:"Tvoje ime",pin:"Tvoj kod (4 do 8 znamenki)",enter:"Počni čitati",
  pinNote:"Ime koje upišeš postaje glavni lik priče. Kod čuva tvoju bilježnicu: upotrijebi isto ime i kod da se vratiš, i s drugog uređaja. Ne koristi kod koji koristiš negdje drugdje.",
  errName:"Upiši ime od barem 2 slova.",errPin:"Kod mora imati 4 do 8 znamenki.",errWrong:"Ovo ime već postoji s drugim kodom. Provjeri kod ili dodaj početno slovo prezimena.",
- hello:"Bok, {N}.",parts:[["1. dio","Stranac","Ne znaš ništa. Misterij, tvrtka, ljestve, oluja."],["2. dio","Dokazi","Prave riječi, brojke i datumi iza svake scene. Spremno do nedjelje."],["3. dio","Analitičar","Imena koja kolegij daje svemu što si otkrio/la. Spremno do nedjelje."]],
+ hello:"Bok, {N}.",parts:[["1. dio","Stranac","Ne znaš ništa. Misterij, tvrtka, ljestve, oluja."],["2. dio","Dokazi","Prave riječi, brojke i datumi iza svake scene, i koliko im vjerovati."],["3. dio","Analitičar","Teorije iz kolegija koje objašnjavaju što si otkrio/la, i završna pitanja."]],
  soon:"Uskoro",open:"Otvori",notebook:"Moja bilježnica",switchP:"Promijeni čitatelja",
  write:"Napiši prije nego što nastaviš",minW:"{n} od {m} riječi",unlock:"Napiši barem {m} riječi da nastaviš.",
  next:"Sljedeće poglavlje",prev:"Natrag",finish:"Završi 1. dio",chooseFirst:"Odaberi odgovor da se priča nastavi.",
@@ -417,7 +831,7 @@ hr:{lang:"Jezik",title:"Kuća od katova",lede:"Priča u tri dijela. Počinješ n
  endT:"Kraj 1. dijela",endP:"U 2. dijelu upoznat ćeš stvarne dokaze iza svake scene: točne riječi osobe iznutra, brojke, datume. U 3. dijelu naučit ćeš imena koja kolegij daje svemu što si upravo otkrio/la.",
  back:"Natrag na dijelove",saved:"Spremljeno na ovom uređaju",savedOnline:"Spremljeno online",saving:"Spremanje…"}
 };
-const MINW=25;
+const MINW=25, NMIN=12;
 const ls={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 let lang=ls.get("hol-lang","en"); if(!UI[lang])lang="en";
 let profile=null, st=null, view="start", db=null, syncState="local", saveTimer=null, choiceShown={};
@@ -425,9 +839,10 @@ const app=document.getElementById("app");
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const U=()=>UI[lang];
 const words=s=>(s||"").trim().split(/\s+/).filter(Boolean).length;
-const slugify=s=>s.trim().toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,40);
+const slugify=s=>s.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,40);
 async function hash(s){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
-const fresh=()=>({ch:0,maxCh:0,answers:{},choices:{},updatedAt:0});
+const fresh=()=>({part:1,prog:{1:{ch:0,maxCh:0},2:{ch:0,maxCh:0},3:{ch:0,maxCh:0}},answers:{},choices:{},updatedAt:0});
+function norm(s){if(!s.prog){s.prog={1:{ch:s.ch||0,maxCh:s.maxCh||0}}}for(const k of [1,2,3])if(!s.prog[k])s.prog[k]={ch:0,maxCh:0};if(!s.part)s.part=1;if(!s.answers)s.answers={};if(!s.choices)s.choices={};return s}
 
 function langBar(){return `<div class="langs" role="group" aria-label="${U().lang}">${["en","it","es","hr"].map(l=>`<button class="pill" data-lang="${l}" aria-pressed="${l===lang}">${l.toUpperCase()}</button>`).join("")}</div>`}
 function fill(s){return s.replaceAll("{N}",`<b>${esc(profile?profile.name:"")}</b>`)}
@@ -439,6 +854,7 @@ function render(){
   if(view==="read")return renderRead();
   if(view==="nb")return renderNb();
   if(view==="end")return renderEnd();
+  if(view==="names")return renderNames();
 }
 function renderStart(){
   const u=U();
@@ -471,7 +887,7 @@ function renderStart(){
     if(remote&&remote.pinHash&&remote.pinHash!==ph){er.textContent=u.errWrong;er.hidden=false;return}
     profile={slug,name,pinHash:ph};
     const a=local&&local.state||null, b=remote&&remote.state||null;
-    st=(a&&b)?((a.updatedAt||0)>=(b.updatedAt||0)?a:b):(a||b||seed||fresh());
+    st=norm((a&&b)?((a.updatedAt||0)>=(b.updatedAt||0)?a:b):(a||b||seed||fresh()));
     ls.set("hol-last",name); persist(true); view="parts"; render();
   });
 }
@@ -479,27 +895,29 @@ function renderParts(){
   const u=U();
   app.innerHTML=`<div class="top"><span class="mono">${u.title}</span>${langBar()}</div>
   <h1>${fill(u.hello).replace(/<\/?b>/g,"")}</h1>
-  <div class="parts">${u.parts.map((p,i)=>`<button class="part" data-part="${i}" ${i>0?"disabled":""}><span class="num">${i+1}</span><span><b>${p[1]}</b><br>${p[2]}</span><span class="mono">${i>0?u.soon:u.open}</span></button>`).join("")}</div>
+  <div class="parts">${u.parts.map((p,i)=>{const pr=st.prog[i+1],tot=PARTS[i+1][lang].length;const done=PARTS[i+1][lang].filter(c=>words(st.answers[c.id])>=MINW).length;return `<button class="part" data-part="${i+1}"><span class="num">${i+1}</span><span><b>${p[1]}</b><br>${p[2]}</span><span class="mono">${done}/${tot}</span></button>`}).join("")}
+  <button class="part" data-names="1"><span class="num">#</span><span><b>${u.namesCard}</b><br>${u.namesCardD}</span><span class="mono">${NAMES[lang].filter(n=>words(st.answers[n.id])>=NMIN).length}/${NAMES[lang].length}</span></button></div>
   <div class="row"><button class="btn" id="nbB">${u.notebook}</button><button class="btn" id="swB">${u.switchP}</button><span class="sync" id="sy"></span></div>`;
   setSync();
-  app.querySelector('[data-part="0"]').onclick=()=>{view="read";render();window.scrollTo(0,0)};
+  app.querySelectorAll("[data-part]").forEach(b=>b.onclick=()=>{st.part=+b.dataset.part;persist();view="read";render();window.scrollTo(0,0)});
+  app.querySelector("[data-names]").onclick=()=>{view="names";render();window.scrollTo(0,0)};
   document.getElementById("nbB").onclick=()=>{view="nb";render()};
   document.getElementById("swB").onclick=()=>{profile=null;st=null;view="start";render()};
 }
 function stepsBar(){
-  const S=STORY[lang];
-  return `<div class="bar"><div class="steps">${S.map((c,i)=>`<button class="step${st.answers[c.id]&&words(st.answers[c.id])>=MINW?" done":""}" data-go="${i}" aria-current="${i===st.ch}" ${i>st.maxCh?"disabled":""} aria-label="${esc(c.t)}">${i===0?"P":i}</button>`).join("")}</div><button class="btn" id="nbB" style="padding:5px 10px;font-size:13px">${U().notebook}</button></div>`;
+  const S=PARTS[st.part][lang], pr=st.prog[st.part];
+  return `<div class="bar"><div class="steps">${S.map((c,i)=>`<button class="step${st.answers[c.id]&&words(st.answers[c.id])>=MINW?" done":""}" data-go="${i}" aria-current="${i===pr.ch}" ${i>pr.maxCh?"disabled":""} aria-label="${esc(c.t)}">${st.part===1?(i===0?"P":i):i+1}</button>`).join("")}</div><button class="btn" id="nbB" style="padding:5px 10px;font-size:13px">${U().notebook}</button></div>`;
 }
 function renderRead(){
-  const u=U(), S=STORY[lang], c=S[st.ch];
+  const u=U(), S=PARTS[st.part][lang], pr=st.prog[st.part], c=S[pr.ch];
   const chosen=st.choices[c.id];
   const hasChoice=!!c.choice;
   const showRest=!hasChoice||chosen!=null;
   const ans=st.answers[c.id]||"";
-  const n=words(ans), ok=n>=MINW, last=st.ch===S.length-1;
+  const n=words(ans), ok=n>=MINW, last=pr.ch===S.length-1;
   app.innerHTML=`${stepsBar()}
   <article class="ch">
-    <span class="mono">${u.title} · ${u.parts[0][0]}</span>
+    <span class="mono">${u.title} · ${u.parts[st.part-1][0]}</span>
     <h2>${esc(c.t)}</h2>
     ${c.p.map(p=>`<p>${fill(p)}</p>`).join("")}
     ${hasChoice?`<div class="choice"><p class="q">${esc(c.choice.q)}</p>
@@ -511,38 +929,55 @@ function renderRead(){
       <p class="q">${esc(c.task)}</p>
       <label for="ta" class="mono" style="position:absolute;left:-9999px">${esc(c.task)}</label>
       <textarea id="ta">${esc(ans)}</textarea>
+      ${c.reveal?`<div class="keys" id="rv" ${ok?"":"hidden"}><p style="margin:0">${c.reveal}</p></div>`:""}
       <div class="row" style="justify-content:space-between"><span class="count${ok?" ok":""}" id="cnt">${u.minW.replace("{n}",n).replace("{m}",MINW)}</span><span class="sync" id="sy"></span></div>
     </div>
     <div class="row" style="justify-content:space-between">
-      <button class="btn" id="pv" ${st.ch===0?"disabled":""}>← ${u.prev}</button>
-      <button class="btn primary" id="nx" ${ok?"":"disabled"} title="${ok?"":u.unlock.replace("{m}",MINW)}">${last?u.finish:u.next} →</button>
+      <button class="btn" id="pv" ${pr.ch===0?"disabled":""}>← ${u.prev}</button>
+      <button class="btn primary" id="nx" ${ok?"":"disabled"} title="${ok?"":u.unlock.replace("{m}",MINW)}">${last?u.finishP.replace("{p}",st.part):u.next} →</button>
     </div>`:""}
   </article>`;
   setSync();
-  app.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{st.ch=+b.dataset.go;persist();render();window.scrollTo(0,0)});
+  app.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{pr.ch=+b.dataset.go;persist();render();window.scrollTo(0,0)});
   document.getElementById("nbB").onclick=()=>{view="nb";render();window.scrollTo(0,0)};
   app.querySelectorAll("[data-opt]").forEach(b=>b.onclick=()=>{st.choices[c.id]=+b.dataset.opt;persist();render()});
   const ta=document.getElementById("ta");
-  if(ta){ta.addEventListener("input",()=>{st.answers[c.id]=ta.value;const k=words(ta.value),good=k>=MINW;const cnt=document.getElementById("cnt");cnt.textContent=u.minW.replace("{n}",k).replace("{m}",MINW);cnt.classList.toggle("ok",good);document.getElementById("nx").disabled=!good;persist()});
-    document.getElementById("pv").onclick=()=>{st.ch--;persist();render();window.scrollTo(0,0)};
-    document.getElementById("nx").onclick=()=>{if(last){view="end";persist(true);render();window.scrollTo(0,0);return}st.ch++;st.maxCh=Math.max(st.maxCh,st.ch);persist(true);render();window.scrollTo(0,0)};}
+  if(ta){ta.addEventListener("input",()=>{st.answers[c.id]=ta.value;const k=words(ta.value),good=k>=MINW;const cnt=document.getElementById("cnt");cnt.textContent=u.minW.replace("{n}",k).replace("{m}",MINW);cnt.classList.toggle("ok",good);document.getElementById("nx").disabled=!good;const rv=document.getElementById("rv");if(rv)rv.hidden=!good;persist()});
+    document.getElementById("pv").onclick=()=>{pr.ch--;persist();render();window.scrollTo(0,0)};
+    document.getElementById("nx").onclick=()=>{if(last){view="end";persist(true);render();window.scrollTo(0,0);return}pr.ch++;pr.maxCh=Math.max(pr.maxCh,pr.ch);persist(true);render();window.scrollTo(0,0)};}
 }
-function nbText(){const S=STORY[lang];return S.filter(c=>st.answers[c.id]).map(c=>`${c.t}\n${c.task}\n\n${st.answers[c.id].trim()}`).join("\n\n* * *\n\n")}
+function nbItems(){const u=U();const out=[];[1,2,3].forEach(p=>PARTS[p][lang].forEach(c=>{if(st.answers[c.id]&&st.answers[c.id].trim())out.push({k:`${u.partW} ${p} · ${c.t}`,q:c.task,a:st.answers[c.id]})}));NAMES[lang].forEach(n=>{if(st.answers[n.id]&&st.answers[n.id].trim())out.push({k:u.namesT,q:n.n,a:st.answers[n.id]})});return out}
+function nbText(){return nbItems().map(x=>`${x.k}\n${x.q}\n\n${x.a.trim()}`).join("\n\n* * *\n\n")}
 function renderNb(){
-  const u=U(), S=STORY[lang];
-  const items=S.filter(c=>st.answers[c.id]&&st.answers[c.id].trim());
+  const u=U(), items=nbItems();
   app.innerHTML=`<div class="top"><span class="mono">${u.title}</span>${langBar()}</div>
   <h1>${u.nbT}</h1><p class="lede">${u.nbLede}</p>
-  <div class="nb">${items.length?items.map(c=>`<section><span class="mono">${esc(c.t)}</span><h3>${esc(c.task)}</h3><p>${esc(st.answers[c.id])}</p></section>`).join(""):`<p class="note">${u.empty}</p>`}</div>
+  <div class="nb">${items.length?items.map(x=>`<section><span class="mono">${esc(x.k)}</span><h3>${esc(x.q)}</h3><p>${esc(x.a)}</p></section>`).join(""):`<p class="note">${u.empty}</p>`}</div>
   <div class="row"><button class="btn primary" id="cp" ${items.length?"":"disabled"}>${u.copy}</button><button class="btn" id="bk">${u.back}</button><span class="note" id="cpm"></span></div>`;
   document.getElementById("bk").onclick=()=>{view="parts";render()};
   document.getElementById("cp").onclick=()=>{const t=nbText(),m=document.getElementById("cpm");
     navigator.clipboard.writeText(t).then(()=>{m.textContent=u.copied}).catch(()=>{m.textContent=u.copyFail;const s=app.querySelector(".nb");const r=document.createRange();r.selectNodeContents(s);const sel=getSelection();sel.removeAllRanges();sel.addRange(r)})};
 }
+function renderNames(){
+  const u=U();
+  app.innerHTML=`<div class="top"><span class="mono">${u.title}</span>${langBar()}</div>
+  <h1>${u.namesT}</h1><p class="lede">${u.namesLede}</p>
+  <div class="nb">${NAMES[lang].map(n=>{const a=st.answers[n.id]||"",k=words(a),ok=k>=NMIN;return `<section class="card" style="border-left:4px solid var(--brick)">
+    <span class="mono">${esc(n.h)} · ${esc(n.y)}</span><h3 style="font-size:22px">${esc(n.n)}</h3>
+    <label class="mono" for="t-${n.id}">${u.namesWrite}</label>
+    <textarea id="t-${n.id}" data-n="${n.id}" style="min-height:90px">${esc(a)}</textarea>
+    <span class="count${ok?" ok":""}" id="c-${n.id}">${u.minW.replace("{n}",k).replace("{m}",NMIN)}</span>
+    <div class="keys" id="r-${n.id}" ${ok?"":"hidden"}><p style="margin:0"><b>${u.who}:</b> ${esc(n.w)}</p><p style="margin:6px 0 0"><b>${u.idea}:</b> ${esc(n.i)}</p><p style="margin:6px 0 0"><b>${u.where}:</b> ${esc(n.s)}</p></div>
+  </section>`}).join("")}</div>
+  <div class="row"><button class="btn" id="bk">${u.back}</button><span class="sync" id="sy"></span></div>`;
+  setSync();
+  app.querySelectorAll("[data-n]").forEach(ta=>ta.addEventListener("input",()=>{const id=ta.dataset.n;st.answers[id]=ta.value;const k=words(ta.value),ok=k>=NMIN;const c=document.getElementById("c-"+id);c.textContent=u.minW.replace("{n}",k).replace("{m}",NMIN);c.classList.toggle("ok",ok);document.getElementById("r-"+id).hidden=!ok;persist()}));
+  document.getElementById("bk").onclick=()=>{view="parts";render()};
+}
 function renderEnd(){
   const u=U();
   app.innerHTML=`<div class="top"><span class="mono">${u.title}</span>${langBar()}</div>
-  <div class="end"><h1 style="font-size:clamp(28px,5vw,42px)">${u.endT}</h1><p style="margin:0">${u.endP}</p>
+  <div class="end"><h1 style="font-size:clamp(28px,5vw,42px)">${st.part===1?u.endT:st.part===2?u.endT2:u.endT3}</h1><p style="margin:0">${st.part===1?u.endP:st.part===2?u.endP2:u.endP3}</p>
   <div class="row"><button class="btn primary" id="nbB">${u.notebook}</button><button class="btn" id="bk">${u.back}</button></div></div>`;
   document.getElementById("nbB").onclick=()=>{view="nb";render()};
   document.getElementById("bk").onclick=()=>{view="parts";render()};
