@@ -74,6 +74,26 @@ textarea:focus,.opt:focus-visible,.tab:focus-visible,button:focus-visible{outlin
 table.res{border-collapse:collapse;width:100%;margin:10px 0;font-size:15px}
 table.res td,table.res th{border-bottom:1px solid var(--rule);padding:6px 4px;text-align:left}
 [hidden]{display:none!important}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 14px}
+.chips button{font-family:var(--mono);font-size:13px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);padding:8px 11px;cursor:pointer}
+.chips button.on{background:var(--hi);color:var(--on-hi)}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mcol{display:flex;flex-direction:column;gap:6px}
+.mi{font-family:var(--body);font-size:15px;line-height:1.35;text-align:left;border:1.5px solid var(--rule);background:var(--paper);color:var(--ink);padding:9px 10px;cursor:pointer}
+.mi.concept{font-family:var(--mono);font-size:13px}
+.mi.sel{border-color:var(--ink);box-shadow:inset 4px 0 0 var(--hi)}
+.mi.done{border-color:var(--ok);background:var(--ok-bg);cursor:default}
+.mi.no{border-color:var(--bad);background:var(--bad-bg)}
+.srow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;border-top:1px solid var(--rule);padding:10px 0}
+.srow .it{flex:1 1 260px}
+.srow .cb{display:flex;flex-wrap:wrap;gap:5px}
+.srow .cb button{font-family:var(--mono);font-size:12px;border:1.5px solid var(--rule);background:var(--paper);color:var(--ink);padding:6px 8px;cursor:pointer}
+.srow .cb button.right{border-color:var(--ok);background:var(--ok-bg)}
+.srow .cb button.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.srow .sw{flex-basis:100%;font-size:14px;color:var(--ink-2);display:none}
+.srow .sw.show{display:block}
+.hbar{height:6px;background:var(--rule);margin:8px 0 14px}.hbar i{display:block;height:100%;background:var(--hi);transition:width 1s linear}
+@media (max-width:620px){.mgrid{grid-template-columns:1fr}}
 @media (max-width:560px){.bar{top:0;position:relative}}
 </style>
 </head>
@@ -83,29 +103,29 @@ table.res td,table.res th{border-bottom:1px solid var(--rule);padding:6px 4px;te
   <a class="back mono" href="./">← Sette Lenti</a>
   <h1>Pronti per <em>l'esame</em></h1>
   <p class="mono muted" style="margin:0 0 10px">OSP-1 · Joël Maier · Esame 28.10.2026 · 14:00</p>
-  <p class="lede">Qui trovi il capitolo 7, che mancava, un allenamento sul capitolo 7 e una simulazione completa nel formato vero: 50 punti, 60 minuti, parti A, B e C. Le domande sono in inglese come all'esame, le spiegazioni in italiano.</p>
+  <p class="lede">Per ogni capitolo: quiz, collega la frase alla teoria, smista. Poi lo shuffle su tutti i capitoli, la simulazione completa nel formato vero (50 punti, 60 minuti) e l'hard mode. Domande in inglese come all'esame, spiegazioni in italiano.</p>
 </header>
 
 <nav class="tabs" role="tablist">
-  <button class="tab" role="tab" data-v="lez">Capitolo 7 · lezione</button>
-  <button class="tab" role="tab" data-v="drill">Capitolo 7 · allenamento</button>
+  <button class="tab" role="tab" data-v="cap">Capitoli 1–7</button>
+  <button class="tab" role="tab" data-v="mix">Shuffle</button>
   <button class="tab" role="tab" data-v="sim">Simulazione d'esame</button>
-  <button class="tab" role="tab" data-v="tips">Come funziona l'esame</button>
+  <button class="tab" role="tab" data-v="hard">Hard mode</button>
+  <button class="tab" role="tab" data-v="tips">Regole d'esame</button>
 </nav>
 
-<section id="v-lez" hidden>
-  <div class="lessons-nav" id="lnav"></div>
-  <div id="lbody"></div>
-  <div><button class="btn ghost" id="lprev">← Indietro</button><button class="btn" id="lnext">Avanti →</button></div>
+<section id="v-cap" hidden>
+  <div class="chips" id="capNav"></div>
+  <div id="capBody"></div>
 </section>
 
-<section id="v-drill" hidden>
-  <div class="sheet"><h2>Allenamento</h2><p class="mono muted" style="margin:-6px 0 12px">Capitolo 7 · stile esame</p>
-  <p>Rispondi, poi leggi perché. Le risposte sbagliate restano evidenziate così vedi dove ripassare.</p>
-  <p class="mono" id="drillScore"></p>
-  <div id="drillQ"></div>
-  <button class="btn ghost" id="drillReset">Ricomincia</button></div>
+<section id="v-mix" hidden>
+  <div class="sheet"><h2>Shuffle</h2><p class="mono muted" style="margin:-6px 0 12px">Tutti i capitoli · 15 domande a caso</p>
+  <p>Domande mescolate da tutti i sette capitoli, come all'esame: non sai mai da quale argomento arriva la prossima.</p>
+  <p class="mono" id="mixScore"></p><div id="mixQ"></div><button class="btn" id="mixNew">Nuovo giro</button></div>
 </section>
+
+<section id="v-hard" hidden><div class="sheet" id="hardBox"></div></section>
 
 <section id="v-sim" hidden>
   <div class="sheet" id="simIntro">
@@ -160,6 +180,7 @@ table.res td,table.res th{border-bottom:1px solid var(--rule);padding:6px 4px;te
 </section>
 </div>
 
+<script src="exam-data.js"></script>
 <script>
 (function(){
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -167,7 +188,7 @@ const store={get(k,d){try{const v=localStorage.getItem('sl-exam-'+k);return v?JS
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
 /* ---------- tabs ---------- */
-function show(v){$$('.tab').forEach(t=>t.setAttribute('aria-selected',t.dataset.v===v));['lez','drill','sim','tips'].forEach(x=>$('#v-'+x).hidden=x!==v);store.set('tab',v);scrollTo(0,0);}
+function show(v){$$('.tab').forEach(t=>t.setAttribute('aria-selected',t.dataset.v===v));['cap','mix','sim','hard','tips'].forEach(x=>$('#v-'+x).hidden=x!==v);if(v==='mix'&&!mixSet.length)newMix();if(v==='hard')hardIntro();store.set('tab',v);scrollTo(0,0);}
 $$('.tab').forEach(t=>t.onclick=()=>show(t.dataset.v));
 
 /* ---------- chapter 7 lessons ---------- */
@@ -280,9 +301,9 @@ function renderL(){li=Math.max(0,Math.min(L.length-1,li));store.set('lesson',li)
   $('#lnav').innerHTML=L.map((x,i)=>`<button class="${i===li?'on':''}" data-i="${i}">${esc(x.t.split(' · ')[0])}</button>`).join('');
   $$('#lnav button').forEach(b=>b.onclick=()=>{li=+b.dataset.i;renderL();});
   $('#lbody').innerHTML=`<div class="sheet"><h2>${esc(L[li].t.split(' · ').slice(1).join(' · '))}</h2><p class="mono muted" style="margin:-6px 0 12px">Capitolo 7 · People, culture &amp; organizational learning</p>${L[li].h}</div>`;
-  $('#lprev').disabled=li===0;$('#lnext').textContent=li===L.length-1?'Vai all’allenamento →':'Avanti →';}
-$('#lprev').onclick=()=>{li--;renderL();scrollTo(0,0);};
-$('#lnext').onclick=()=>{if(li===L.length-1){show('drill');return;}li++;renderL();scrollTo(0,0);};
+  $('#lprev').disabled=li===0;$('#lnext').disabled=li===L.length-1;
+  $('#lprev').onclick=()=>{li--;renderL();$('#lnav').scrollIntoView({block:'start'});};
+  $('#lnext').onclick=()=>{li++;renderL();$('#lnav').scrollIntoView({block:'start'});};}
 
 /* ---------- question helpers ---------- */
 // [stem, question, options, correct index, explanation (it)]
@@ -309,14 +330,85 @@ const D=[
 ["","What does the course say about motivation and organizational design?",["Motivation can be designed directly through the right incentive scheme","Organizations can create conditions for motivation, but cannot simply order it","Motivation is irrelevant if roles are clearly formalized","Only money motivates in large organizations"],1,"Takeaway della slide: le organizzazioni possono creare le condizioni (ruoli, autonomia, feedback, opportunità di imparare), non possono ordinare motivazione, impegno o fiducia."]
 ];
 mixQ(D,5);
-let dAns=store.get('drill',{});
-function renderD(){const box=$('#drillQ');box.innerHTML=D.map((q,i)=>qHTML(q,'d'+i)).join('');
-  box.querySelectorAll('.q').forEach((el,i)=>{const id='d'+i;const btns=[...el.querySelectorAll('.opt')];
-    const paint=()=>{const a=dAns[id];if(a===undefined)return;btns.forEach((b,k)=>{b.disabled=true;if(k===D[i][3])b.classList.add('ok');else if(k===a)b.classList.add('bad');});el.querySelector('.why').classList.add('show');};
-    btns.forEach((b,k)=>b.onclick=()=>{if(dAns[id]!==undefined)return;dAns[id]=k;store.set('drill',dAns);paint();score();});paint();});
-  score();}
-function score(){const n=Object.keys(dAns).length,ok=D.filter((q,i)=>dAns['d'+i]===q[3]).length;$('#drillScore').textContent=`${ok} giuste su ${n} risposte · ${D.length} domande`;}
-$('#drillReset').onclick=()=>{dAns={};store.set('drill',dAns);renderD();};
+const EX=window.EX||{},HARD=window.HARD||[];
+Object.keys(EX).forEach(n=>{if(EX[n].quiz)mixQ(EX[n].quiz,+n*13);});mixQ(HARD,97);
+EX[7].quiz=D;
+const shuf=a=>{a=a.slice();for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]];}return a;};
+let qa=store.get('qa',{});
+// a single-choice list with instant feedback; answers kept per question key
+function quizList(box,list,keyOf,onScore){
+  box.innerHTML=list.map((q,i)=>qHTML(q,keyOf(i))).join('');
+  box.querySelectorAll('.q').forEach((el,i)=>{const id=keyOf(i),q=list[i];const btns=[...el.querySelectorAll('.opt')];
+    const paint=()=>{const a=qa[id];if(a===undefined)return;btns.forEach((b,k)=>{b.disabled=true;if(k===q[3])b.classList.add('ok');else if(k===a)b.classList.add('bad');});el.querySelector('.why').classList.add('show');};
+    btns.forEach((b,k)=>b.onclick=()=>{if(qa[id]!==undefined)return;qa[id]=k;store.set('qa',qa);paint();onScore&&onScore();});paint();});
+  onScore&&onScore();}
+const scoreTxt=(list,keyOf)=>{let n=0,ok=0;list.forEach((q,i)=>{const a=qa[keyOf(i)];if(a!==undefined){n++;if(a===q[3])ok++;}});return `${ok} giuste su ${n} risposte · ${list.length} domande`;};
+
+let cap=store.get('cap',7);
+function renderCap(){
+  $('#capNav').innerHTML=[1,2,3,4,5,6,7].map(n=>`<button class="${n===cap?'on':''}" data-n="${n}">Cap. ${n}</button>`).join('');
+  $$('#capNav button').forEach(b=>b.onclick=()=>{cap=+b.dataset.n;store.set('cap',cap);renderCap();});
+  const E=EX[cap];const key=i=>'c'+cap+'-'+i;
+  $('#capBody').innerHTML=`
+   <div class="sheet"><h2>Cap. ${cap} · ${esc(E.t)}</h2><p class="mono muted" style="margin:-6px 0 12px">Quiz · Collega · Smista</p>
+   <p>${cap===7?'Prima la lezione (nuova), poi i tre esercizi.':'La lezione di questo capitolo è nel <a href="./">sito principale</a>, scheda Lezioni. Qui ti alleni.'}</p></div>
+   ${cap===7?'<div class="lessons-nav" id="lnav"></div><div id="lbody"></div><div style="margin-bottom:16px"><button class="btn ghost" id="lprev">← Indietro</button><button class="btn" id="lnext">Avanti →</button></div>':''}
+   <div class="sheet"><h2>Quiz</h2><p class="mono muted" style="margin:-6px 0 12px">Stile esame · una risposta</p><p class="mono" id="qScore"></p><div id="qBox"></div><button class="btn ghost" id="qReset">Ricomincia il quiz</button></div>
+   <div class="sheet"><h2>Collega</h2><p class="mono muted" style="margin:-6px 0 12px">Frase → concetto o teoria</p><p>Tocca una frase a sinistra, poi il concetto giusto a destra.</p><p class="mono" id="mScore"></p><div id="mBox"></div><button class="btn ghost" id="mReset">Rimescola</button></div>
+   <div class="sheet"><h2>Smista</h2><p class="mono muted" style="margin:-6px 0 12px">${esc(E.sort.intro)}</p><p class="mono" id="sScore"></p><div id="sBox"></div><button class="btn ghost" id="sReset">Ricomincia</button></div>`;
+  if(cap===7)renderL();
+  quizList($('#qBox'),E.quiz,key,()=>{$('#qScore').textContent=scoreTxt(E.quiz,key);});
+  $('#qReset').onclick=()=>{E.quiz.forEach((_,i)=>delete qa[key(i)]);store.set('qa',qa);renderCap();};
+  renderMatch(E.match);$('#mReset').onclick=()=>renderMatch(E.match);
+  renderSort(E.sort);$('#sReset').onclick=()=>renderSort(E.sort);
+}
+function renderMatch(pairs){
+  const left=shuf(pairs.map((p,i)=>i)),right=shuf(pairs.map((p,i)=>i));let sel=null,errs=0,done=0;
+  const box=$('#mBox');
+  box.innerHTML=`<div class="mgrid"><div class="mcol">${left.map(i=>`<button class="mi" data-l="${i}">${esc(pairs[i][0])}</button>`).join('')}</div><div class="mcol">${right.map(i=>`<button class="mi concept" data-r="${i}">${esc(pairs[i][1])}</button>`).join('')}</div></div><div class="why" id="mWhy"></div>`;
+  const sc=()=>$('#mScore').textContent=`${done} / ${pairs.length} collegate · ${errs} errori`;sc();
+  box.querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>{if(b.classList.contains('done'))return;box.querySelectorAll('[data-l]').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');sel=+b.dataset.l;});
+  box.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{if(sel===null||b.classList.contains('done'))return;const r=+b.dataset.r;const lb=box.querySelector(`[data-l="${sel}"]`);
+    if(r===sel){lb.classList.remove('sel');lb.classList.add('done');b.classList.add('done');done++;const w=$('#mWhy');w.innerHTML=`<b>${esc(pairs[r][1])}</b> · ${esc(pairs[r][2])}`;w.classList.add('show');sel=null;}
+    else{errs++;b.classList.add('no');setTimeout(()=>b.classList.remove('no'),600);}
+    sc();});
+}
+function renderSort(S){
+  const items=shuf(S.items);let ok=0,n=0;const box=$('#sBox');
+  box.innerHTML=items.map((it,i)=>`<div class="srow"><span class="it">${esc(it[0])}</span><span class="cb">${S.cats.map((c,k)=>`<button data-i="${i}" data-k="${k}">${esc(c)}</button>`).join('')}</span><span class="sw">${esc(it[2])}</span></div>`).join('');
+  const sc=()=>$('#sScore').textContent=`${ok} giuste su ${n} · ${items.length} elementi`;sc();
+  box.querySelectorAll('.srow').forEach((row,i)=>{row.querySelectorAll('button').forEach(b=>b.onclick=()=>{if(row.dataset.done)return;row.dataset.done=1;n++;const k=+b.dataset.k,ans=items[i][1];
+    row.querySelectorAll('button').forEach(x=>{if(+x.dataset.k===ans)x.classList.add('right');});if(k!==ans)b.classList.add('wrong');else ok++;row.querySelector('.sw').classList.add('show');sc();});});
+}
+
+/* ---------- shuffle across all chapters ---------- */
+let mixSet=[];
+function newMix(){const all=[];Object.keys(EX).forEach(n=>EX[n].quiz.forEach((q,i)=>all.push({q,k:'c'+n+'-'+i})));
+  mixSet=shuf(all).slice(0,15);const keyOf=i=>'mix-'+Date.now()%100000+'-'+i;const keys=mixSet.map((_,i)=>keyOf(i));
+  mixSet.forEach((_,i)=>delete qa[keys[i]]);
+  quizList($('#mixQ'),mixSet.map(x=>x.q),i=>keys[i],()=>{$('#mixScore').textContent=scoreTxt(mixSet.map(x=>x.q),i=>keys[i]);});}
+$('#mixNew').onclick=()=>{newMix();$('#v-mix').scrollIntoView({block:'start'});};
+
+/* ---------- hard mode ---------- */
+const HSEC=45;let hard=null,htick=null;
+function hardIntro(){if(hard&&!hard.end)return;clearInterval(htick);
+  $('#hardBox').innerHTML=`<h2>Hard mode</h2><p class="mono muted" style="margin:-6px 0 12px">15 domande · 45 secondi ciascuna · niente aiuti</p>
+   <p>Le opzioni sbagliate sono quasi giuste: qui alleni le distinzioni sottili che all'esame fanno perdere punti (single-loop o efficiency? centralization o formalization? agency o transaction cost?).</p>
+   <p>Non vedi se hai risposto bene finché non finisci. Se il tempo scade, la domanda conta come sbagliata e si passa alla successiva.</p>
+   <button class="btn" id="hardGo">Inizia</button>`;
+  $('#hardGo').onclick=()=>{hard={i:0,ans:[],order:shuf(HARD.map((_,k)=>k))};hardQ();};}
+function hardQ(){clearInterval(htick);if(hard.i>=hard.order.length)return hardEnd();
+  const q=HARD[hard.order[hard.i]];let left=HSEC;
+  $('#hardBox').innerHTML=`<h2>Domanda ${hard.i+1} / ${hard.order.length}</h2><p class="mono muted" style="margin:-6px 0 4px">Hard mode · <span id="hLeft">${left}</span> s</p><div class="hbar"><i id="hBar" style="width:100%"></i></div>${qHTML(q,'h')}`;
+  $$('#hardBox .opt').forEach(b=>b.onclick=()=>{hard.ans[hard.i]=+b.dataset.i;hard.i++;hardQ();});
+  htick=setInterval(()=>{left--;$('#hLeft').textContent=left;$('#hBar').style.width=(left/HSEC*100)+'%';if(left<=0){hard.ans[hard.i]=-1;hard.i++;hardQ();}},1000);}
+function hardEnd(){clearInterval(htick);hard.end=true;
+  const ok=hard.order.filter((k,i)=>hard.ans[i]===HARD[k][3]).length;
+  $('#hardBox').innerHTML=`<h2>Risultato: ${ok} / ${hard.order.length}</h2><p class="mono muted" style="margin:-6px 0 12px">Hard mode</p>
+   <p>${ok>=12?'Ottimo: le distinzioni sottili le hai.':ok>=8?'Buono. Rileggi le spiegazioni delle sbagliate: sono le trappole tipiche.':'Rifallo dopo aver ripassato i capitoli: qui le opzioni sono fatte apposta per confondere.'}</p>
+   ${hard.order.map((k,i)=>{const q=HARD[k],a=hard.ans[i];return `<div class="q">${q[0]?`<p class="stem">${esc(q[0])}</p>`:''}<p class="ask">${esc(q[1])}</p>${q[2].map((o,j)=>`<button class="opt ${j===q[3]?'ok':(j===a?'bad':'')}" disabled>${String.fromCharCode(65+j)}. ${esc(o)}</button>`).join('')}${a===-1?'<p class="mono" style="color:var(--bad)">Tempo scaduto</p>':''}<div class="why show">${q[4]}</div></div>`;}).join('')}
+   <button class="btn" id="hardAgain">Rifai l'hard mode</button>`;
+  $('#hardAgain').onclick=()=>{hard=null;hardIntro();};scrollTo(0,0);}
 
 /* ---------- mock exam ---------- */
 const A=[
@@ -410,9 +502,9 @@ function results(){
 $('#simStart').onclick=simStart;$('#simEnd').onclick=simEnd;$('#simEnd2').onclick=simEnd;
 
 /* ---------- boot ---------- */
-renderL();renderD();
+renderCap();
 if(sim&&sim.done)results();else if(sim)openSim();
-show(location.hash==='#sim'?'sim':location.hash==='#drill'?'drill':location.hash==='#tips'?'tips':store.get('tab','lez'));
+const h=location.hash.slice(1);show(['cap','mix','sim','hard','tips'].includes(h)?h:(['cap','mix','sim','hard','tips'].includes(store.get('tab','cap'))?store.get('tab','cap'):'cap'));
 })();
 </script>
 </body>
