@@ -282,7 +282,7 @@ textarea:focus{border-color:var(--ink)}
     </div>
     <h1 id="h1"></h1>
     <p class="lede" id="lede"></p>
-    <a href="esame.html" style="display:inline-block;margin:6px 0 4px;font-family:var(--mono);font-size:13px;letter-spacing:.04em;background:var(--hi);color:var(--on-hi);padding:8px 12px;text-decoration:none;border:1.5px solid var(--ink)">→ Esame 28.10 · capitolo 7 e simulazione</a>
+    <a href="esame.html" id="examLink" style="display:inline-block;margin:6px 0 4px;font-family:var(--mono);font-size:13px;letter-spacing:.04em;background:var(--hi);color:var(--on-hi);padding:8px 12px;text-decoration:none;border:1.5px solid var(--ink)">→ Esame 28.10 · capitolo 7 e simulazione</a>
     <div class="lenses" id="lensRow" hidden></div>
     <p class="legend" id="legend" hidden></p>
   </header>
@@ -420,6 +420,7 @@ function renderChrome(){
   document.documentElement.lang=st.lang;
   document.getElementById("langSelect").value=st.lang;
   document.getElementById("langLabel").textContent=u.lang;
+  {const xl=document.getElementById("examLink");if(xl)xl.textContent={it:"→ Esame 28.10 · esercizi per capitolo e 10 prove d'esame",en:"→ Exam 28.10 · practice by chapter and 10 mock exams",de:"→ Prüfung 28.10 · Übungen pro Kapitel und 10 Probeprüfungen",es:"→ Examen 28.10 · ejercicios por capítulo y 10 exámenes de prueba",hr:"→ Ispit 28.10 · vježbe po poglavljima i 10 probnih ispita"}[st.lang]||xl.textContent;}
   document.getElementById("eyebrow").innerHTML=u.eyebrow.map(x=>`<span>${esc(x)}</span>`).join("");
   document.getElementById("h1").innerHTML=`${esc(u.h1a)} <em>${esc(u.h1b)}</em>`;
   document.getElementById("lede").innerHTML=esc(u.lede).replace(/\[\[(.+?)\]\]/,"<mark>$1</mark>");
