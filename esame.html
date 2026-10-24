@@ -81,8 +81,8 @@ table.res td,table.res th{border-bottom:1px solid var(--rule);padding:6px 4px;te
 <div class="wrap">
 <header>
   <a class="back mono" href="./">← Sette Lenti</a>
-  <div class="mono muted">OSP-1 · Joël Maier · Esame 28.10.2026 · 14:00</div>
   <h1>Pronti per <em>l'esame</em></h1>
+  <p class="mono muted" style="margin:0 0 10px">OSP-1 · Joël Maier · Esame 28.10.2026 · 14:00</p>
   <p class="lede">Qui trovi il capitolo 7, che mancava, un allenamento sul capitolo 7 e una simulazione completa nel formato vero: 50 punti, 60 minuti, parti A, B e C. Le domande sono in inglese come all'esame, le spiegazioni in italiano.</p>
 </header>
 
@@ -100,7 +100,7 @@ table.res td,table.res th{border-bottom:1px solid var(--rule);padding:6px 4px;te
 </section>
 
 <section id="v-drill" hidden>
-  <div class="sheet"><span class="mono muted">Capitolo 7 · stile esame</span><h2>Allenamento</h2>
+  <div class="sheet"><h2>Allenamento</h2><p class="mono muted" style="margin:-6px 0 12px">Capitolo 7 · stile esame</p>
   <p>Rispondi, poi leggi perché. Le risposte sbagliate restano evidenziate così vedi dove ripassare.</p>
   <p class="mono" id="drillScore"></p>
   <div id="drillQ"></div>
@@ -109,17 +109,16 @@ table.res td,table.res th{border-bottom:1px solid var(--rule);padding:6px 4px;te
 
 <section id="v-sim" hidden>
   <div class="sheet" id="simIntro">
-    <span class="mono muted">50 punti · 60 minuti · closed book</span>
-    <h2>Simulazione d'esame</h2>
+    <h2>Simulazione d'esame</h2><p class="mono muted" style="margin:-6px 0 12px">50 punti · 60 minuti · closed book</p>
     <p>Come il 28: <b>Parte A</b> concetti (18 punti), <b>Parte B</b> scenari brevi (18 punti), <b>Parte C</b> un caso da diagnosticare per scritto (14 punti). Copre tutte e sette le aree del corso.</p>
     <p>Una sola risposta per domanda. Il timer è per allenarti al ritmo: alla fine vedi le soluzioni e correggi tu la parte C con la griglia.</p>
     <button class="btn" id="simStart">Inizia la simulazione</button>
   </div>
   <div id="simRun" hidden>
     <div class="bar"><span class="mono">Simulazione</span><span class="timer" id="timer">60:00</span><button class="btn ghost" style="color:var(--paper);border-color:var(--paper);margin:0" id="simEnd">Consegna</button></div>
-    <div class="sheet"><span class="mono muted">Parte A · 18 punti · 1 punto ciascuna</span><h2>Concepts &amp; Understanding</h2><div id="partA"></div></div>
-    <div class="sheet"><span class="mono muted">Parte B · 18 punti · 2 punti ciascuna</span><h2>Organizational Scenarios</h2><div id="partB"></div></div>
-    <div class="sheet"><span class="mono muted">Parte C · 14 punti</span><h2>Application &amp; Diagnosis</h2><div id="partC"></div></div>
+    <div class="sheet"><h2>Concepts &amp; Understanding</h2><p class="mono muted" style="margin:-6px 0 12px">Parte A · 18 punti · 1 punto ciascuna</p><div id="partA"></div></div>
+    <div class="sheet"><h2>Organizational Scenarios</h2><p class="mono muted" style="margin:-6px 0 12px">Parte B · 18 punti · 2 punti ciascuna</p><div id="partB"></div></div>
+    <div class="sheet"><h2>Application &amp; Diagnosis</h2><p class="mono muted" style="margin:-6px 0 12px">Parte C · 14 punti</p><div id="partC"></div></div>
     <button class="btn" id="simEnd2">Consegna e correggi</button>
   </div>
   <div id="simRes" hidden></div>
@@ -127,8 +126,7 @@ table.res td,table.res th{border-bottom:1px solid var(--rule);padding:6px 4px;te
 
 <section id="v-tips" hidden>
   <div class="sheet">
-    <span class="mono muted">Dalle slide della settimana 4</span>
-    <h2>Come funziona l'esame</h2>
+    <h2>Come funziona l'esame</h2><p class="mono muted" style="margin:-6px 0 12px">Dalle slide della settimana 4</p>
     <p><b>28 ottobre, 14:00–15:00.</b> 50 punti in 60 minuti, closed book: niente materiali, niente dispositivi, solo penna blu o nera indelebile.</p>
     <ul>
       <li><b>Parte A, Concepts &amp; Understanding (18 punti):</b> conoscere concetti e termini, distinguere concetti e teorie simili.</li>
@@ -281,7 +279,7 @@ let li=store.get('lesson',0);
 function renderL(){li=Math.max(0,Math.min(L.length-1,li));store.set('lesson',li);
   $('#lnav').innerHTML=L.map((x,i)=>`<button class="${i===li?'on':''}" data-i="${i}">${esc(x.t.split(' · ')[0])}</button>`).join('');
   $$('#lnav button').forEach(b=>b.onclick=()=>{li=+b.dataset.i;renderL();});
-  $('#lbody').innerHTML=`<div class="sheet"><span class="mono muted">Capitolo 7 · People, culture &amp; organizational learning</span><h2>${esc(L[li].t.split(' · ').slice(1).join(' · '))}</h2>${L[li].h}</div>`;
+  $('#lbody').innerHTML=`<div class="sheet"><h2>${esc(L[li].t.split(' · ').slice(1).join(' · '))}</h2><p class="mono muted" style="margin:-6px 0 12px">Capitolo 7 · People, culture &amp; organizational learning</p>${L[li].h}</div>`;
   $('#lprev').disabled=li===0;$('#lnext').textContent=li===L.length-1?'Vai all’allenamento →':'Avanti →';}
 $('#lprev').onclick=()=>{li--;renderL();scrollTo(0,0);};
 $('#lnext').onclick=()=>{if(li===L.length-1){show('drill');return;}li++;renderL();scrollTo(0,0);};
@@ -393,15 +391,15 @@ function results(){
   $('#simRun').hidden=true;$('#simIntro').hidden=true;const R=$('#simRes');R.hidden=false;
   const okA=A.filter((q,i)=>sim.ans['a'+i]===q[3]).length, okB=B.filter((q,i)=>sim.ans['b'+i]===q[3]).length;
   const rev=(arr,pre,pts)=>arr.map((q,i)=>{const a=sim.ans[pre+i];return `<div class="q">${q[0]?`<p class="stem">${esc(q[0])}</p>`:''}<p class="ask">${esc(q[1])} <span class="pts">(${pts} pt)</span></p>${q[2].map((o,k)=>`<button class="opt ${k===q[3]?'ok':(k===a?'bad':'')}" disabled>${String.fromCharCode(65+k)}. ${esc(o)}</button>`).join('')}${a===undefined?'<p class="mono" style="color:var(--bad)">Non risposta</p>':''}<div class="why show">${q[4]}</div></div>`;}).join('');
-  R.innerHTML=`<div class="sheet"><span class="mono muted">Risultato · tempo usato ${fmt(sim.used||0)}</span><h2>Parti A e B</h2>
+  R.innerHTML=`<div class="sheet"><h2>Parti A e B</h2><p class="mono muted" style="margin:-6px 0 12px">Risultato · tempo usato ${fmt(sim.used||0)}</p>
    <table class="res"><tr><th>Parte</th><th>Punti</th></tr><tr><td>A · Concepts</td><td>${okA} / 18</td></tr><tr><td>B · Scenarios</td><td>${okB*2} / 18</td></tr><tr><td>C · Diagnosis</td><td id="cPts">0 / 14 · correggi qui sotto</td></tr><tr><th>Totale</th><th id="tot"></th></tr></table>
    <p class="score" id="big"></p><p class="muted">Per orientarti: sopra i 30 punti su 50 sei in una zona sicura, sopra i 40 molto bene. Non è la scala ufficiale.</p></div>
-   <div class="sheet"><span class="mono muted">Parte C · autocorrezione</span><h2>Correggi la tua diagnosi</h2>${C.case}
+   <div class="sheet"><h2>Correggi la tua diagnosi</h2><p class="mono muted" style="margin:-6px 0 12px">Parte C · autocorrezione</p>${C.case}
    ${C.tasks.map((t,i)=>`<div class="q"><p class="ask">${esc(t.q)} <span class="pts">(${t.p} pt)</span></p><div class="box"><span class="mono muted">La tua risposta</span><br>${esc(sim.c[i]||'(vuota)').replace(/\n/g,'<br>')}</div>
      <div class="rubric">${t.crit.map((c,k)=>`<label><input type="checkbox" data-t="${i}" data-k="${k}" ${sim.rub[i+'-'+k]?'checked':''}><span>${esc(c[1])} <span class="pts">+${c[0]}</span></span></label>`).join('')}</div>
      <button class="btn ghost" data-m="${i}">Mostra una risposta modello</button><div class="model" id="m${i}">${esc(t.model)}</div></div>`).join('')}</div>
-   <div class="sheet"><span class="mono muted">Soluzioni</span><h2>Parte A</h2>${rev(A,'a',1)}</div>
-   <div class="sheet"><span class="mono muted">Soluzioni</span><h2>Parte B</h2>${rev(B,'b',2)}</div>
+   <div class="sheet"><h2>Parte A</h2><p class="mono muted" style="margin:-6px 0 12px">Soluzioni</p>${rev(A,'a',1)}</div>
+   <div class="sheet"><h2>Parte B</h2><p class="mono muted" style="margin:-6px 0 12px">Soluzioni</p>${rev(B,'b',2)}</div>
    <button class="btn" id="again">Rifai la simulazione</button>`;
   const upd=()=>{let c=0;C.tasks.forEach((t,i)=>t.crit.forEach((cr,k)=>{if(sim.rub[i+'-'+k])c+=cr[0];}));$('#cPts').textContent=c+' / 14';const tot=okA+okB*2+c;$('#tot').textContent=tot+' / 50';$('#big').textContent=tot+' / 50';};
   R.querySelectorAll('.rubric input').forEach(x=>x.onchange=()=>{sim.rub[x.dataset.t+'-'+x.dataset.k]=x.checked;store.set('sim',sim);upd();});
