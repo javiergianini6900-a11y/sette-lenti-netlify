@@ -101,8 +101,8 @@ table.res td,table.res th{border-bottom:1px solid var(--rule);padding:6px 4px;te
 <div class="wrap">
 <header>
   <a class="back mono" href="./">← Sette Lenti</a>
-  <h1>Pronti per <em>l'esame</em></h1>
-  <p class="mono muted" style="margin:0 0 10px">OSP-1 · Joël Maier · Esame 28.10.2026 · 14:00</p>
+  <h1 id="h1">Pronti per <em>l'esame</em></h1>
+  <p class="mono muted" style="margin:0 0 10px" id="hmeta">OSP-1 · Joël Maier · Esame 28.10.2026 · 14:00</p>
   <label class="mono" style="display:inline-flex;gap:8px;align-items:center;margin:4px 0 10px">🌐 <select id="langSel" style="font-family:var(--mono);font-size:13px;padding:4px 6px;background:var(--paper);color:var(--ink);border:1.5px solid var(--ink)"><option value="it">Italiano</option><option value="en">English</option><option value="de">Deutsch</option><option value="es">Español</option><option value="hr">Hrvatski</option></select></label>
   <p class="lede" id="lede">Per ogni capitolo: quiz, collega la frase alla teoria, smista. Poi lo shuffle su tutti i capitoli, la simulazione completa nel formato vero (50 punti, 60 minuti) e l'hard mode. Domande in inglese come all'esame, spiegazioni in italiano.</p>
 </header>
@@ -121,53 +121,20 @@ table.res td,table.res th{border-bottom:1px solid var(--rule);padding:6px 4px;te
 </section>
 
 <section id="v-mix" hidden>
-  <div class="sheet"><h2>Shuffle</h2><p class="mono muted" style="margin:-6px 0 12px">Tutti i capitoli · 15 domande a caso</p>
-  <p>Domande mescolate da tutti i sette capitoli, come all'esame: non sai mai da quale argomento arriva la prossima.</p>
-  <p class="mono" id="mixScore"></p><div id="mixQ"></div><button class="btn" id="mixNew">Nuovo giro</button></div>
+  <div class="sheet"><h2>Shuffle</h2><p class="mono muted" style="margin:-6px 0 12px" id="mixMeta"></p>
+  <p id="mixIntro"></p>
+  <p class="mono" id="mixScore"></p><div id="mixQ"></div><button class="btn" id="mixNew"></button></div>
 </section>
 
 <section id="v-hard" hidden><div class="sheet" id="hardBox"></div></section>
 
 <section id="v-sim" hidden><div id="simBox"></div></section>
 
-<section id="v-tips" hidden>
-  <div class="sheet">
-    <h2>Come funziona l'esame</h2><p class="mono muted" style="margin:-6px 0 12px">Dalle slide della settimana 4</p>
-    <p><b>28 ottobre, 14:00–15:00.</b> 50 punti in 60 minuti, closed book: niente materiali, niente dispositivi, solo penna blu o nera indelebile.</p>
-    <ul>
-      <li><b>Parte A, Concepts &amp; Understanding (18 punti):</b> conoscere concetti e termini, distinguere concetti e teorie simili.</li>
-      <li><b>Parte B, Organizational Scenarios (18 punti):</b> applicare i concetti a situazioni brevi, scegliere la spiegazione che si adatta meglio al caso.</li>
-      <li><b>Parte C, Application &amp; Diagnosis (14 punti):</b> analizzare una situazione, applicare la teoria, sviluppare e giustificare una diagnosi o una raccomandazione.</li>
-    </ul>
-    <div class="box warn"><b>Regole che costano punti:</b> nelle domande a scelta singola, due risposte segnate = 0 punti. Se cambi risposta, cancella chiaramente la vecchia. Risposte illeggibili o contraddittorie = 0. Nella parte C puoi usare elenchi puntati, ci sono punti parziali, e se fai un'ipotesi <b>scrivila esplicitamente</b>.</div>
-    <h3>Per ogni concetto devi saper</h3>
-    <ul>
-      <li>spiegarlo con parole tue;</li>
-      <li>riconoscerlo in un esempio;</li>
-      <li>distinguerlo da concetti simili;</li>
-      <li>dire cosa ci aiuta a capire;</li>
-      <li>applicarlo a una situazione nuova;</li>
-      <li>indicarne punti di forza, limiti o trade-off.</li>
-    </ul>
-    <h3>Le sette aree</h3>
-    <ol>
-      <li>Beliefs, values &amp; underlying assumptions (cap. 1)</li>
-      <li>Economic &amp; social context (cap. 2)</li>
-      <li>Organizational theories (cap. 3)</li>
-      <li>Purpose, stakeholders &amp; value creation (cap. 4)</li>
-      <li>Work, structures, processes &amp; coordination (cap. 5)</li>
-      <li>Complexity, adaptation &amp; viability (cap. 6)</li>
-      <li>People, culture &amp; organizational learning (cap. 7)</li>
-    </ol>
-    <p>Le aree 1–6 le trovi nel sito principale (lezioni, Detective, Coppie). La 7 è in questa pagina.</p>
-    <h3>Schema per la parte C</h3>
-    <p>È lo schema delle slide della settimana 2 (CoffeeNow): <b>1 Problem</b> cosa stai risolvendo · <b>2 Intervention</b> cosa cambi esattamente · <b>3 Expected benefit</b> cosa deve migliorare · <b>4 Trade-off</b> quale nuovo problema crei. Nomina sempre la teoria che usi.</p>
-  </div>
-</section>
+<section id="v-tips" hidden><div class="sheet" id="tipsBox"></div></section>
 </div>
 
 <script src="exam-data.js"></script>
-<script src="mock/a-ch1-3.js"></script><script src="mock/a-ch4-5.js"></script><script src="mock/a-ch6-7.js"></script><script src="mock/b-all.js"></script><script src="mock/cases.js"></script><script src="mock/i18n.js"></script><script src="mock/ui.js"></script>
+<script src="mock/a-ch1-3.js"></script><script src="mock/a-ch4-5.js"></script><script src="mock/a-ch6-7.js"></script><script src="mock/b-all.js"></script><script src="mock/cases.js"></script><script src="mock/i18n.js"></script><script src="mock/ui.js"></script><script src="mock/ui2.js"></script><script src="mock/prac-i18n.js"></script>
 <script>
 (function(){
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -178,123 +145,13 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 function show(v){$$('.tab').forEach(t=>t.setAttribute('aria-selected',t.dataset.v===v));['cap','mix','sim','hard','tips'].forEach(x=>$('#v-'+x).hidden=x!==v);if(v==='mix'&&!mixSet.length)newMix();if(v==='hard')hardIntro();store.set('tab',v);scrollTo(0,0);}
 $$('.tab').forEach(t=>t.onclick=()=>show(t.dataset.v));
 
-/* ---------- chapter 7 lessons ---------- */
-const L=[
-{t:"1 · L'idea di persona dietro ogni sistema",h:`
-<p>Il capitolo 7 parte da una frase: <b>ogni sistema di management contiene una visione delle persone.</b> Le persone evitano il lavoro? Vogliono responsabilità? Ci si può fidare? Come rispondi a queste domande decide come costruisci l'organizzazione.</p>
-<h3>Theory X e Theory Y · Douglas McGregor, 1960</h3>
-<p><span class="term">Theory X</span>: i manager pensano che le persone evitino il lavoro e la responsabilità, abbiano bisogno di direzione e controllo stretto, e reagiscano soprattutto a premi e punizioni esterni. Porta a: decisioni centralizzate, regole dettagliate, supervisione stretta, poca autonomia.</p>
-<p><span class="term">Theory Y</span>: i manager pensano che le persone sappiano autodirigersi, accettino responsabilità, imparino, portino idee e si motivino con obiettivi che hanno senso. Porta a: delega, partecipazione, ruoli più ampi, autonomia.</p>
-<div class="box"><b>Takeaway del corso:</b> le assunzioni del management diventano strutture organizzative.</div>
-<h3>The self-fulfilling organization</h3>
-<div class="loop"><span>1 · Assunzione: "non ci si può fidare"</span>→<span>2 · Controlli: approvazioni, regole, monitoraggio, poca autonomia</span>→<span>3 · Le persone smettono di prendere iniziativa</span>→<span>4 · "Visto? Vanno controllate"</span>↺</div>
-<p>È un <b>circolo che si rinforza</b>: il sistema produce proprio il comportamento che "dimostra" l'assunzione iniziale. Collega con il capitolo 1 (le assunzioni nascoste diventano pratiche) e con il capitolo 6 (feedback loop rinforzanti).</p>
-<div class="box warn"><b>Non confondere</b> Theory X/Y con un giudizio su chi è "buono": è una lente per vedere quale idea di persona c'è dietro una struttura. All'esame lo riconosci da frasi come "managers assume employees…" seguite da regole e controlli.</div>
-<p class="src">McGregor, D. (1960). The Human Side of Enterprise.</p>`},
-{t:"2 · Motivazione",h:`
-<p><b>La motivazione non si può progettare direttamente.</b> Un'organizzazione può progettare le <i>condizioni</i>: ruoli, incentivi, condizioni di lavoro, autonomia, feedback, possibilità di imparare. Ma non può ordinare motivazione, creatività, impegno, iniziativa o fiducia.</p>
-<h3>Self-Determination Theory · Deci &amp; Ryan, 1985</h3>
-<ul>
-<li><span class="term">Autonomy</span>: ho un'influenza reale su <i>come</i> lavoro.</li>
-<li><span class="term">Competence</span>: posso usare e sviluppare le mie capacità.</li>
-<li><span class="term">Relatedness</span>: mi sento legato agli altri.</li>
-<li>In più, <span class="term">Purpose / meaning</span>: capisco perché il mio contributo conta.</li>
-</ul>
-<h3>Dan Pink · The Puzzle of Motivation</h3>
-<p>Il video visto in classe: gli incentivi esterni funzionano bene per compiti semplici e meccanici, ma per compiti creativi e complessi i premi possono <b>peggiorare</b> la performance. La motivazione intrinseca cresce con autonomia, padronanza (mastery) e scopo.</p>
-<div class="box"><b>Collegamento:</b> Human Relations (cap. 3) diceva già che le persone sono motivate da più del denaro. Il capitolo 7 aggiunge il "come": creare condizioni, non dare ordini.</div>
-<p class="src">Deci, E. L., &amp; Ryan, R. M. (1985). Intrinsic Motivation and Self-Determination in Human Behavior.</p>`},
-{t:"3 · Organizzazione informale",h:`
-<p><span class="term">Formal organization</span>: progettata apposta. Ruoli, linee di riporto, processi, decision rights, regole.<br><span class="term">Informal organization</span>: nasce socialmente. Relazioni, fiducia, influenza, comunità, norme non scritte.</p>
-<h3>The informal network</h3>
-<p>L'organigramma dice <b>chi dovrebbe</b> comunicare. La rete informale mostra <b>chi comunica davvero</b>. Rivela: esperti di fiducia, leader informali, knowledge broker, persone isolate, relazioni tra funzioni, colli di bottiglia nascosti.</p>
-<div class="box"><b>Takeaway:</b> l'influenza non segue sempre la gerarchia.</div>
-<h3>Beneficio o rischio?</h3>
-<p><b>Aiuta</b> a: accelerare la comunicazione, collegare i silos, diffondere conoscenza, risolvere problemi inattesi, collaborare.<br><b>Può anche</b>: escludere persone, rinforzare un potere nascosto, aggirare l'accountability, diffondere disinformazione, resistere al cambiamento.</p>
-<div class="box warn"><b>Frase chiave da usare all'esame:</b> l'organizzazione informale non è né buona né cattiva, è una parte inevitabile di ogni sistema sociale.</div>
-<p>Nel vostro progetto IBM: i deal maker che "find a way", le reti "invisible in the org chart", chiedere a chi aveva il ruolo prima. È tutto organizzazione informale.</p>`},
-{t:"4 · Cultura: Schein",h:`
-<p>Definizione del corso: <b>la cultura organizzativa è il modello di assunzioni, valori e norme condivisi che influenza come i membri percepiscono, pensano e agiscono.</b> In breve, con Schein: "how we do things around here, and why".</p>
-<h3>Tre livelli · Edgar Schein</h3>
-<ol>
-<li><span class="term">Artifacts</span>: ciò che vedi. Design degli uffici, linguaggio, rituali, abbigliamento, storie, simboli.</li>
-<li><span class="term">Espoused values</span>: ciò che l'organizzazione <i>dice</i> che conta. "Customer first", "Speed over perfection", "One Team One Voice".</li>
-<li><span class="term">Underlying assumptions</span>: convinzioni profonde date per scontate. "Gli errori sono pericolosi", "i leader devono avere le risposte", "il conflitto va evitato".</li>
-</ol>
-<div class="box"><b>Takeaway:</b> la cultura visibile è spesso guidata da assunzioni invisibili.</div>
-<h3>What we say vs. what we reward</h3>
-<p>Esempio delle slide: l'organizzazione dice "We value innovation". Ma il fallimento viene punito, i budget premiano la prevedibilità, servono cinque approvazioni, le promozioni premiano chi evita rischi. <b>Cultura reale probabile: "non prendere rischi".</b></p>
-<div class="box warn"><b>Trappola d'esame:</b> uno slogan è un <i>espoused value</i>, non un'assunzione. L'assunzione la deduci dai comportamenti ripetuti e dagli incentivi. La cultura si vede più da quello che si premia che dai poster sul muro.</div>
-<p class="src">Schein, E. H. (2010). Organizational Culture and Leadership.</p>`},
-{t:"5 · La cultura coordina",h:`
-<h3>Culture as a coordination mechanism</h3>
-<p>Il coordinamento formale usa gerarchia, regole, processi, riunioni, decision rights (cap. 5). La cultura coordina attraverso assunzioni condivise, norme, aspettative, fiducia, "quello che le persone sanno che è appropriato".</p>
-<p>Esempio: nessuno ha bisogno di una procedura per ogni situazione con un cliente se i dipendenti condividono un'idea forte di buon servizio.</p>
-<div class="box"><b>Takeaway:</b> la cultura può coordinare il comportamento dove le regole formali non riescono a prevedere ogni situazione. Collegamento con il cap. 6: in un ambiente complesso le regole non bastano mai (Ashby).</div>
-<h3>One organization, multiple cultures</h3>
-<p>Le organizzazioni raramente hanno una sola cultura uniforme. Sottoculture possibili: engineering, sales, finance, operations, organizzazioni nazionali, top management, personale di prima linea.</p>
-<p>Esempio: Sales vuole velocità e reattività verso il cliente; Compliance vuole controllo del rischio e coerenza. <b>Nessuna delle due è sbagliata in sé.</b> Il conflitto tra sottoculture spesso è un conflitto tra esigenze legittime.</p>`},
-{t:"6 · Apprendimento organizzativo",h:`
-<p><b>Gli individui imparano, ma un'organizzazione impara solo quando la conoscenza cambia</b> qualcosa di condiviso: comprensione, routine, processi, decisioni, capacità, comportamento futuro.</p>
-<div class="loop"><span>Experience</span>→<span>Reflection</span>→<span>Learning</span>→<span>Changed action</span></div>
-<p>Come imparano le organizzazioni: <b>experience</b> (cosa è successo?), <b>reflection</b> (perché?), <b>feedback</b> (cosa ha funzionato?), <b>experimentation</b> (cosa possiamo provare di diverso?), <b>knowledge sharing</b> (chi altro deve saperlo?), <b>institutionalization</b> (come diventa parte delle routine o della struttura?).</p>
-<h3>Single-loop vs. double-loop · Argyris &amp; Schön, 1978</h3>
-<p><span class="term">Single-loop</span>: "stiamo facendo le cose nel modo giusto?" Errore → correggo l'azione → <b>tengo le assunzioni</b>. Esempio: vendite basse → più chiamate di vendita.</p>
-<p><span class="term">Double-loop</span>: "stiamo facendo le cose giuste?" Errore → <b>metto in discussione le assunzioni</b> → posso cambiare obiettivi, regole o strategia. Esempio: vendite basse → la nostra offerta è ancora rilevante?</p>
-<div class="box warn"><b>Come lo riconosci:</b> se la soluzione è "fare di più / meglio la stessa cosa" è single-loop. Se qualcuno chiede "ma l'obiettivo o la regola hanno ancora senso?" è double-loop. Nota la somiglianza con efficiency (doing things right) e effectiveness (doing the right things) del cap. 6.</div>
-<h3>Dall'individuo all'organizzazione</h3>
-<div class="loop"><span>Individual: qualcuno scopre qualcosa</span>→<span>Team: se ne discute</span>→<span>Organization: cambiano processi, decisioni, routine</span>→<span>Future behavior: altri agiscono diversamente anche se quella persona non c'è più</span></div>
-<p class="src">Argyris, C., &amp; Schön, D. A. (1978). Organizational Learning.</p>`},
-{t:"7 · Senge e communities of practice",h:`
-<h3>The learning organization · Peter Senge, 1990</h3>
-<p>Un'organizzazione che rafforza continuamente la sua capacità di imparare e adattarsi. Le cinque discipline:</p>
-<ul><li><b>Systems thinking</b></li><li>Personal mastery</li><li>Mental models</li><li>Shared vision</li><li>Team learning</li></ul>
-<div class="box">Per questo corso conta soprattutto <b>systems thinking</b>, perché collega l'apprendimento alla complessità e all'interdipendenza del cap. 6.</div>
-<h3>Communities of practice · Etienne Wenger, 1998</h3>
-<p><b>Un gruppo di persone che impara attraverso un'interazione continua intorno a un'area di pratica condivisa.</b> Non tutta la conoscenza passa dalla formazione formale.</p>
-<p>Aiutano a: scambiare conoscenza tacita, risolvere problemi, diffondere pratiche, collegare funzioni, costruire competenza. Esempi: community UX, rete dei venditori, community dei project manager.</p>
-<div class="box warn"><b>Non confondere</b> una community of practice con un team o un reparto: non ha un obiettivo di produzione assegnato né una linea di riporto. Tiene insieme le persone una pratica comune, ed è per questo che collega i silos.</div>
-<p class="src">Senge, P. M. (1990). The Fifth Discipline · Wenger, E. (1998). Communities of Practice.</p>`},
-{t:"8 · Perché non si impara",h:`
-<h3>Why organizations fail to learn</h3>
-<p>Barriere tipiche: paura di fallire, colpa, gerarchia, silos informativi, niente tempo per riflettere, incentivi alla performance di breve periodo, "abbiamo sempre fatto così", rifiuto di mettere in discussione le assunzioni.</p>
-<p>La domanda chiave delle slide: <b>le persone possono dire senza rischi "avevamo torto"?</b></p>
-<h3>Psychological safety · Amy Edmondson, 1999</h3>
-<p>Le persone credono di poter fare domande, ammettere errori, essere in disaccordo, sollevare preoccupazioni, proporre idee <b>senza un rischio interpersonale eccessivo</b>.</p>
-<div class="box warn"><b>Non significa:</b> nessuna accountability, evitare feedback difficili, stare sempre comodi. All'esame questa distinzione è una domanda facile da sbagliare.</div>
-<p><b>Perché conta:</b> se nessuno parla, l'organizzazione non può accedere a ciò che i dipendenti sanno.</p>
-<h3>Fixed vs. growth mindset · Carol Dweck, 2006</h3>
-<p><span class="term">Fixed</span>: le capacità sono fisse, il fallimento è la prova di un limite. <span class="term">Growth</span>: le capacità si sviluppano con apprendimento e impegno, il fallimento è informazione. Domanda organizzativa: gli errori sono soprattutto da nascondere o informazioni da cui imparare?</p>
-<p class="src">Edmondson, A. C. (1999). Psychological safety and learning behavior in work teams · Dweck, C. S. (2006). Mindset.</p>`},
-{t:"9 · Tutto insieme: viability",h:`
-<p>Il capitolo 7 chiude il cerchio con il framework della viability del cap. 6 (Direction · Structure · People e le tre tensioni):</p>
-<ul>
-<li><b>Ambidexterity</b> (exploration ↔ exploitation) richiede sperimentazione, apprendimento, scambio di conoscenza.</li>
-<li><b>Adaptability</b> (transformation ↔ stability) richiede feedback, disponibilità a cambiare, capacità.</li>
-<li><b>Coherence</b> (autonomy ↔ control) richiede fiducia, scopo condiviso, cultura, relazioni.</li>
-</ul>
-<p><b>Direction:</b> purpose, visione condivisa, priorità. <b>People:</b> motivazione, capacità, relazioni, cultura, apprendimento. <b>Structure:</b> ruoli, processi, decision rights, coordinamento. Struttura formale e comportamento umano si influenzano continuamente.</p>
-<h3>Le quattro frasi finali del capitolo</h3>
-<ol>
-<li>I sistemi di management sono costruiti su assunzioni sulle persone.</li>
-<li>Le relazioni informali influenzano fortemente come si lavora davvero.</li>
-<li>La cultura coordina il comportamento oltre le regole formali.</li>
-<li>L'apprendimento decide se un'organizzazione può adattarsi ed evolvere.</li>
-</ol>
-<div class="box"><b>Frase da portare all'esame:</b> non puoi capire un'organizzazione guardando solo il suo organigramma.</div>`}
-];
-let li=store.get('lesson',0);
-function renderL(){li=Math.max(0,Math.min(L.length-1,li));store.set('lesson',li);
-  $('#lnav').innerHTML=L.map((x,i)=>`<button class="${i===li?'on':''}" data-i="${i}">${esc(x.t.split(' · ')[0])}</button>`).join('');
-  $$('#lnav button').forEach(b=>b.onclick=()=>{li=+b.dataset.i;renderL();});
-  $('#lbody').innerHTML=`<div class="sheet"><h2>${esc(L[li].t.split(' · ').slice(1).join(' · '))}</h2><p class="mono muted" style="margin:-6px 0 12px">Capitolo 7 · People, culture &amp; organizational learning</p>${L[li].h}</div>`;
-  $('#lprev').disabled=li===0;$('#lnext').disabled=li===L.length-1;
-  $('#lprev').onclick=()=>{li--;renderL();$('#lnav').scrollIntoView({block:'start'});};
-  $('#lnext').onclick=()=>{li++;renderL();$('#lnav').scrollIntoView({block:'start'});};}
-
 /* ---------- question helpers ---------- */
 // [stem, question, options, correct index, explanation (it)]
-function qHTML(q,id,pts){return `<div class="q" data-id="${id}">${q[0]?`<p class="stem">${esc(q[0])}</p>`:''}<p class="ask">${esc(q[1])}${pts?` <span class="pts">(${pts} pt)</span>`:''}</p>${q[2].map((o,i)=>`<button class="opt" data-i="${i}">${String.fromCharCode(65+i)}. ${esc(o)}</button>`).join('')}<div class="why">${q[4]}</div></div>`;}
+const PRI=window.PRAC_I18N||{};let plang=(()=>{try{return JSON.parse(localStorage.getItem('sl-exam-lang'))||'it'}catch(e){return 'it'}})();
+const px=(key,itText)=>plang==='it'||!key?itText:((PRI[plang]&&PRI[plang][key])||itText);
+const P_=()=>window.EXAM_UI[plang].p;
+const fill=(t,o)=>t.replace(/\{(\w+)\}/g,(_,k)=>o[k]);
+function qHTML(q,id,pts){return `<div class="q" data-id="${id}">${q[0]?`<p class="stem">${esc(q[0])}</p>`:''}<p class="ask">${esc(q[1])}${pts?` <span class="pts">(${pts} pt)</span>`:''}</p>${q[2].map((o,i)=>`<button class="opt" data-i="${i}">${String.fromCharCode(65+i)}. ${esc(o)}</button>`).join('')}<div class="why">${esc(px(q.key,q[4]))}</div></div>`;}
 
 /* ---------- chapter 7 drill ---------- */
 function mixQ(arr,salt){arr.forEach((q,i)=>{let seed=(i+1)*7919+salt;const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647;};const idx=q[2].map((_,k)=>k);for(let k=idx.length-1;k>0;k--){const j=Math.floor(rnd()*(k+1));[idx[k],idx[j]]=[idx[j],idx[k]];}q[2]=idx.map(k=>q[2][k]);q[3]=idx.indexOf(q[3]);});}
@@ -318,6 +175,8 @@ const D=[
 ];
 mixQ(D,5);
 const EX=window.EX||{},HARD=window.HARD||[];
+Object.keys(EX).forEach(n=>{const E=EX[n];if(E.quiz)E.quiz.forEach((q,k)=>q.key='Eq'+n+'-'+k);E.match.forEach((m,k)=>m.key='Em'+n+'-'+k);E.sort.items.forEach((it,k)=>it.key='Es'+n+'-'+k);});
+D.forEach((q,k)=>q.key='D-'+k);HARD.forEach((q,k)=>q.key='H-'+k);
 Object.keys(EX).forEach(n=>{if(EX[n].quiz)mixQ(EX[n].quiz,+n*13);});mixQ(HARD,97);
 EX[7].quiz=D;
 const shuf=a=>{a=a.slice();for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]];}return a;};
@@ -329,21 +188,18 @@ function quizList(box,list,keyOf,onScore){
     const paint=()=>{const a=qa[id];if(a===undefined)return;btns.forEach((b,k)=>{b.disabled=true;if(k===q[3])b.classList.add('ok');else if(k===a)b.classList.add('bad');});el.querySelector('.why').classList.add('show');};
     btns.forEach((b,k)=>b.onclick=()=>{if(qa[id]!==undefined)return;qa[id]=k;store.set('qa',qa);paint();onScore&&onScore();});paint();});
   onScore&&onScore();}
-const scoreTxt=(list,keyOf)=>{let n=0,ok=0;list.forEach((q,i)=>{const a=qa[keyOf(i)];if(a!==undefined){n++;if(a===q[3])ok++;}});return `${ok} giuste su ${n} risposte · ${list.length} domande`;};
+const scoreTxt=(list,keyOf)=>{let n=0,ok=0;list.forEach((q,i)=>{const a=qa[keyOf(i)];if(a!==undefined){n++;if(a===q[3])ok++;}});return fill(P_().qScore,{ok,n,t:list.length});};
 
 let cap=store.get('cap',7);
 function renderCap(){
-  $('#capNav').innerHTML=[1,2,3,4,5,6,7].map(n=>`<button class="${n===cap?'on':''}" data-n="${n}">Cap. ${n}</button>`).join('');
+  const pp=P_();$('#capNav').innerHTML=[1,2,3,4,5,6,7].map(n=>`<button class="${n===cap?'on':''}" data-n="${n}">${pp.ch} ${n}</button>`).join('');
   $$('#capNav button').forEach(b=>b.onclick=()=>{cap=+b.dataset.n;store.set('cap',cap);renderCap();});
   const E=EX[cap];const key=i=>'c'+cap+'-'+i;
   $('#capBody').innerHTML=`
-   <div class="sheet"><h2>Cap. ${cap} · ${esc(E.t)}</h2><p class="mono muted" style="margin:-6px 0 12px">Quiz · Collega · Smista</p>
-   <p>${cap===7?'Prima la lezione (nuova), poi i tre esercizi.':'La lezione di questo capitolo è nel <a href="./">sito principale</a>, scheda Lezioni. Qui ti alleni.'}</p></div>
-   ${cap===7?'<div class="lessons-nav" id="lnav"></div><div id="lbody"></div><div style="margin-bottom:16px"><button class="btn ghost" id="lprev">← Indietro</button><button class="btn" id="lnext">Avanti →</button></div>':''}
-   <div class="sheet"><h2>Quiz</h2><p class="mono muted" style="margin:-6px 0 12px">Stile esame · una risposta</p><p class="mono" id="qScore"></p><div id="qBox"></div><button class="btn ghost" id="qReset">Ricomincia il quiz</button></div>
-   <div class="sheet"><h2>Collega</h2><p class="mono muted" style="margin:-6px 0 12px">Frase → concetto o teoria</p><p>Tocca una frase a sinistra, poi il concetto giusto a destra.</p><p class="mono" id="mScore"></p><div id="mBox"></div><button class="btn ghost" id="mReset">Rimescola</button></div>
-   <div class="sheet"><h2>Smista</h2><p class="mono muted" style="margin:-6px 0 12px">${esc(E.sort.intro)}</p><p class="mono" id="sScore"></p><div id="sBox"></div><button class="btn ghost" id="sReset">Ricomincia</button></div>`;
-  if(cap===7)renderL();
+   <div class="sheet"><h2>${pp.ch} ${cap} · ${esc(E.t)}</h2><p class="mono muted" style="margin:-6px 0 12px">${esc(pp.meta)}</p><p>${pp.lessonHint}</p>${pp.note?`<p class="mono muted">${esc(pp.note)}</p>`:''}</div>
+   <div class="sheet"><h2>${esc(pp.quiz)}</h2><p class="mono muted" style="margin:-6px 0 12px">${esc(pp.quizMeta)}</p><p class="mono" id="qScore"></p><div id="qBox"></div><button class="btn ghost" id="qReset">${esc(pp.quizReset)}</button></div>
+   <div class="sheet"><h2>${esc(pp.match)}</h2><p class="mono muted" style="margin:-6px 0 12px">${esc(pp.matchMeta)}</p><p>${esc(pp.matchHint)}</p><p class="mono" id="mScore"></p><div id="mBox"></div><button class="btn ghost" id="mReset">${esc(pp.reshuffle)}</button></div>
+   <div class="sheet"><h2>${esc(pp.sort)}</h2><p class="mono muted" style="margin:-6px 0 12px">${esc(E.sort.intro)}</p><p class="mono" id="sScore"></p><div id="sBox"></div><button class="btn ghost" id="sReset">${esc(pp.restart)}</button></div>`;
   quizList($('#qBox'),E.quiz,key,()=>{$('#qScore').textContent=scoreTxt(E.quiz,key);});
   $('#qReset').onclick=()=>{E.quiz.forEach((_,i)=>delete qa[key(i)]);store.set('qa',qa);renderCap();};
   renderMatch(E.match);$('#mReset').onclick=()=>renderMatch(E.match);
@@ -353,17 +209,17 @@ function renderMatch(pairs){
   const left=shuf(pairs.map((p,i)=>i)),right=shuf(pairs.map((p,i)=>i));let sel=null,errs=0,done=0;
   const box=$('#mBox');
   box.innerHTML=`<div class="mgrid"><div class="mcol">${left.map(i=>`<button class="mi" data-l="${i}">${esc(pairs[i][0])}</button>`).join('')}</div><div class="mcol">${right.map(i=>`<button class="mi concept" data-r="${i}">${esc(pairs[i][1])}</button>`).join('')}</div></div><div class="why" id="mWhy"></div>`;
-  const sc=()=>$('#mScore').textContent=`${done} / ${pairs.length} collegate · ${errs} errori`;sc();
+  const sc=()=>$('#mScore').textContent=fill(P_().mScore,{d:done,t:pairs.length,e:errs});sc();
   box.querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>{if(b.classList.contains('done'))return;box.querySelectorAll('[data-l]').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');sel=+b.dataset.l;});
   box.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{if(sel===null||b.classList.contains('done'))return;const r=+b.dataset.r;const lb=box.querySelector(`[data-l="${sel}"]`);
-    if(r===sel){lb.classList.remove('sel');lb.classList.add('done');b.classList.add('done');done++;const w=$('#mWhy');w.innerHTML=`<b>${esc(pairs[r][1])}</b> · ${esc(pairs[r][2])}`;w.classList.add('show');sel=null;}
+    if(r===sel){lb.classList.remove('sel');lb.classList.add('done');b.classList.add('done');done++;const w=$('#mWhy');w.innerHTML=`<b>${esc(pairs[r][1])}</b> · ${esc(px(pairs[r].key,pairs[r][2]))}`;w.classList.add('show');sel=null;}
     else{errs++;b.classList.add('no');setTimeout(()=>b.classList.remove('no'),600);}
     sc();});
 }
 function renderSort(S){
   const items=shuf(S.items);let ok=0,n=0;const box=$('#sBox');
-  box.innerHTML=items.map((it,i)=>`<div class="srow"><span class="it">${esc(it[0])}</span><span class="cb">${S.cats.map((c,k)=>`<button data-i="${i}" data-k="${k}">${esc(c)}</button>`).join('')}</span><span class="sw">${esc(it[2])}</span></div>`).join('');
-  const sc=()=>$('#sScore').textContent=`${ok} giuste su ${n} · ${items.length} elementi`;sc();
+  box.innerHTML=items.map((it,i)=>`<div class="srow"><span class="it">${esc(it[0])}</span><span class="cb">${S.cats.map((c,k)=>`<button data-i="${i}" data-k="${k}">${esc(c)}</button>`).join('')}</span><span class="sw">${esc(px(it.key,it[2]))}</span></div>`).join('');
+  const sc=()=>$('#sScore').textContent=fill(P_().sScore,{ok,n,t:items.length});sc();
   box.querySelectorAll('.srow').forEach((row,i)=>{row.querySelectorAll('button').forEach(b=>b.onclick=()=>{if(row.dataset.done)return;row.dataset.done=1;n++;const k=+b.dataset.k,ans=items[i][1];
     row.querySelectorAll('button').forEach(x=>{if(+x.dataset.k===ans)x.classList.add('right');});if(k!==ans)b.classList.add('wrong');else ok++;row.querySelector('.sw').classList.add('show');sc();});});
 }
@@ -371,30 +227,30 @@ function renderSort(S){
 /* ---------- shuffle across all chapters ---------- */
 let mixSet=[];
 function newMix(){const all=[];Object.keys(EX).forEach(n=>EX[n].quiz.forEach((q,i)=>all.push({q,k:'c'+n+'-'+i})));
-  mixSet=shuf(all).slice(0,15);const keyOf=i=>'mix-'+Date.now()%100000+'-'+i;const keys=mixSet.map((_,i)=>keyOf(i));
-  mixSet.forEach((_,i)=>delete qa[keys[i]]);
-  quizList($('#mixQ'),mixSet.map(x=>x.q),i=>keys[i],()=>{$('#mixScore').textContent=scoreTxt(mixSet.map(x=>x.q),i=>keys[i]);});}
+  mixSet=shuf(all).slice(0,15);const stamp=Date.now()%100000;mixKeys=mixSet.map((_,i)=>'mix-'+stamp+'-'+i);
+  mixKeys.forEach(k=>delete qa[k]);drawMix();}
+let mixKeys=[];
+function drawMix(){if(!mixSet.length)return;quizList($('#mixQ'),mixSet.map(x=>x.q),i=>mixKeys[i],()=>{$('#mixScore').textContent=scoreTxt(mixSet.map(x=>x.q),i=>mixKeys[i]);});}
 $('#mixNew').onclick=()=>{newMix();$('#v-mix').scrollIntoView({block:'start'});};
 
 /* ---------- hard mode ---------- */
 const HSEC=45;let hard=null,htick=null;
 function hardIntro(){if(hard&&!hard.end)return;clearInterval(htick);
-  $('#hardBox').innerHTML=`<h2>Hard mode</h2><p class="mono muted" style="margin:-6px 0 12px">15 domande · 45 secondi ciascuna · niente aiuti</p>
-   <p>Le opzioni sbagliate sono quasi giuste: qui alleni le distinzioni sottili che all'esame fanno perdere punti (single-loop o efficiency? centralization o formalization? agency o transaction cost?).</p>
-   <p>Non vedi se hai risposto bene finché non finisci. Se il tempo scade, la domanda conta come sbagliata e si passa alla successiva.</p>
-   <button class="btn" id="hardGo">Inizia</button>`;
+  const pp=P_();$('#hardBox').innerHTML=`<h2>Hard mode</h2><p class="mono muted" style="margin:-6px 0 12px">${esc(pp.hardMeta)}</p>
+   <p>${esc(pp.hardIntro1)}</p><p>${esc(pp.hardIntro2)}</p>
+   <button class="btn" id="hardGo">${esc(pp.go)}</button>`;
   $('#hardGo').onclick=()=>{hard={i:0,ans:[],order:shuf(HARD.map((_,k)=>k))};hardQ();};}
 function hardQ(){clearInterval(htick);if(hard.i>=hard.order.length)return hardEnd();
   const q=HARD[hard.order[hard.i]];let left=HSEC;
-  $('#hardBox').innerHTML=`<h2>Domanda ${hard.i+1} / ${hard.order.length}</h2><p class="mono muted" style="margin:-6px 0 4px">Hard mode · <span id="hLeft">${left}</span> s</p><div class="hbar"><i id="hBar" style="width:100%"></i></div>${qHTML(q,'h')}`;
+  $('#hardBox').innerHTML=`<h2>${esc(P_().question)} ${hard.i+1} / ${hard.order.length}</h2><p class="mono muted" style="margin:-6px 0 4px">Hard mode · <span id="hLeft">${left}</span> s</p><div class="hbar"><i id="hBar" style="width:100%"></i></div>${qHTML(q,'h')}`;
   $$('#hardBox .opt').forEach(b=>b.onclick=()=>{hard.ans[hard.i]=+b.dataset.i;hard.i++;hardQ();});
   htick=setInterval(()=>{left--;$('#hLeft').textContent=left;$('#hBar').style.width=(left/HSEC*100)+'%';if(left<=0){hard.ans[hard.i]=-1;hard.i++;hardQ();}},1000);}
 function hardEnd(){clearInterval(htick);hard.end=true;
   const ok=hard.order.filter((k,i)=>hard.ans[i]===HARD[k][3]).length;
-  $('#hardBox').innerHTML=`<h2>Risultato: ${ok} / ${hard.order.length}</h2><p class="mono muted" style="margin:-6px 0 12px">Hard mode</p>
-   <p>${ok>=12?'Ottimo: le distinzioni sottili le hai.':ok>=8?'Buono. Rileggi le spiegazioni delle sbagliate: sono le trappole tipiche.':'Rifallo dopo aver ripassato i capitoli: qui le opzioni sono fatte apposta per confondere.'}</p>
-   ${hard.order.map((k,i)=>{const q=HARD[k],a=hard.ans[i];return `<div class="q">${q[0]?`<p class="stem">${esc(q[0])}</p>`:''}<p class="ask">${esc(q[1])}</p>${q[2].map((o,j)=>`<button class="opt ${j===q[3]?'ok':(j===a?'bad':'')}" disabled>${String.fromCharCode(65+j)}. ${esc(o)}</button>`).join('')}${a===-1?'<p class="mono" style="color:var(--bad)">Tempo scaduto</p>':''}<div class="why show">${q[4]}</div></div>`;}).join('')}
-   <button class="btn" id="hardAgain">Rifai l'hard mode</button>`;
+  const pp=P_();$('#hardBox').innerHTML=`<h2>${esc(pp.result)}: ${ok} / ${hard.order.length}</h2><p class="mono muted" style="margin:-6px 0 12px">Hard mode</p>
+   <p>${esc(ok>=12?pp.v1:ok>=8?pp.v2:pp.v3)}</p>
+   ${hard.order.map((k,i)=>{const q=HARD[k],a=hard.ans[i];return `<div class="q">${q[0]?`<p class="stem">${esc(q[0])}</p>`:''}<p class="ask">${esc(q[1])}</p>${q[2].map((o,j)=>`<button class="opt ${j===q[3]?'ok':(j===a?'bad':'')}" disabled>${String.fromCharCode(65+j)}. ${esc(o)}</button>`).join('')}${a===-1?`<p class="mono" style="color:var(--bad)">${esc(pp.timeUp)}</p>`:''}<div class="why show">${esc(px(q.key,q[4]))}</div></div>`;}).join('')}
+   <button class="btn" id="hardAgain">${esc(pp.hardAgain)}</button>`;
   $('#hardAgain').onclick=()=>{hard=null;hardIntro();};scrollTo(0,0);}
 
 /* ---------- 10 mock exams ---------- */
@@ -457,10 +313,10 @@ function results(k){clearInterval(tick);cur=k;const u=U(),E=EXS[k],st=getS(k);
   $('#expDl').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([$('#expTxt').value],{type:'text/plain;charset=utf-8'}));a.download=`OSP-1 mock exam ${k+1}.txt`;document.body.appendChild(a);a.click();a.remove();};
   $('#toList').onclick=simList;$('#again').onclick=()=>{if(confirm(u.confirmRestart)){setS(k,null);simRun(k);}};
   upd();scrollTo(0,0);}
-function applyLang(){const u=U();document.documentElement.lang=lang;$('#langSel').value=lang;$('#lede').textContent=u.lede;
+function applyLang(){const u=U(),pp=u.p;const H={it:["Pronti per <em>l'esame</em>",'Esame'],en:['Ready for <em>the exam</em>','Exam'],de:['Bereit für <em>die Prüfung</em>','Prüfung'],es:['Listos para <em>el examen</em>','Examen'],hr:['Spremni za <em>ispit</em>','Ispit']}[lang];$('#h1').innerHTML=H[0];$('#hmeta').textContent='OSP-1 · Joël Maier · '+H[1]+' 28.10.2026 · 14:00';plang=lang;$('#mixMeta').textContent=pp.mixMeta;$('#mixIntro').textContent=pp.mixIntro;$('#mixNew').textContent=pp.newRound;$('#tipsBox').innerHTML=u.tips;renderCap();drawMix();if(!hard||hard.end){if(hard&&hard.end)hardEnd();else hardIntro();}document.documentElement.lang=lang;$('#langSel').value=lang;$('#lede').textContent=u.lede;
   $$('.tab').forEach(t=>{if(u.tabs[t.dataset.v])t.textContent=u.tabs[t.dataset.v];});
   if(cur===null)simList();else{const st=getS(cur);if(st&&st.done)results(cur);}}
-$('#langSel').onchange=e=>{lang=e.target.value;store.set('lang',lang);applyLang();};
+$('#langSel').onchange=e=>{lang=e.target.value;plang=lang;store.set('lang',lang);applyLang();};
 
 /* ---------- boot ---------- */
 renderCap();
