@@ -103,7 +103,8 @@ table.res td,table.res th{border-bottom:1px solid var(--rule);padding:6px 4px;te
   <a class="back mono" href="./">← Sette Lenti</a>
   <h1>Pronti per <em>l'esame</em></h1>
   <p class="mono muted" style="margin:0 0 10px">OSP-1 · Joël Maier · Esame 28.10.2026 · 14:00</p>
-  <p class="lede">Per ogni capitolo: quiz, collega la frase alla teoria, smista. Poi lo shuffle su tutti i capitoli, la simulazione completa nel formato vero (50 punti, 60 minuti) e l'hard mode. Domande in inglese come all'esame, spiegazioni in italiano.</p>
+  <label class="mono" style="display:inline-flex;gap:8px;align-items:center;margin:4px 0 10px">🌐 <select id="langSel" style="font-family:var(--mono);font-size:13px;padding:4px 6px;background:var(--paper);color:var(--ink);border:1.5px solid var(--ink)"><option value="it">Italiano</option><option value="en">English</option><option value="de">Deutsch</option><option value="es">Español</option><option value="hr">Hrvatski</option></select></label>
+  <p class="lede" id="lede">Per ogni capitolo: quiz, collega la frase alla teoria, smista. Poi lo shuffle su tutti i capitoli, la simulazione completa nel formato vero (50 punti, 60 minuti) e l'hard mode. Domande in inglese come all'esame, spiegazioni in italiano.</p>
 </header>
 
 <nav class="tabs" role="tablist">
@@ -127,22 +128,7 @@ table.res td,table.res th{border-bottom:1px solid var(--rule);padding:6px 4px;te
 
 <section id="v-hard" hidden><div class="sheet" id="hardBox"></div></section>
 
-<section id="v-sim" hidden>
-  <div class="sheet" id="simIntro">
-    <h2>Simulazione d'esame</h2><p class="mono muted" style="margin:-6px 0 12px">50 punti · 60 minuti · closed book</p>
-    <p>Come il 28: <b>Parte A</b> concetti (18 punti), <b>Parte B</b> scenari brevi (18 punti), <b>Parte C</b> un caso da diagnosticare per scritto (14 punti). Copre tutte e sette le aree del corso.</p>
-    <p>Una sola risposta per domanda. Il timer è per allenarti al ritmo: alla fine vedi le soluzioni e correggi tu la parte C con la griglia.</p>
-    <button class="btn" id="simStart">Inizia la simulazione</button>
-  </div>
-  <div id="simRun" hidden>
-    <div class="bar"><span class="mono">Simulazione</span><span class="timer" id="timer">60:00</span><button class="btn ghost" style="color:var(--paper);border-color:var(--paper);margin:0" id="simEnd">Consegna</button></div>
-    <div class="sheet"><h2>Concepts &amp; Understanding</h2><p class="mono muted" style="margin:-6px 0 12px">Parte A · 18 punti · 1 punto ciascuna</p><div id="partA"></div></div>
-    <div class="sheet"><h2>Organizational Scenarios</h2><p class="mono muted" style="margin:-6px 0 12px">Parte B · 18 punti · 2 punti ciascuna</p><div id="partB"></div></div>
-    <div class="sheet"><h2>Application &amp; Diagnosis</h2><p class="mono muted" style="margin:-6px 0 12px">Parte C · 14 punti</p><div id="partC"></div></div>
-    <button class="btn" id="simEnd2">Consegna e correggi</button>
-  </div>
-  <div id="simRes" hidden></div>
-</section>
+<section id="v-sim" hidden><div id="simBox"></div></section>
 
 <section id="v-tips" hidden>
   <div class="sheet">
@@ -181,6 +167,7 @@ table.res td,table.res th{border-bottom:1px solid var(--rule);padding:6px 4px;te
 </div>
 
 <script src="exam-data.js"></script>
+<script src="mock/a-ch1-3.js"></script><script src="mock/a-ch4-5.js"></script><script src="mock/a-ch6-7.js"></script><script src="mock/b-all.js"></script><script src="mock/cases.js"></script><script src="mock/i18n.js"></script><script src="mock/ui.js"></script>
 <script>
 (function(){
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -410,100 +397,74 @@ function hardEnd(){clearInterval(htick);hard.end=true;
    <button class="btn" id="hardAgain">Rifai l'hard mode</button>`;
   $('#hardAgain').onclick=()=>{hard=null;hardIntro();};scrollTo(0,0);}
 
-/* ---------- mock exam ---------- */
-const A=[
-["","According to the course, when does a need become a want?",["When it is shared by many people","When a material need turns into a specific desire the person can also afford","When the organization creates demand through marketing","When scarcity has been overcome"],1,"Cap. 1: il bisogno nasce da una mancanza percepita; diventa want quando si trasforma in un desiderio specifico che la persona può anche permettersi."],
-["","Which behavior does the assumption \"human needs are unlimited and resources are scarce\" most likely encourage at the organizational level?",["Sufficiency and sharing","Efficiency targets, competition and growth orientation","Reciprocity between departments","Abolishing hierarchy"],1,"Cap. 1, riflessione sulla scarsità: a livello organizzativo porta a obiettivi di efficienza, competizione, crescita. Sufficiency e sharing vengono dall'assunzione rovesciata."],
-["","Paying taxes that are later used for public services is, in Polanyi's terms, an example of…",["Market exchange","Reciprocity","Redistribution","Mimetic isomorphism"],2,"Cap. 2: risorse raccolte da un'autorità centrale e poi ridistribuite = redistribution. È proprio l'esempio dell'esercizio in classe."],
-["","What is Karl Polanyi's core idea?",["Markets are self-regulating and separate from society","Economic activity is embedded in society and shaped by social institutions","Firms exist to reduce transaction costs","Organizations copy each other to gain legitimacy"],1,"Polanyi, The Great Transformation (1944): l'economia è un processo sociale incorporato nella società, e le organizzazioni sono a loro volta incorporate nell'economia."],
-["","Which theorist is associated with bureaucracy based on rules and positions rather than persons?",["Frederick Taylor","Max Weber","Elton Mayo","Herbert Simon"],1,"Weber: burocrazia. Taylor: scientific management. Mayo: Hawthorne e Human Relations. Simon: bounded rationality."],
-["","What was the key insight of the Human Relations school (e.g., Hawthorne studies)?",["Work should be divided into the smallest possible tasks","Employees are motivated by more than money and informal groups shape performance","Organizations are open systems","There is no one best way to organize"],1,"Cap. 3: le persone sono motivate da più del denaro, i gruppi informali influenzano comportamento e performance, lo stile di leadership conta."],
-["","Herbert Simon argued that decision-makers usually…",["Optimize, because they have complete information","Satisfice, choosing a solution that is good enough under bounded rationality","Delegate every decision","Follow institutional pressures"],1,"Decision-making theory: informazione incompleta, tempo e capacità cognitive limitate → si sceglie una soluzione \"good enough\" (satisficing)."],
-["","The central claim of contingency theory is that…",["Hierarchy is always the most efficient form","There is no one best way to organize; the right design depends on context","Organizations exist because markets fail","Culture matters more than structure"],1,"Cap. 3 e 5: no one best way. Contano strategia, ambiente, tecnologia, dimensione, incertezza, persone. Burns & Stalker: ambiente stabile → meccanicistica, dinamico → organica."],
-["","Why do organizations exist instead of coordinating everything through markets, according to Coase and Williamson?",["Because of institutional pressure","Because some transactions are cheaper to coordinate inside a firm than through the market","Because people need belonging","Because of requisite variety"],1,"Economic theories: teoria dell'impresa (Coase) e transaction cost economics (Williamson). Si internalizza quando coordinare dentro costa meno che passare dal mercato."],
-["","Agency theory focuses on…",["How informal networks spread knowledge","Different interests between principals (e.g., shareholders) and agents (e.g., managers) and how to align them","How technology and people must be jointly optimized","How organizations adapt to the environment"],1,"Agency theory: attori diversi hanno interessi diversi; servono incentivi, controlli e governance per allinearli."],
-["","A company adopts a sustainability certification mainly because all its competitors have one and customers expect it, although it does not improve operations. Which lens explains this best?",["Classical theory","Institutional theory","Decision-making theory","Sociotechnical theory"],1,"Institutional theory: pratiche adottate per legittimità, non per efficienza. Pressioni: regolazione, norme professionali, imitazione."],
-["","Which statement correctly distinguishes purpose from goals?",["Purpose is a measurable target; goals are the reason for being","Purpose is the organization's reason for being; goals are specific, measurable outcomes","They mean the same thing","Goals describe how to compete; purpose describes the org chart"],1,"Cap. 4: purpose = perché esistiamo (direction, significance, aspiration). Goals = risultati specifici e misurabili. Strategy = come vinciamo/creiamo valore. Vision = il futuro che vogliamo contribuire a creare."],
-["","A wide span of control typically means…",["Many management levels and close supervision","Fewer management levels, more employee autonomy and greater managerial complexity","Strong centralization of all decisions","High formalization"],1,"Cap. 5: span ampio = molti riporti diretti, meno livelli, più autonomia, più complessità per il manager. Span stretto = più livelli e supervisione stretta."],
-["","Formalization refers to…",["Where important decisions are made","The extent to which work is governed by explicit rules, procedures and standards","How many people report to one manager","Grouping roles into units"],1,"Formalization = quanto il lavoro è governato da regole esplicite. Aumenta prevedibilità, può ridurre flessibilità. \"Where decisions are made\" è centralization."],
-["","What is a typical challenge of a matrix structure?",["Duplicated functions in every division","Unclear authority and conflicting priorities between two reporting lines","No access to specialized expertise","Too little integration"],1,"Matrix: integra più prospettive ma crea autorità poco chiara e priorità in conflitto (due capi). Le funzioni duplicate sono la sfida della struttura divisionale."],
-["","Which example is COMPLEX rather than merely complicated?",["Repairing an aircraft engine","Optimizing an accounting system","Changing leadership behavior across a company","Following a payroll checklist"],2,"Cap. 6: complicated = tante parti ma relazioni analizzabili (motore, contabilità). Complex = attori che interagiscono e cambiano nel tempo, causa-effetto non prevedibile. Cambiare la leadership in tutta l'azienda è l'esempio \"complex\" del Cynefin nelle slide."],
-["","Ashby's Law of Requisite Variety states that…",["Only variety can absorb variety: an organization needs enough possible responses for the variety of situations it faces","Organizations should reduce variety through standardization","Every decision should go to the top","Variety in products creates legitimacy"],0,"\"Only variety can absorb variety.\" Esempio delle slide: se ogni problema insolito deve passare da un solo manager → collo di bottiglia."],
-["","Double-loop learning asks…",["Are we doing things right?","Are we doing the right things, and are our assumptions still valid?","Who else needs to know?","How can we work faster?"],1,"Argyris & Schön: single-loop corregge l'azione e tiene le assunzioni; double-loop mette in discussione assunzioni, obiettivi, regole o strategia."]
-];
-const B=[
-["A factory catches fire in the middle of a night shift. People are at risk and nobody knows yet how far the fire will spread.","Which Cynefin domain applies, and what is the right response?",["Clear: apply best practice from the checklist","Complicated: call experts to analyze before acting","Complex: run small experiments and observe","Chaotic: act first to stabilize, then sense and respond"],3,"L'incendio improvviso è l'esempio \"chaotic\" delle slide: act → sense → respond. Prima si stabilizza, poi si analizza."],
-["A hotel chain with 80 hotels lets headquarters decide everything, including local marketing and customer refunds. Guests complain that simple problems take days to solve.","Which redesign is most consistent with the course?",["Centralize everything further to ensure consistency","Decentralize decisions that need local knowledge and speed (e.g., refunds, local marketing) and keep brand standards central","Remove headquarters completely","Increase formalization of refund procedures at headquarters"],1,"Esercizio della settimana 2: centralizzare dove contano coerenza, rischio e scala (standard di servizio, accordi quadro con i fornitori); decentralizzare dove servono velocità e conoscenza locale. Trade-off: meno coerenza tra hotel."],
-["Each department of an insurer performs well on its own KPIs. Yet customers wait weeks for a claim, because files get stuck between Intake, Assessment and Payment, and nobody is responsible for the whole flow.","Which concept points to the most direct solution?",["Narrower span of control","End-to-end process ownership across the vertical structure","More specialization within each department","Stronger espoused values"],1,"Cap. 5: le strutture sono verticali, i processi corrono in orizzontale. Ogni handover crea attesa e perdita di informazione. Il process owner crea accountability orizzontale sull'intero flusso."],
-["A successful car-parts maker puts all its resources into improving its existing products. Profits are high today, but it has no projects for electric vehicles.","Which viability tension is out of balance?",["Autonomy ↔ control (coherence)","Exploration ↔ exploitation (ambidexterity)","Transformation ↔ stability (adaptability)","Efficiency ↔ effectiveness"],1,"Tutto sull'esistente = exploitation; manca exploration di nuove opportunità. È la tensione dell'ambidexterity. Le organizzazioni viabili non scelgono un lato, imparano a gestirli entrambi."],
-["In a hospital ward, nurses notice recurring small medication errors but rarely report them, because the head physician publicly criticizes whoever raises a problem.","Which concept best explains why the ward does not learn?",["Lack of formalization","Low psychological safety","Too wide a span of control","Mimetic isomorphism"],1,"Senza psychological safety le persone non ammettono errori né sollevano preoccupazioni, e l'organizzazione perde l'accesso a ciò che sanno. La domanda chiave: si può dire \"abbiamo sbagliato\"?"],
-["Managers at a call center think agents only work when monitored. They introduce scripts, call recording and approval for every exception. Agents stop solving unusual problems on their own, which managers take as proof they were right.","What is going on?",["Theory Y in practice","A self-fulfilling organization built on Theory X assumptions","A community of practice","Double-loop learning"],1,"Assunzione Theory X → controlli → meno iniziativa → \"visto?\". È il circolo che si rinforza delle slide del cap. 7."],
-["A city cooperative lets members borrow each other's tools for free. Nobody pays; people help because they know others will help them later.","Which form of economic integration is this?",["Market exchange","Redistribution","Reciprocity","Agency"],2,"Polanyi: reciprocity = dare e ricevere sulla base di relazioni e obblighi reciproci, non di prezzi. \"Io ti aiuto, e prima o poi qualcuno aiuterà me\"."],
-["Sales at a fashion retailer fall for the third year. The board first adds more sales staff and longer opening hours. A new director then asks whether customers still want to buy clothes in physical stores at all.","How do the two responses differ?",["Both are double-loop","The board's response is single-loop; the director's question is double-loop","The board's response is double-loop; the director's is single-loop","Both are single-loop"],1,"Più personale e orari = correggere l'azione tenendo le assunzioni (single-loop). Chiedere se il modello dei negozi ha ancora senso = mettere in discussione le assunzioni (double-loop)."],
-["A global company has a strong matrix. In one country, a manager with 20 years of tenure is consulted on almost every important decision, although on paper she has the same level as eight colleagues.","What does this best illustrate?",["Formal authority from the org chart","Informal influence: influence does not always follow hierarchy","A divisional structure","Requisite variety"],1,"Cap. 7: la rete informale mostra chi comunica e influenza davvero. Anzianità e fiducia creano influenza che l'organigramma non mostra. È anche quello che vi ha detto Joël su IBM."]
-];
-const C={case:`<p><b>Case: AlpenCare Clinics</b></p>
-<p>AlpenCare runs 14 private clinics in Switzerland. Its official values are <i>"Patient first"</i> and <i>"We innovate together"</i>; both are printed on posters in every clinic and repeated in the CEO's town halls.</p>
-<p>All decisions above CHF 2,000, including small equipment purchases and changes to opening hours, need approval from headquarters in Zurich, which can take three to six weeks. Clinic managers are evaluated mainly on monthly cost targets. Two years ago a nurse proposed a new triage process; headquarters rejected it without explanation, and since then few improvement ideas have come from the clinics.</p>
-<p>The number of reported incidents has dropped by 40%, which management celebrates as a sign of higher quality. Nurses say privately that "reporting a mistake only gets you in trouble". In two clinics, experienced nurses have started an informal WhatsApp group where they share workarounds and solve problems together, without telling headquarters.</p>
-<p>Patient waiting times are rising and a competitor has just opened a clinic with walk-in appointments booked by app.</p>`,
-tasks:[
-{q:"C1 · Use Schein's three levels of culture to analyze AlpenCare. Name one example for each level from the case.",p:4,
- crit:[[1,"Artifact correctly identified from the case (e.g., posters, town halls, approval forms, the WhatsApp group as a visible practice)"],[1,"Espoused values correctly identified (\"Patient first\", \"We innovate together\")"],[1,"A plausible underlying assumption inferred from behavior and rewards (e.g., \"mistakes are dangerous\", \"headquarters knows best\", \"cost comes first\")"],[1,"Explains the gap between what AlpenCare says and what it rewards"]],
- model:"Artifacts: posters with the values, CEO town halls, long approval forms; also the informal WhatsApp group as a visible practice. Espoused values: \"Patient first\", \"We innovate together\". Underlying assumptions (inferred): \"mistakes are dangerous to admit\", \"headquarters knows best\", \"costs matter more than patients\". The gap: AlpenCare says it values innovation and patients, but it rewards monthly cost targets and punishes people who raise problems, so the lived culture is \"don't take risks, don't report\"."},
-{q:"C2 · Explain with TWO course concepts why AlpenCare is not learning from its mistakes. Be precise about what each concept shows.",p:4,
- crit:[[1,"First concept correctly named (e.g., psychological safety, Edmondson)"],[1,"First concept correctly applied to the case (falling incident reports = silence, not quality)"],[1,"Second concept correctly named (e.g., single- vs double-loop learning, centralization/requisite variety, self-fulfilling organization, failure to embed learning)"],[1,"Second concept correctly applied to the case"]],
- model:"1) Low psychological safety (Edmondson): nurses believe reporting a mistake \"only gets you in trouble\", so errors are hidden. The 40% drop in reported incidents is most likely silence, not higher quality; the organization loses access to what employees know. 2) Single-loop at best: management reacts to numbers (costs, incident counts) without questioning its assumptions, e.g. whether central approval and cost targets still fit a market where competitors offer walk-in and app booking (double-loop is missing). Also valid: centralization and Ashby, all variety is pushed to one HQ bottleneck with 3 to 6 weeks of delay; or the self-fulfilling loop, rejected ideas → fewer ideas → HQ sees no initiative."},
-{q:"C3 · Propose ONE intervention. Structure your answer as: problem, intervention, expected benefit, trade-off.",p:4,
- crit:[[1,"Problem clearly tied to the diagnosis"],[1,"Concrete intervention (what exactly changes, who decides)"],[1,"Expected benefit linked to a course concept"],[1,"A realistic trade-off or risk named"]],
- model:"Problem: decisions that need local knowledge are stuck at HQ and problems are not reported. Intervention: give clinic managers a decision budget (e.g., up to CHF 20,000 and opening hours) and a 10-day maximum for any escalation; at the same time introduce blame-free incident reviews, and recognize the nurses' WhatsApp group as a community of practice with time and a channel to HQ, without turning it into a new department. Benefit: faster local responses (requisite variety at the edge), more reported errors as a sign of learning, ideas can flow upward. Trade-off: less consistency between clinics and less central control; incident numbers will rise at first, and management must not read that as lower quality."},
-{q:"C4 · Name one assumption you made in your diagnosis and one piece of information you would need to check it.",p:2,
- crit:[[1,"An explicit assumption is stated as an assumption"],[1,"A concrete, checkable piece of information is named"]],
- model:"Assumption: the drop in incident reports reflects fear, not real improvement. Information needed: independent data such as patient complaints, readmission rates or audit results over the same period, or an anonymous staff survey on speaking up."}
-]};
-// mix the option order (fixed per question) so the right answer is not always in the same place
-function mix(arr,salt){arr.forEach((q,i)=>{let seed=(i+1)*7919+salt;const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647;};
-  const idx=q[2].map((_,k)=>k);for(let k=idx.length-1;k>0;k--){const j=Math.floor(rnd()*(k+1));[idx[k],idx[j]]=[idx[j],idx[k]];}
-  q[2]=idx.map(k=>q[2][k]);q[3]=idx.indexOf(q[3]);});}
-mix(A,11);mix(B,23);
-const SIM_MIN=60;let sim=store.get('sim',null),tick=null;
-function simRender(){
-  $('#partA').innerHTML=A.map((q,i)=>qHTML(q,'a'+i,1)).join('');
-  $('#partB').innerHTML=B.map((q,i)=>qHTML(q,'b'+i,2)).join('');
-  $('#partC').innerHTML=C.case+C.tasks.map((t,i)=>`<div class="q"><p class="ask">${esc(t.q)} <span class="pts">(${t.p} pt)</span></p><textarea data-c="${i}" placeholder="Bullet points are fine."></textarea></div>`).join('');
-  $$('#simRun .q[data-id]').forEach(el=>{const id=el.dataset.id;el.querySelectorAll('.opt').forEach((b,k)=>{if(sim.ans[id]===k)b.classList.add('sel');b.onclick=()=>{if(sim.done)return;sim.ans[id]=k;store.set('sim',sim);el.querySelectorAll('.opt').forEach(x=>x.classList.toggle('sel',x===b));};});});
-  $$('#partC textarea').forEach(t=>{t.value=sim.c[t.dataset.c]||'';t.oninput=()=>{sim.c[t.dataset.c]=t.value;store.set('sim',sim);};});
-}
-function fmt(s){s=Math.max(0,s);return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
-function runTimer(){clearInterval(tick);tick=setInterval(()=>{const left=Math.round((sim.t0+SIM_MIN*60000-Date.now())/1000);$('#timer').textContent=left>0?fmt(left):'Tempo scaduto';if(left<=0){clearInterval(tick);}},1000);}
-function simStart(){sim={t0:Date.now(),ans:{},c:{},done:false,rub:{}};store.set('sim',sim);openSim();}
-function openSim(){$('#simIntro').hidden=true;$('#simRes').hidden=true;$('#simRun').hidden=false;simRender();runTimer();}
-function simEnd(){if(!confirm('Consegnare la simulazione?'))return;sim.done=true;sim.used=Math.round((Date.now()-sim.t0)/1000);store.set('sim',sim);clearInterval(tick);results();}
-function results(){
-  $('#simRun').hidden=true;$('#simIntro').hidden=true;const R=$('#simRes');R.hidden=false;
-  const okA=A.filter((q,i)=>sim.ans['a'+i]===q[3]).length, okB=B.filter((q,i)=>sim.ans['b'+i]===q[3]).length;
-  const rev=(arr,pre,pts)=>arr.map((q,i)=>{const a=sim.ans[pre+i];return `<div class="q">${q[0]?`<p class="stem">${esc(q[0])}</p>`:''}<p class="ask">${esc(q[1])} <span class="pts">(${pts} pt)</span></p>${q[2].map((o,k)=>`<button class="opt ${k===q[3]?'ok':(k===a?'bad':'')}" disabled>${String.fromCharCode(65+k)}. ${esc(o)}</button>`).join('')}${a===undefined?'<p class="mono" style="color:var(--bad)">Non risposta</p>':''}<div class="why show">${q[4]}</div></div>`;}).join('');
-  R.innerHTML=`<div class="sheet"><h2>Parti A e B</h2><p class="mono muted" style="margin:-6px 0 12px">Risultato · tempo usato ${fmt(sim.used||0)}</p>
-   <table class="res"><tr><th>Parte</th><th>Punti</th></tr><tr><td>A · Concepts</td><td>${okA} / 18</td></tr><tr><td>B · Scenarios</td><td>${okB*2} / 18</td></tr><tr><td>C · Diagnosis</td><td id="cPts">0 / 14 · correggi qui sotto</td></tr><tr><th>Totale</th><th id="tot"></th></tr></table>
-   <p class="score" id="big"></p><p class="muted">Per orientarti: sopra i 30 punti su 50 sei in una zona sicura, sopra i 40 molto bene. Non è la scala ufficiale.</p></div>
-   <div class="sheet"><h2>Correggi la tua diagnosi</h2><p class="mono muted" style="margin:-6px 0 12px">Parte C · autocorrezione</p>${C.case}
-   ${C.tasks.map((t,i)=>`<div class="q"><p class="ask">${esc(t.q)} <span class="pts">(${t.p} pt)</span></p><div class="box"><span class="mono muted">La tua risposta</span><br>${esc(sim.c[i]||'(vuota)').replace(/\n/g,'<br>')}</div>
-     <div class="rubric">${t.crit.map((c,k)=>`<label><input type="checkbox" data-t="${i}" data-k="${k}" ${sim.rub[i+'-'+k]?'checked':''}><span>${esc(c[1])} <span class="pts">+${c[0]}</span></span></label>`).join('')}</div>
-     <button class="btn ghost" data-m="${i}">Mostra una risposta modello</button><div class="model" id="m${i}">${esc(t.model)}</div></div>`).join('')}</div>
-   <div class="sheet"><h2>Parte A</h2><p class="mono muted" style="margin:-6px 0 12px">Soluzioni</p>${rev(A,'a',1)}</div>
-   <div class="sheet"><h2>Parte B</h2><p class="mono muted" style="margin:-6px 0 12px">Soluzioni</p>${rev(B,'b',2)}</div>
-   <button class="btn" id="again">Rifai la simulazione</button>`;
-  const upd=()=>{let c=0;C.tasks.forEach((t,i)=>t.crit.forEach((cr,k)=>{if(sim.rub[i+'-'+k])c+=cr[0];}));$('#cPts').textContent=c+' / 14';const tot=okA+okB*2+c;$('#tot').textContent=tot+' / 50';$('#big').textContent=tot+' / 50';};
-  R.querySelectorAll('.rubric input').forEach(x=>x.onchange=()=>{sim.rub[x.dataset.t+'-'+x.dataset.k]=x.checked;store.set('sim',sim);upd();});
-  R.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>$('#m'+b.dataset.m).classList.toggle('show'));
-  $('#again').onclick=()=>{if(confirm('Cancellare le risposte e ricominciare?'))simStart();};
-  upd();scrollTo(0,0);
-}
-$('#simStart').onclick=simStart;$('#simEnd').onclick=simEnd;$('#simEnd2').onclick=simEnd;
+/* ---------- 10 mock exams ---------- */
+const UIL=window.EXAM_UI,M=window.MOCK,MI=window.MOCK_I18N||{};
+let lang=store.get('lang','it');if(!UIL[lang])lang='it';
+const U=()=>UIL[lang];
+const tr=(id,en)=>lang==='en'?en:((MI[lang]&&MI[lang][id])||en);
+const seeded=seed=>()=>{seed=(seed*16807)%2147483647;return seed/2147483647;};
+function build(k){
+  const pick=(P,tag)=>{const out=[];[1,2,3,4,5,6,7].forEach(c=>(P[c]||[]).forEach((q,i)=>{if(i%10===k)out.push({id:tag+c+'-'+i,q});}));return out;};
+  const mk=(it,salt)=>{const q=it.q,r=seeded(salt),idx=[0,1,2,3];for(let j=3;j>0;j--){const t=Math.floor(r()*(j+1));[idx[j],idx[t]]=[idx[t],idx[j]];}
+    return {id:it.id,stem:q[0],ask:q[1],opts:idx.map(j=>q[2][j]),ok:idx.indexOf(0),en:q[3]};};
+  return {k,A:pick(M.A,'A').map((it,i)=>mk(it,(k+1)*1009+i*37+11)),B:pick(M.B,'B').map((it,i)=>mk(it,(k+1)*2003+i*41+7)),C:M.CASES[k]};}
+const EXS=[...Array(10)].map((_,k)=>build(k));
+const getS=k=>store.get('ex'+k,null),setS=(k,v)=>store.set('ex'+k,v);
+let cur=null,tick=null;
+const fmt=s=>{s=Math.max(0,s);return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');};
+function qO(q,key,pts,sel){return `<div class="q" data-key="${key}">${q.stem?`<p class="stem">${esc(q.stem)}</p>`:''}<p class="ask">${esc(q.ask)} <span class="pts">(${pts} pt)</span></p>${q.opts.map((o,i)=>`<button class="opt${sel===i?' sel':''}" data-i="${i}">${String.fromCharCode(65+i)}. ${esc(o)}</button>`).join('')}</div>`;}
+function scoreOf(E,st){const a=E.A.filter((q,i)=>st.ans['A'+i]===q.ok).length,b=E.B.filter((q,i)=>st.ans['B'+i]===q.ok).length;let c=0;E.C.tasks.forEach((t,ti)=>t.r.forEach((r,ri)=>{if(st.rub[ti+'-'+ri])c+=r[0];}));return {a,b:b*2,c,tot:a+b*2+c};}
+function simList(){clearInterval(tick);cur=null;const u=U();
+  $('#simBox').innerHTML=`<div class="sheet"><h2>${esc(u.simTitle)}</h2><p class="mono muted" style="margin:-6px 0 12px">${esc(u.simMeta)}</p><p>${esc(u.simIntro)}</p>${u.mtNote?`<p class="mono muted">${esc(u.mtNote)}</p>`:''}
+   <h3>${esc(u.pick)}</h3><div class="chips" style="margin-top:8px">${EXS.map(E=>{const st=getS(E.k);const lab=!st?u.notStarted:st.done?`${scoreOf(E,st).tot}/50`:u.inProgress;
+     return `<button data-k="${E.k}" ${st&&st.done?'class="on"':''}>${esc(u.exam)} ${E.k+1} · ${esc(lab)}</button>`;}).join('')}</div></div>`;
+  $$('#simBox [data-k]').forEach(b=>b.onclick=()=>{const k=+b.dataset.k,st=getS(k);if(st&&st.done)results(k);else simRun(k);});}
+function simRun(k){const u=U(),E=EXS[k];let st=getS(k);if(!st){st={t0:Date.now(),ans:{},c:{},done:false,rub:{}};setS(k,st);}cur=k;
+  $('#simBox').innerHTML=`<div class="bar"><span class="mono">${esc(u.exam)} ${k+1}</span><span class="timer" id="timer">60:00</span><button class="btn ghost" style="color:var(--paper);border-color:var(--paper);margin:0" id="simEnd">${esc(u.deliver)}</button></div>
+   <div class="sheet"><h2>Concepts &amp; Understanding</h2><p class="mono muted" style="margin:-6px 0 12px">${esc(u.partA)}</p>${E.A.map((q,i)=>qO(q,'A'+i,1,st.ans['A'+i])).join('')}</div>
+   <div class="sheet"><h2>Organizational Scenarios</h2><p class="mono muted" style="margin:-6px 0 12px">${esc(u.partB)}</p>${E.B.map((q,i)=>qO(q,'B'+i,2,st.ans['B'+i])).join('')}</div>
+   <div class="sheet"><h2>Application &amp; Diagnosis</h2><p class="mono muted" style="margin:-6px 0 12px">${esc(u.partC)}</p><p><b>Case: ${esc(E.C.title)}</b></p>${E.C.text.split('\n').map(x=>`<p>${esc(x)}</p>`).join('')}
+    ${E.C.tasks.map((t,i)=>`<div class="q"><p class="ask">C${i+1} · ${esc(t.q)} <span class="pts">(${t.p} pt)</span></p><textarea data-c="${i}" placeholder="${esc(u.bullets)}"></textarea></div>`).join('')}</div>
+   <button class="btn ghost" id="simBack">${esc(u.backList)}</button><button class="btn" id="simEnd2">${esc(u.deliver2)}</button>`;
+  $$('#simBox .q[data-key]').forEach(el=>{const key=el.dataset.key;el.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{st.ans[key]=+b.dataset.i;setS(k,st);el.querySelectorAll('.opt').forEach(x=>x.classList.toggle('sel',x===b));});});
+  $$('#simBox textarea').forEach(t=>{t.value=st.c[t.dataset.c]||'';t.oninput=()=>{st.c[t.dataset.c]=t.value;setS(k,st);};});
+  const end=()=>{if(!confirm(u.confirmDeliver))return;st.done=true;st.used=Math.round((Date.now()-st.t0)/1000);setS(k,st);results(k);};
+  $('#simEnd').onclick=end;$('#simEnd2').onclick=end;$('#simBack').onclick=simList;
+  clearInterval(tick);const t=()=>{const left=Math.round((st.t0+3600000-Date.now())/1000);const el=$('#timer');if(!el){clearInterval(tick);return;}el.textContent=left>0?fmt(left):u.timeUp;};t();tick=setInterval(t,1000);scrollTo(0,0);}
+function exportText(E,st){const L=window.EXAM_LANGNAME[lang],sc=scoreOf(E,st);
+  let s=`You are an examiner for the university course OSP-1 "Organisational Processes and Structures" (HSLU, lecturer Joël Maier). Below is a student's mock exam (Exam ${E.k+1}).\n\nTASK\n1. Grade Part C strictly with the rubric. For each task give the points per criterion (full, half or zero), justify each with a short quote from the student's answer, and give one concrete tip to improve.\n2. Give the Part C total out of 14 and the overall total out of 50 (Parts A and B are already scored below).\n3. Use the model answer only as a reference: other correct course concepts, applied precisely to the case, also earn points.\n4. Then look at the Part A and B mistakes and explain in 2–3 sentences each which concepts the student confused.\nWrite your whole answer in ${L}.\n\n`;
+  s+=`=== PART C · CASE: ${E.C.title} ===\n${E.C.text}\n\n`;
+  E.C.tasks.forEach((t,i)=>{s+=`--- C${i+1} (${t.p} points) ---\nQuestion: ${t.q}\nRubric:\n${t.r.map(r=>`- [${r[0]} pt] ${r[1]}`).join('\n')}\nModel answer (reference only): ${t.m}\nStudent's answer:\n${(st.c[i]||'').trim()||'(empty)'}\n\n`;});
+  const wrong=[];[['A',E.A],['B',E.B]].forEach(([p,list])=>list.forEach((q,i)=>{const a=st.ans[p+i];if(a!==q.ok)wrong.push(`${p}${i+1}. ${q.stem?q.stem+' ':''}${q.ask}\n   Student: ${a===undefined?'(no answer)':q.opts[a]}\n   Correct: ${q.opts[q.ok]}`);}));
+  s+=`=== PARTS A AND B ===\nPart A: ${sc.a}/18 · Part B: ${sc.b}/18\nMistakes:\n${wrong.join('\n')||'none'}\n`;return s;}
+function results(k){clearInterval(tick);cur=k;const u=U(),E=EXS[k],st=getS(k);
+  const rev=(list,p,pts)=>list.map((q,i)=>{const a=st.ans[p+i];return `<div class="q">${q.stem?`<p class="stem">${esc(q.stem)}</p>`:''}<p class="ask">${esc(q.ask)} <span class="pts">(${pts} pt)</span></p>${q.opts.map((o,j)=>`<button class="opt ${j===q.ok?'ok':(j===a?'bad':'')}" disabled>${String.fromCharCode(65+j)}. ${esc(o)}</button>`).join('')}${a===undefined?`<p class="mono" style="color:var(--bad)">${esc(u.notAns)}</p>`:''}<div class="why show">${esc(tr(q.id,q.en))}</div></div>`;}).join('');
+  $('#simBox').innerHTML=`<div class="sheet"><h2>${esc(u.result)} · ${esc(u.exam)} ${k+1}</h2><p class="mono muted" style="margin:-6px 0 12px">${esc(u.timeUsed)} ${fmt(st.used||0)}</p>
+    <table class="res"><tr><th>${esc(u.part)}</th><th>${esc(u.points)}</th></tr><tr><td>A · Concepts</td><td id="rA"></td></tr><tr><td>B · Scenarios</td><td id="rB"></td></tr><tr><td>C · Diagnosis</td><td id="rC"></td></tr><tr><th>${esc(u.total)}</th><th id="rT"></th></tr></table>
+    <p class="score" id="big"></p><p class="muted">${esc(u.guide)}</p></div>
+   <div class="sheet"><h2>${esc(u.exp)}</h2><p>${esc(u.expHint)}</p><textarea id="expTxt" readonly style="min-height:110px;font-family:var(--mono);font-size:12px"></textarea><button class="btn" id="expCopy">${esc(u.copy)}</button><button class="btn ghost" id="expDl">${esc(u.download)}</button></div>
+   <div class="sheet"><h2>${esc(u.selfCh)}</h2><p class="mono muted" style="margin:-6px 0 12px">${esc(u.selfC)}</p><p><b>Case: ${esc(E.C.title)}</b></p>${E.C.text.split('\n').map(x=>`<p>${esc(x)}</p>`).join('')}
+    ${E.C.tasks.map((t,i)=>`<div class="q"><p class="ask">C${i+1} · ${esc(t.q)} <span class="pts">(${t.p} pt)</span></p><div class="box"><span class="mono muted">${esc(u.yourAns)}</span><br>${esc(st.c[i]||u.empty).replace(/\n/g,'<br>')}</div>
+      <div class="rubric">${t.r.map((r,j)=>`<label><input type="checkbox" data-t="${i}" data-j="${j}" ${st.rub[i+'-'+j]?'checked':''}><span>${esc(tr('R'+k+'-'+i+'-'+j,r[1]))} <span class="pts">+${r[0]}</span></span></label>`).join('')}</div>
+      <button class="btn ghost" data-m="${i}">${esc(u.model)}</button><div class="model" id="m${i}">${esc(t.m)}</div></div>`).join('')}</div>
+   <div class="sheet"><h2>Part A</h2><p class="mono muted" style="margin:-6px 0 12px">${esc(u.solutions)}</p>${rev(E.A,'A',1)}</div>
+   <div class="sheet"><h2>Part B</h2><p class="mono muted" style="margin:-6px 0 12px">${esc(u.solutions)}</p>${rev(E.B,'B',2)}</div>
+   <button class="btn ghost" id="toList">${esc(u.backList)}</button><button class="btn" id="again">${esc(u.again)}</button>`;
+  const upd=()=>{const sc=scoreOf(E,st);$('#rA').textContent=sc.a+' / 18';$('#rB').textContent=sc.b+' / 18';$('#rC').textContent=sc.c+' / 14';$('#rT').textContent=sc.tot+' / 50';$('#big').textContent=sc.tot+' / 50';$('#expTxt').value=exportText(E,st);};
+  $$('#simBox .rubric input').forEach(x=>x.onchange=()=>{st.rub[x.dataset.t+'-'+x.dataset.j]=x.checked;setS(k,st);upd();});
+  $$('#simBox [data-m]').forEach(b=>b.onclick=()=>$('#m'+b.dataset.m).classList.toggle('show'));
+  $('#expCopy').onclick=async()=>{const t=$('#expTxt');try{await navigator.clipboard.writeText(t.value);}catch(e){t.select();try{document.execCommand('copy');}catch(_){}}$('#expCopy').textContent=u.copied;setTimeout(()=>$('#expCopy').textContent=u.copy,1800);};
+  $('#expDl').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([$('#expTxt').value],{type:'text/plain;charset=utf-8'}));a.download=`OSP-1 mock exam ${k+1}.txt`;document.body.appendChild(a);a.click();a.remove();};
+  $('#toList').onclick=simList;$('#again').onclick=()=>{if(confirm(u.confirmRestart)){setS(k,null);simRun(k);}};
+  upd();scrollTo(0,0);}
+function applyLang(){const u=U();document.documentElement.lang=lang;$('#langSel').value=lang;$('#lede').textContent=u.lede;
+  $$('.tab').forEach(t=>{if(u.tabs[t.dataset.v])t.textContent=u.tabs[t.dataset.v];});
+  if(cur===null)simList();else{const st=getS(cur);if(st&&st.done)results(cur);}}
+$('#langSel').onchange=e=>{lang=e.target.value;store.set('lang',lang);applyLang();};
 
 /* ---------- boot ---------- */
 renderCap();
-if(sim&&sim.done)results();else if(sim)openSim();
+applyLang();
 const h=location.hash.slice(1);show(['cap','mix','sim','hard','tips'].includes(h)?h:(['cap','mix','sim','hard','tips'].includes(store.get('tab','cap'))?store.get('tab','cap'):'cap'));
 })();
 </script>
