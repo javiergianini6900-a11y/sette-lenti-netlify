@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sette Lenti · Esame</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#E8ECEF; --paper:#F8F9FA; --ink:#131A21; --ink-2:#4B5663; --rule:#C6CED6;
+  --hi:#F4C300; --hi-soft:#F4C30055; --on-hi:#131A21;
+  --ok:#17744A; --ok-bg:#DDF0E6; --bad:#B0281F; --bad-bg:#F7E1DF;
+  --display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --body:"Literata",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#0F1418; --paper:#182027; --ink:#E9EDF1; --ink-2:#A9B4BF; --rule:#33404B;
+  --ok:#5FD39A; --ok-bg:#163527; --bad:#FF8A80; --bad-bg:#3A1C1A; --hi-soft:#F4C30033;}}
+:root[data-theme="dark"]{--ground:#0F1418; --paper:#182027; --ink:#E9EDF1; --ink-2:#A9B4BF; --rule:#33404B;
+  --ok:#5FD39A; --ok-bg:#163527; --bad:#FF8A80; --bad-bg:#3A1C1A; --hi-soft:#F4C30033;}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55}
+.wrap{max-width:860px;margin:0 auto;padding:28px 16px 80px}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.muted{color:var(--ink-2)}
+a{color:inherit}
+header h1{font-family:var(--display);font-weight:800;font-stretch:80%;font-size:clamp(34px,7vw,58px);line-height:1;margin:10px 0 12px}
+header h1 em{font-style:normal;background:var(--hi);color:var(--on-hi);padding:0 .12em}
+.lede{color:var(--ink-2);max-width:62ch;margin:0 0 6px}
+.back{display:inline-block;margin-bottom:8px;text-decoration:none;border-bottom:1px solid var(--rule)}
+nav.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:22px 0 18px;position:sticky;top:0;background:var(--ground);padding:8px 0;z-index:5}
+.tab{font-family:var(--mono);font-size:13px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);padding:9px 12px;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+.sheet{background:var(--paper);border:1px solid var(--rule);padding:22px 20px;margin-bottom:16px}
+.sheet h2{font-family:var(--display);font-weight:800;font-stretch:85%;font-size:28px;line-height:1.1;margin:4px 0 12px}
+.sheet h3{font-family:var(--display);font-weight:700;font-size:19px;margin:18px 0 6px}
+.sheet p{margin:0 0 10px}
+.sheet ul{margin:4px 0 12px;padding-left:20px}
+.term{font-family:var(--mono);font-size:13px;background:var(--hi-soft);padding:1px 5px}
+.box{border-left:4px solid var(--hi);padding:8px 12px;margin:12px 0;background:var(--ground)}
+.box.warn{border-color:var(--bad)}
+.src{font-family:var(--mono);font-size:11px;color:var(--ink-2);margin-top:10px}
+.lessons-nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.lessons-nav button{font-family:var(--mono);font-size:12px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);padding:6px 9px;cursor:pointer}
+.lessons-nav button.on{border-color:var(--ink);background:var(--hi);color:var(--on-hi)}
+.loop{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-family:var(--mono);font-size:13px;margin:10px 0}
+.loop span{border:1px solid var(--ink);padding:5px 8px;background:var(--paper)}
+.q{border-top:1px solid var(--rule);padding:16px 0 6px}
+.q:first-child{border-top:0}
+.q .stem{margin:0 0 4px}
+.q .ask{font-weight:600;margin:6px 0 8px}
+.opt{display:block;width:100%;text-align:left;font-family:var(--body);font-size:16px;line-height:1.4;border:1.5px solid var(--rule);background:var(--paper);color:var(--ink);padding:10px 12px;margin:6px 0;cursor:pointer}
+.opt:hover{border-color:var(--ink)}
+.opt.sel{border-color:var(--ink);box-shadow:inset 4px 0 0 var(--ink)}
+.opt.ok{border-color:var(--ok);background:var(--ok-bg)}
+.opt.bad{border-color:var(--bad);background:var(--bad-bg)}
+.opt:disabled{cursor:default}
+.why{display:none;font-size:15px;border-left:3px solid var(--ok);padding:6px 10px;margin:8px 0;background:var(--ground)}
+.why.show{display:block}
+.pts{font-family:var(--mono);font-size:11px;color:var(--ink-2)}
+textarea{width:100%;min-height:130px;font-family:var(--body);font-size:16px;line-height:1.45;padding:10px;border:1.5px solid var(--rule);background:var(--paper);color:var(--ink);resize:vertical}
+textarea:focus,.opt:focus-visible,.tab:focus-visible,button:focus-visible{outline:3px solid var(--hi);outline-offset:2px}
+.btn{font-family:var(--mono);font-size:13px;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);padding:10px 14px;cursor:pointer;margin:6px 6px 0 0}
+.btn.ghost{background:transparent;color:var(--ink)}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--ink);color:var(--paper);padding:10px 14px;margin-bottom:14px;position:sticky;top:54px;z-index:4}
+.bar .timer{font-family:var(--mono);font-size:18px}
+.rubric label{display:flex;gap:10px;align-items:flex-start;margin:6px 0;font-size:15px}
+.rubric input{margin-top:5px;width:18px;height:18px;flex:none}
+.model{display:none;border:1px dashed var(--ink-2);padding:10px 12px;margin:10px 0;font-size:15px}
+.model.show{display:block}
+.score{font-family:var(--display);font-weight:800;font-size:44px;line-height:1}
+table.res{border-collapse:collapse;width:100%;margin:10px 0;font-size:15px}
+table.res td,table.res th{border-bottom:1px solid var(--rule);padding:6px 4px;text-align:left}
+[hidden]{display:none!important}
+@media (max-width:560px){.bar{top:0;position:relative}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <a class="back mono" href="./">← Sette Lenti</a>
+  <div class="mono muted">OSP-1 · Joël Maier · Esame 28.10.2026 · 14:00</div>
+  <h1>Pronti per <em>l'esame</em></h1>
+  <p class="lede">Qui trovi il capitolo 7, che mancava, un allenamento sul capitolo 7 e una simulazione completa nel formato vero: 50 punti, 60 minuti, parti A, B e C. Le domande sono in inglese come all'esame, le spiegazioni in italiano.</p>
+</header>
+
+<nav class="tabs" role="tablist">
+  <button class="tab" role="tab" data-v="lez">Capitolo 7 · lezione</button>
+  <button class="tab" role="tab" data-v="drill">Capitolo 7 · allenamento</button>
+  <button class="tab" role="tab" data-v="sim">Simulazione d'esame</button>
+  <button class="tab" role="tab" data-v="tips">Come funziona l'esame</button>
+</nav>
+
+<section id="v-lez" hidden>
+  <div class="lessons-nav" id="lnav"></div>
+  <div id="lbody"></div>
+  <div><button class="btn ghost" id="lprev">← Indietro</button><button class="btn" id="lnext">Avanti →</button></div>
+</section>
+
+<section id="v-drill" hidden>
+  <div class="sheet"><span class="mono muted">Capitolo 7 · stile esame</span><h2>Allenamento</h2>
+  <p>Rispondi, poi leggi perché. Le risposte sbagliate restano evidenziate così vedi dove ripassare.</p>
+  <p class="mono" id="drillScore"></p>
+  <div id="drillQ"></div>
+  <button class="btn ghost" id="drillReset">Ricomincia</button></div>
+</section>
+
+<section id="v-sim" hidden>
+  <div class="sheet" id="simIntro">
+    <span class="mono muted">50 punti · 60 minuti · closed book</span>
+    <h2>Simulazione d'esame</h2>
+    <p>Come il 28: <b>Parte A</b> concetti (18 punti), <b>Parte B</b> scenari brevi (18 punti), <b>Parte C</b> un caso da diagnosticare per scritto (14 punti). Copre tutte e sette le aree del corso.</p>
+    <p>Una sola risposta per domanda. Il timer è per allenarti al ritmo: alla fine vedi le soluzioni e correggi tu la parte C con la griglia.</p>
+    <button class="btn" id="simStart">Inizia la simulazione</button>
+  </div>
+  <div id="simRun" hidden>
+    <div class="bar"><span class="mono">Simulazione</span><span class="timer" id="timer">60:00</span><button class="btn ghost" style="color:var(--paper);border-color:var(--paper);margin:0" id="simEnd">Consegna</button></div>
+    <div class="sheet"><span class="mono muted">Parte A · 18 punti · 1 punto ciascuna</span><h2>Concepts &amp; Understanding</h2><div id="partA"></div></div>
+    <div class="sheet"><span class="mono muted">Parte B · 18 punti · 2 punti ciascuna</span><h2>Organizational Scenarios</h2><div id="partB"></div></div>
+    <div class="sheet"><span class="mono muted">Parte C · 14 punti</span><h2>Application &amp; Diagnosis</h2><div id="partC"></div></div>
+    <button class="btn" id="simEnd2">Consegna e correggi</button>
+  </div>
+  <div id="simRes" hidden></div>
+</section>
+
+<section id="v-tips" hidden>
+  <div class="sheet">
+    <span class="mono muted">Dalle slide della settimana 4</span>
+    <h2>Come funziona l'esame</h2>
+    <p><b>28 ottobre, 14:00–15:00.</b> 50 punti in 60 minuti, closed book: niente materiali, niente dispositivi, solo penna blu o nera indelebile.</p>
+    <ul>
+      <li><b>Parte A, Concepts &amp; Understanding (18 punti):</b> conoscere concetti e termini, distinguere concetti e teorie simili.</li>
+      <li><b>Parte B, Organizational Scenarios (18 punti):</b> applicare i concetti a situazioni brevi, scegliere la spiegazione che si adatta meglio al caso.</li>
+      <li><b>Parte C, Application &amp; Diagnosis (14 punti):</b> analizzare una situazione, applicare la teoria, sviluppare e giustificare una diagnosi o una raccomandazione.</li>
+    </ul>
+    <div class="box warn"><b>Regole che costano punti:</b> nelle domande a scelta singola, due risposte segnate = 0 punti. Se cambi risposta, cancella chiaramente la vecchia. Risposte illeggibili o contraddittorie = 0. Nella parte C puoi usare elenchi puntati, ci sono punti parziali, e se fai un'ipotesi <b>scrivila esplicitamente</b>.</div>
+    <h3>Per ogni concetto devi saper</h3>
+    <ul>
+      <li>spiegarlo con parole tue;</li>
+      <li>riconoscerlo in un esempio;</li>
+      <li>distinguerlo da concetti simili;</li>
+      <li>dire cosa ci aiuta a capire;</li>
+      <li>applicarlo a una situazione nuova;</li>
+      <li>indicarne punti di forza, limiti o trade-off.</li>
+    </ul>
+    <h3>Le sette aree</h3>
+    <ol>
+      <li>Beliefs, values &amp; underlying assumptions (cap. 1)</li>
+      <li>Economic &amp; social context (cap. 2)</li>
+      <li>Organizational theories (cap. 3)</li>
+      <li>Purpose, stakeholders &amp; value creation (cap. 4)</li>
+      <li>Work, structures, processes &amp; coordination (cap. 5)</li>
+      <li>Complexity, adaptation &amp; viability (cap. 6)</li>
+      <li>People, culture &amp; organizational learning (cap. 7)</li>
+    </ol>
+    <p>Le aree 1–6 le trovi nel sito principale (lezioni, Detective, Coppie). La 7 è in questa pagina.</p>
+    <h3>Schema per la parte C</h3>
+    <p>È lo schema delle slide della settimana 2 (CoffeeNow): <b>1 Problem</b> cosa stai risolvendo · <b>2 Intervention</b> cosa cambi esattamente · <b>3 Expected benefit</b> cosa deve migliorare · <b>4 Trade-off</b> quale nuovo problema crei. Nomina sempre la teoria che usi.</p>
+  </div>
+</section>
+</div>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const store={get(k,d){try{const v=localStorage.getItem('sl-exam-'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('sl-exam-'+k,JSON.stringify(v))}catch(e){}}};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ---------- tabs ---------- */
+function show(v){$$('.tab').forEach(t=>t.setAttribute('aria-selected',t.dataset.v===v));['lez','drill','sim','tips'].forEach(x=>$('#v-'+x).hidden=x!==v);store.set('tab',v);scrollTo(0,0);}
+$$('.tab').forEach(t=>t.onclick=()=>show(t.dataset.v));
+
+/* ---------- chapter 7 lessons ---------- */
+const L=[
+{t:"1 · L'idea di persona dietro ogni sistema",h:`
+<p>Il capitolo 7 parte da una frase: <b>ogni sistema di management contiene una visione delle persone.</b> Le persone evitano il lavoro? Vogliono responsabilità? Ci si può fidare? Come rispondi a queste domande decide come costruisci l'organizzazione.</p>
+<h3>Theory X e Theory Y · Douglas McGregor, 1960</h3>
+<p><span class="term">Theory X</span>: i manager pensano che le persone evitino il lavoro e la responsabilità, abbiano bisogno di direzione e controllo stretto, e reagiscano soprattutto a premi e punizioni esterni. Porta a: decisioni centralizzate, regole dettagliate, supervisione stretta, poca autonomia.</p>
+<p><span class="term">Theory Y</span>: i manager pensano che le persone sappiano autodirigersi, accettino responsabilità, imparino, portino idee e si motivino con obiettivi che hanno senso. Porta a: delega, partecipazione, ruoli più ampi, autonomia.</p>
+<div class="box"><b>Takeaway del corso:</b> le assunzioni del management diventano strutture organizzative.</div>
+<h3>The self-fulfilling organization</h3>
+<div class="loop"><span>1 · Assunzione: "non ci si può fidare"</span>→<span>2 · Controlli: approvazioni, regole, monitoraggio, poca autonomia</span>→<span>3 · Le persone smettono di prendere iniziativa</span>→<span>4 · "Visto? Vanno controllate"</span>↺</div>
+<p>È un <b>circolo che si rinforza</b>: il sistema produce proprio il comportamento che "dimostra" l'assunzione iniziale. Collega con il capitolo 1 (le assunzioni nascoste diventano pratiche) e con il capitolo 6 (feedback loop rinforzanti).</p>
+<div class="box warn"><b>Non confondere</b> Theory X/Y con un giudizio su chi è "buono": è una lente per vedere quale idea di persona c'è dietro una struttura. All'esame lo riconosci da frasi come "managers assume employees…" seguite da regole e controlli.</div>
+<p class="src">McGregor, D. (1960). The Human Side of Enterprise.</p>`},
+{t:"2 · Motivazione",h:`
+<p><b>La motivazione non si può progettare direttamente.</b> Un'organizzazione può progettare le <i>condizioni</i>: ruoli, incentivi, condizioni di lavoro, autonomia, feedback, possibilità di imparare. Ma non può ordinare motivazione, creatività, impegno, iniziativa o fiducia.</p>
+<h3>Self-Determination Theory · Deci &amp; Ryan, 1985</h3>
+<ul>
+<li><span class="term">Autonomy</span>: ho un'influenza reale su <i>come</i> lavoro.</li>
+<li><span class="term">Competence</span>: posso usare e sviluppare le mie capacità.</li>
+<li><span class="term">Relatedness</span>: mi sento legato agli altri.</li>
+<li>In più, <span class="term">Purpose / meaning</span>: capisco perché il mio contributo conta.</li>
+</ul>
+<h3>Dan Pink · The Puzzle of Motivation</h3>
+<p>Il video visto in classe: gli incentivi esterni funzionano bene per compiti semplici e meccanici, ma per compiti creativi e complessi i premi possono <b>peggiorare</b> la performance. La motivazione intrinseca cresce con autonomia, padronanza (mastery) e scopo.</p>
+<div class="box"><b>Collegamento:</b> Human Relations (cap. 3) diceva già che le persone sono motivate da più del denaro. Il capitolo 7 aggiunge il "come": creare condizioni, non dare ordini.</div>
+<p class="src">Deci, E. L., &amp; Ryan, R. M. (1985). Intrinsic Motivation and Self-Determination in Human Behavior.</p>`},
+{t:"3 · Organizzazione informale",h:`
+<p><span class="term">Formal organization</span>: progettata apposta. Ruoli, linee di riporto, processi, decision rights, regole.<br><span class="term">Informal organization</span>: nasce socialmente. Relazioni, fiducia, influenza, comunità, norme non scritte.</p>
+<h3>The informal network</h3>
+<p>L'organigramma dice <b>chi dovrebbe</b> comunicare. La rete informale mostra <b>chi comunica davvero</b>. Rivela: esperti di fiducia, leader informali, knowledge broker, persone isolate, relazioni tra funzioni, colli di bottiglia nascosti.</p>
+<div class="box"><b>Takeaway:</b> l'influenza non segue sempre la gerarchia.</div>
+<h3>Beneficio o rischio?</h3>
+<p><b>Aiuta</b> a: accelerare la comunicazione, collegare i silos, diffondere conoscenza, risolvere problemi inattesi, collaborare.<br><b>Può anche</b>: escludere persone, rinforzare un potere nascosto, aggirare l'accountability, diffondere disinformazione, resistere al cambiamento.</p>
+<div class="box warn"><b>Frase chiave da usare all'esame:</b> l'organizzazione informale non è né buona né cattiva, è una parte inevitabile di ogni sistema sociale.</div>
+<p>Nel vostro progetto IBM: i deal maker che "find a way", le reti "invisible in the org chart", chiedere a chi aveva il ruolo prima. È tutto organizzazione informale.</p>`},
+{t:"4 · Cultura: Schein",h:`
+<p>Definizione del corso: <b>la cultura organizzativa è il modello di assunzioni, valori e norme condivisi che influenza come i membri percepiscono, pensano e agiscono.</b> In breve, con Schein: "how we do things around here, and why".</p>
+<h3>Tre livelli · Edgar Schein</h3>
+<ol>
+<li><span class="term">Artifacts</span>: ciò che vedi. Design degli uffici, linguaggio, rituali, abbigliamento, storie, simboli.</li>
+<li><span class="term">Espoused values</span>: ciò che l'organizzazione <i>dice</i> che conta. "Customer first", "Speed over perfection", "One Team One Voice".</li>
+<li><span class="term">Underlying assumptions</span>: convinzioni profonde date per scontate. "Gli errori sono pericolosi", "i leader devono avere le risposte", "il conflitto va evitato".</li>
+</ol>
+<div class="box"><b>Takeaway:</b> la cultura visibile è spesso guidata da assunzioni invisibili.</div>
+<h3>What we say vs. what we reward</h3>
+<p>Esempio delle slide: l'organizzazione dice "We value innovation". Ma il fallimento viene punito, i budget premiano la prevedibilità, servono cinque approvazioni, le promozioni premiano chi evita rischi. <b>Cultura reale probabile: "non prendere rischi".</b></p>
+<div class="box warn"><b>Trappola d'esame:</b> uno slogan è un <i>espoused value</i>, non un'assunzione. L'assunzione la deduci dai comportamenti ripetuti e dagli incentivi. La cultura si vede più da quello che si premia che dai poster sul muro.</div>
+<p class="src">Schein, E. H. (2010). Organizational Culture and Leadership.</p>`},
+{t:"5 · La cultura coordina",h:`
+<h3>Culture as a coordination mechanism</h3>
+<p>Il coordinamento formale usa gerarchia, regole, processi, riunioni, decision rights (cap. 5). La cultura coordina attraverso assunzioni condivise, norme, aspettative, fiducia, "quello che le persone sanno che è appropriato".</p>
+<p>Esempio: nessuno ha bisogno di una procedura per ogni situazione con un cliente se i dipendenti condividono un'idea forte di buon servizio.</p>
+<div class="box"><b>Takeaway:</b> la cultura può coordinare il comportamento dove le regole formali non riescono a prevedere ogni situazione. Collegamento con il cap. 6: in un ambiente complesso le regole non bastano mai (Ashby).</div>
+<h3>One organization, multiple cultures</h3>
+<p>Le organizzazioni raramente hanno una sola cultura uniforme. Sottoculture possibili: engineering, sales, finance, operations, organizzazioni nazionali, top management, personale di prima linea.</p>
+<p>Esempio: Sales vuole velocità e reattività verso il cliente; Compliance vuole controllo del rischio e coerenza. <b>Nessuna delle due è sbagliata in sé.</b> Il conflitto tra sottoculture spesso è un conflitto tra esigenze legittime.</p>`},
+{t:"6 · Apprendimento organizzativo",h:`
+<p><b>Gli individui imparano, ma un'organizzazione impara solo quando la conoscenza cambia</b> qualcosa di condiviso: comprensione, routine, processi, decisioni, capacità, comportamento futuro.</p>
+<div class="loop"><span>Experience</span>→<span>Reflection</span>→<span>Learning</span>→<span>Changed action</span></div>
+<p>Come imparano le organizzazioni: <b>experience</b> (cosa è successo?), <b>reflection</b> (perché?), <b>feedback</b> (cosa ha funzionato?), <b>experimentation</b> (cosa possiamo provare di diverso?), <b>knowledge sharing</b> (chi altro deve saperlo?), <b>institutionalization</b> (come diventa parte delle routine o della struttura?).</p>
+<h3>Single-loop vs. double-loop · Argyris &amp; Schön, 1978</h3>
+<p><span class="term">Single-loop</span>: "stiamo facendo le cose nel modo giusto?" Errore → correggo l'azione → <b>tengo le assunzioni</b>. Esempio: vendite basse → più chiamate di vendita.</p>
+<p><span class="term">Double-loop</span>: "stiamo facendo le cose giuste?" Errore → <b>metto in discussione le assunzioni</b> → posso cambiare obiettivi, regole o strategia. Esempio: vendite basse → la nostra offerta è ancora rilevante?</p>
+<div class="box warn"><b>Come lo riconosci:</b> se la soluzione è "fare di più / meglio la stessa cosa" è single-loop. Se qualcuno chiede "ma l'obiettivo o la regola hanno ancora senso?" è double-loop. Nota la somiglianza con efficiency (doing things right) e effectiveness (doing the right things) del cap. 6.</div>
+<h3>Dall'individuo all'organizzazione</h3>
+<div class="loop"><span>Individual: qualcuno scopre qualcosa</span>→<span>Team: se ne discute</span>→<span>Organization: cambiano processi, decisioni, routine</span>→<span>Future behavior: altri agiscono diversamente anche se quella persona non c'è più</span></div>
+<p class="src">Argyris, C., &amp; Schön, D. A. (1978). Organizational Learning.</p>`},
+{t:"7 · Senge e communities of practice",h:`
+<h3>The learning organization · Peter Senge, 1990</h3>
+<p>Un'organizzazione che rafforza continuamente la sua capacità di imparare e adattarsi. Le cinque discipline:</p>
+<ul><li><b>Systems thinking</b></li><li>Personal mastery</li><li>Mental models</li><li>Shared vision</li><li>Team learning</li></ul>
+<div class="box">Per questo corso conta soprattutto <b>systems thinking</b>, perché collega l'apprendimento alla complessità e all'interdipendenza del cap. 6.</div>
+<h3>Communities of practice · Etienne Wenger, 1998</h3>
+<p><b>Un gruppo di persone che impara attraverso un'interazione continua intorno a un'area di pratica condivisa.</b> Non tutta la conoscenza passa dalla formazione formale.</p>
+<p>Aiutano a: scambiare conoscenza tacita, risolvere problemi, diffondere pratiche, collegare funzioni, costruire competenza. Esempi: community UX, rete dei venditori, community dei project manager.</p>
+<div class="box warn"><b>Non confondere</b> una community of practice con un team o un reparto: non ha un obiettivo di produzione assegnato né una linea di riporto. Tiene insieme le persone una pratica comune, ed è per questo che collega i silos.</div>
+<p class="src">Senge, P. M. (1990). The Fifth Discipline · Wenger, E. (1998). Communities of Practice.</p>`},
+{t:"8 · Perché non si impara",h:`
+<h3>Why organizations fail to learn</h3>
+<p>Barriere tipiche: paura di fallire, colpa, gerarchia, silos informativi, niente tempo per riflettere, incentivi alla performance di breve periodo, "abbiamo sempre fatto così", rifiuto di mettere in discussione le assunzioni.</p>
+<p>La domanda chiave delle slide: <b>le persone possono dire senza rischi "avevamo torto"?</b></p>
+<h3>Psychological safety · Amy Edmondson, 1999</h3>
+<p>Le persone credono di poter fare domande, ammettere errori, essere in disaccordo, sollevare preoccupazioni, proporre idee <b>senza un rischio interpersonale eccessivo</b>.</p>
+<div class="box warn"><b>Non significa:</b> nessuna accountability, evitare feedback difficili, stare sempre comodi. All'esame questa distinzione è una domanda facile da sbagliare.</div>
+<p><b>Perché conta:</b> se nessuno parla, l'organizzazione non può accedere a ciò che i dipendenti sanno.</p>
+<h3>Fixed vs. growth mindset · Carol Dweck, 2006</h3>
+<p><span class="term">Fixed</span>: le capacità sono fisse, il fallimento è la prova di un limite. <span class="term">Growth</span>: le capacità si sviluppano con apprendimento e impegno, il fallimento è informazione. Domanda organizzativa: gli errori sono soprattutto da nascondere o informazioni da cui imparare?</p>
+<p class="src">Edmondson, A. C. (1999). Psychological safety and learning behavior in work teams · Dweck, C. S. (2006). Mindset.</p>`},
+{t:"9 · Tutto insieme: viability",h:`
+<p>Il capitolo 7 chiude il cerchio con il framework della viability del cap. 6 (Direction · Structure · People e le tre tensioni):</p>
+<ul>
+<li><b>Ambidexterity</b> (exploration ↔ exploitation) richiede sperimentazione, apprendimento, scambio di conoscenza.</li>
+<li><b>Adaptability</b> (transformation ↔ stability) richiede feedback, disponibilità a cambiare, capacità.</li>
+<li><b>Coherence</b> (autonomy ↔ control) richiede fiducia, scopo condiviso, cultura, relazioni.</li>
+</ul>
+<p><b>Direction:</b> purpose, visione condivisa, priorità. <b>People:</b> motivazione, capacità, relazioni, cultura, apprendimento. <b>Structure:</b> ruoli, processi, decision rights, coordinamento. Struttura formale e comportamento umano si influenzano continuamente.</p>
+<h3>Le quattro frasi finali del capitolo</h3>
+<ol>
+<li>I sistemi di management sono costruiti su assunzioni sulle persone.</li>
+<li>Le relazioni informali influenzano fortemente come si lavora davvero.</li>
+<li>La cultura coordina il comportamento oltre le regole formali.</li>
+<li>L'apprendimento decide se un'organizzazione può adattarsi ed evolvere.</li>
+</ol>
+<div class="box"><b>Frase da portare all'esame:</b> non puoi capire un'organizzazione guardando solo il suo organigramma.</div>`}
+];
+let li=store.get('lesson',0);
+function renderL(){li=Math.max(0,Math.min(L.length-1,li));store.set('lesson',li);
+  $('#lnav').innerHTML=L.map((x,i)=>`<button class="${i===li?'on':''}" data-i="${i}">${esc(x.t.split(' · ')[0])}</button>`).join('');
+  $$('#lnav button').forEach(b=>b.onclick=()=>{li=+b.dataset.i;renderL();});
+  $('#lbody').innerHTML=`<div class="sheet"><span class="mono muted">Capitolo 7 · People, culture &amp; organizational learning</span><h2>${esc(L[li].t.split(' · ').slice(1).join(' · '))}</h2>${L[li].h}</div>`;
+  $('#lprev').disabled=li===0;$('#lnext').textContent=li===L.length-1?'Vai all’allenamento →':'Avanti →';}
+$('#lprev').onclick=()=>{li--;renderL();scrollTo(0,0);};
+$('#lnext').onclick=()=>{if(li===L.length-1){show('drill');return;}li++;renderL();scrollTo(0,0);};
+
+/* ---------- question helpers ---------- */
+// [stem, question, options, correct index, explanation (it)]
+function qHTML(q,id,pts){return `<div class="q" data-id="${id}">${q[0]?`<p class="stem">${esc(q[0])}</p>`:''}<p class="ask">${esc(q[1])}${pts?` <span class="pts">(${pts} pt)</span>`:''}</p>${q[2].map((o,i)=>`<button class="opt" data-i="${i}">${String.fromCharCode(65+i)}. ${esc(o)}</button>`).join('')}<div class="why">${q[4]}</div></div>`;}
+
+/* ---------- chapter 7 drill ---------- */
+function mixQ(arr,salt){arr.forEach((q,i)=>{let seed=(i+1)*7919+salt;const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647;};const idx=q[2].map((_,k)=>k);for(let k=idx.length-1;k>0;k--){const j=Math.floor(rnd()*(k+1));[idx[k],idx[j]]=[idx[j],idx[k]];}q[2]=idx.map(k=>q[2][k]);q[3]=idx.indexOf(q[3]);});}
+const D=[
+["Managers at a logistics firm believe drivers will cut corners unless watched. They install GPS tracking, require approval for every route change and publish daily rankings. After a year, drivers no longer suggest better routes. Managers say: \"See, they don't care.\"","Which concept best explains this pattern?",["Double-loop learning","The self-fulfilling organization based on Theory X assumptions","Requisite variety","Mimetic isomorphism"],1,"È il circolo che si autoavvera: assunzione Theory X → controlli → le persone smettono di prendere iniziativa → il management si sente confermato. Double-loop sarebbe proprio la via d'uscita (mettere in discussione l'assunzione), non la spiegazione."],
+["","According to Self-Determination Theory (Deci & Ryan), which three needs support sustainable motivation?",["Salary, security and status","Autonomy, competence and relatedness","Recognition, belonging and hierarchy","Purpose, incentives and control"],1,"Autonomy, competence, relatedness. Le slide aggiungono purpose/meaning come elemento in più, ma i tre bisogni della teoria sono quelli."],
+["A software company pays large bonuses for solving complex design problems faster. Surprisingly, the quality of creative solutions drops.","Which explanation fits the course material best?",["Bonuses always increase performance; the problem must be poor measurement","For complex, creative work external rewards can reduce performance; intrinsic motivation matters more","The company needs more formalization of the design process","This is a classic agency problem between shareholders and managers"],1,"È il punto di Dan Pink: gli incentivi esterni funzionano per compiti semplici, ma per compiti creativi possono peggiorare la performance. La motivazione si crea con condizioni (autonomia, competenza, scopo), non si ordina."],
+["A bank's website says \"We value innovation\". Yet failed pilots end careers, every new idea needs five sign-offs and promotions go to people who never made mistakes.","Using Schein, what is the most likely underlying assumption?",["\"Innovation is our core value\"","\"Taking risks is dangerous here\"","\"Customers come first\"","\"Five approvals guarantee quality\""],1,"\"We value innovation\" è un espoused value. L'underlying assumption si deduce da ciò che viene premiato e punito: qui il messaggio reale è \"non prendere rischi\". La cultura si vede più dagli incentivi che dai poster."],
+["","Which of the following is an ARTIFACT in Schein's model?",["The shared belief that leaders must always have the answers","An open-plan office where managers sit with their teams","The official value \"Customer first\"","The assumption that conflict should be avoided"],1,"Gli artifacts sono ciò che si vede: uffici, linguaggio, rituali, abbigliamento, storie, simboli. \"Customer first\" è un espoused value; le altre due sono underlying assumptions."],
+["A hotel chain has no manual for every guest complaint. Still, staff in all hotels handle unusual situations in a similar, generous way because \"that's what a good host does here\".","What coordinates their behavior?",["Formalization","Culture as a coordination mechanism","Centralization","Market exchange"],1,"La cultura coordina dove le regole formali non possono prevedere ogni situazione: norme e assunzioni condivise su cosa è appropriato. Formalization sarebbe il contrario, regole scritte."],
+["In a pharma company, Sales pushes for fast launches and flexible deals, while Compliance insists on slow checks and consistency. Both blame the other.","How would the course describe this?",["One department has the wrong culture and should adopt the other's","Subcultures with different but legitimate priorities","A failure of Theory Y management","Lack of psychological safety"],1,"Esempio quasi identico alle slide: Sales = velocità, Compliance = controllo del rischio. Sono sottoculture e nessuna è sbagliata in sé. Il compito del management è integrarle, non eliminarne una."],
+["Customer complaints rise at a telecom provider. Management responds by adding two more call-center shifts and a stricter script. Complaints keep rising.","Which type of learning is this, and what would the alternative ask?",["Double-loop; the alternative asks how to do more calls","Single-loop; the alternative would question whether the service model itself is still right","Single-loop; the alternative would add a third shift","Double-loop; the alternative would change the script"],1,"Correggere l'azione tenendo le assunzioni = single-loop (\"are we doing things right?\"). Il double-loop chiede \"are we doing the right things?\": il modello di servizio ha ancora senso?"],
+["","What does psychological safety (Edmondson) NOT mean?",["People can admit mistakes without excessive interpersonal risk","People can disagree and raise concerns","There is no accountability and no difficult feedback","People can ask questions and propose ideas"],2,"Le slide sono esplicite: psychological safety non significa assenza di accountability, evitare feedback difficili o stare sempre comodi. Significa poter parlare senza un rischio interpersonale eccessivo."],
+["UX designers from five different business units meet every two weeks, share prototypes, solve each other's problems and spread good practices. Nobody assigned them a target; nobody reports to anyone in the group.","What is this?",["A matrix structure","A community of practice","A divisional unit","An informal network that bypasses accountability"],1,"Gruppo che impara attraverso un'interazione continua intorno a una pratica condivisa (Wenger). Non ha linea di riporto né obiettivo di produzione: per questo non è una matrice né un'unità."],
+["","Which statement about informal organization matches the course?",["It is a problem that good formal design eliminates","It is always positive because it speeds up communication","It is neither good nor bad; it is an unavoidable part of social systems","It only exists in small start-ups"],2,"Takeaway delle slide: l'organizzazione informale non è né buona né cattiva. Può collegare silos e accelerare, ma anche escludere, rinforzare potere nascosto, aggirare l'accountability, resistere al cambiamento."],
+["An engineer finds a faster testing method. She uses it herself, but when she leaves the company the method disappears.","According to the course, why has the organization not learned?",["Because the engineer had a fixed mindset","Because the learning was never embedded in team routines, processes or knowledge systems","Because there was no community of practice of managers","Because the company is too centralized"],1,"L'apprendimento organizzativo avviene quando l'apprendimento è incorporato oltre l'individuo: team, processi, routine. Il test è che altri possano agire diversamente anche se la persona originale non c'è più."],
+["","Which of Senge's five disciplines does the course highlight as especially important, and why?",["Personal mastery, because motivation is individual","Shared vision, because purpose drives direction","Systems thinking, because it connects learning to complexity and interdependence","Team learning, because teams replace hierarchy"],2,"Le slide lo dicono chiaramente: per il corso conta soprattutto systems thinking, perché collega l'apprendimento alla complessità e all'interdipendenza del cap. 6."],
+["After every failed project, a manager says: \"Some people just aren't cut out for this.\" Mistakes are hidden rather than discussed.","Which concept best describes the manager's view?",["Growth mindset","Fixed mindset","Double-loop learning","Theory Y"],1,"Fixed mindset (Dweck): le capacità sono fisse e il fallimento è la prova di un limite. Con un growth mindset il fallimento è informazione da cui imparare."],
+["","How does the course link people and learning to organizational viability?",["Ambidexterity needs experimentation and knowledge exchange; coherence needs trust, shared purpose and culture","Viability depends only on structure; people are a separate topic","Learning matters only for exploitation","Culture replaces the need for adaptability"],0,"Collegamento con il cap. 6: ambidexterity richiede sperimentazione, apprendimento, scambio di conoscenza; adaptability richiede feedback e disponibilità a cambiare; coherence richiede fiducia, scopo condiviso, cultura e relazioni."],
+["","What does the course say about motivation and organizational design?",["Motivation can be designed directly through the right incentive scheme","Organizations can create conditions for motivation, but cannot simply order it","Motivation is irrelevant if roles are clearly formalized","Only money motivates in large organizations"],1,"Takeaway della slide: le organizzazioni possono creare le condizioni (ruoli, autonomia, feedback, opportunità di imparare), non possono ordinare motivazione, impegno o fiducia."]
+];
+mixQ(D,5);
+let dAns=store.get('drill',{});
+function renderD(){const box=$('#drillQ');box.innerHTML=D.map((q,i)=>qHTML(q,'d'+i)).join('');
+  box.querySelectorAll('.q').forEach((el,i)=>{const id='d'+i;const btns=[...el.querySelectorAll('.opt')];
+    const paint=()=>{const a=dAns[id];if(a===undefined)return;btns.forEach((b,k)=>{b.disabled=true;if(k===D[i][3])b.classList.add('ok');else if(k===a)b.classList.add('bad');});el.querySelector('.why').classList.add('show');};
+    btns.forEach((b,k)=>b.onclick=()=>{if(dAns[id]!==undefined)return;dAns[id]=k;store.set('drill',dAns);paint();score();});paint();});
+  score();}
+function score(){const n=Object.keys(dAns).length,ok=D.filter((q,i)=>dAns['d'+i]===q[3]).length;$('#drillScore').textContent=`${ok} giuste su ${n} risposte · ${D.length} domande`;}
+$('#drillReset').onclick=()=>{dAns={};store.set('drill',dAns);renderD();};
+
+/* ---------- mock exam ---------- */
+const A=[
+["","According to the course, when does a need become a want?",["When it is shared by many people","When a material need turns into a specific desire the person can also afford","When the organization creates demand through marketing","When scarcity has been overcome"],1,"Cap. 1: il bisogno nasce da una mancanza percepita; diventa want quando si trasforma in un desiderio specifico che la persona può anche permettersi."],
+["","Which behavior does the assumption \"human needs are unlimited and resources are scarce\" most likely encourage at the organizational level?",["Sufficiency and sharing","Efficiency targets, competition and growth orientation","Reciprocity between departments","Abolishing hierarchy"],1,"Cap. 1, riflessione sulla scarsità: a livello organizzativo porta a obiettivi di efficienza, competizione, crescita. Sufficiency e sharing vengono dall'assunzione rovesciata."],
+["","Paying taxes that are later used for public services is, in Polanyi's terms, an example of…",["Market exchange","Reciprocity","Redistribution","Mimetic isomorphism"],2,"Cap. 2: risorse raccolte da un'autorità centrale e poi ridistribuite = redistribution. È proprio l'esempio dell'esercizio in classe."],
+["","What is Karl Polanyi's core idea?",["Markets are self-regulating and separate from society","Economic activity is embedded in society and shaped by social institutions","Firms exist to reduce transaction costs","Organizations copy each other to gain legitimacy"],1,"Polanyi, The Great Transformation (1944): l'economia è un processo sociale incorporato nella società, e le organizzazioni sono a loro volta incorporate nell'economia."],
+["","Which theorist is associated with bureaucracy based on rules and positions rather than persons?",["Frederick Taylor","Max Weber","Elton Mayo","Herbert Simon"],1,"Weber: burocrazia. Taylor: scientific management. Mayo: Hawthorne e Human Relations. Simon: bounded rationality."],
+["","What was the key insight of the Human Relations school (e.g., Hawthorne studies)?",["Work should be divided into the smallest possible tasks","Employees are motivated by more than money and informal groups shape performance","Organizations are open systems","There is no one best way to organize"],1,"Cap. 3: le persone sono motivate da più del denaro, i gruppi informali influenzano comportamento e performance, lo stile di leadership conta."],
+["","Herbert Simon argued that decision-makers usually…",["Optimize, because they have complete information","Satisfice, choosing a solution that is good enough under bounded rationality","Delegate every decision","Follow institutional pressures"],1,"Decision-making theory: informazione incompleta, tempo e capacità cognitive limitate → si sceglie una soluzione \"good enough\" (satisficing)."],
+["","The central claim of contingency theory is that…",["Hierarchy is always the most efficient form","There is no one best way to organize; the right design depends on context","Organizations exist because markets fail","Culture matters more than structure"],1,"Cap. 3 e 5: no one best way. Contano strategia, ambiente, tecnologia, dimensione, incertezza, persone. Burns & Stalker: ambiente stabile → meccanicistica, dinamico → organica."],
+["","Why do organizations exist instead of coordinating everything through markets, according to Coase and Williamson?",["Because of institutional pressure","Because some transactions are cheaper to coordinate inside a firm than through the market","Because people need belonging","Because of requisite variety"],1,"Economic theories: teoria dell'impresa (Coase) e transaction cost economics (Williamson). Si internalizza quando coordinare dentro costa meno che passare dal mercato."],
+["","Agency theory focuses on…",["How informal networks spread knowledge","Different interests between principals (e.g., shareholders) and agents (e.g., managers) and how to align them","How technology and people must be jointly optimized","How organizations adapt to the environment"],1,"Agency theory: attori diversi hanno interessi diversi; servono incentivi, controlli e governance per allinearli."],
+["","A company adopts a sustainability certification mainly because all its competitors have one and customers expect it, although it does not improve operations. Which lens explains this best?",["Classical theory","Institutional theory","Decision-making theory","Sociotechnical theory"],1,"Institutional theory: pratiche adottate per legittimità, non per efficienza. Pressioni: regolazione, norme professionali, imitazione."],
+["","Which statement correctly distinguishes purpose from goals?",["Purpose is a measurable target; goals are the reason for being","Purpose is the organization's reason for being; goals are specific, measurable outcomes","They mean the same thing","Goals describe how to compete; purpose describes the org chart"],1,"Cap. 4: purpose = perché esistiamo (direction, significance, aspiration). Goals = risultati specifici e misurabili. Strategy = come vinciamo/creiamo valore. Vision = il futuro che vogliamo contribuire a creare."],
+["","A wide span of control typically means…",["Many management levels and close supervision","Fewer management levels, more employee autonomy and greater managerial complexity","Strong centralization of all decisions","High formalization"],1,"Cap. 5: span ampio = molti riporti diretti, meno livelli, più autonomia, più complessità per il manager. Span stretto = più livelli e supervisione stretta."],
+["","Formalization refers to…",["Where important decisions are made","The extent to which work is governed by explicit rules, procedures and standards","How many people report to one manager","Grouping roles into units"],1,"Formalization = quanto il lavoro è governato da regole esplicite. Aumenta prevedibilità, può ridurre flessibilità. \"Where decisions are made\" è centralization."],
+["","What is a typical challenge of a matrix structure?",["Duplicated functions in every division","Unclear authority and conflicting priorities between two reporting lines","No access to specialized expertise","Too little integration"],1,"Matrix: integra più prospettive ma crea autorità poco chiara e priorità in conflitto (due capi). Le funzioni duplicate sono la sfida della struttura divisionale."],
+["","Which example is COMPLEX rather than merely complicated?",["Repairing an aircraft engine","Optimizing an accounting system","Changing leadership behavior across a company","Following a payroll checklist"],2,"Cap. 6: complicated = tante parti ma relazioni analizzabili (motore, contabilità). Complex = attori che interagiscono e cambiano nel tempo, causa-effetto non prevedibile. Cambiare la leadership in tutta l'azienda è l'esempio \"complex\" del Cynefin nelle slide."],
+["","Ashby's Law of Requisite Variety states that…",["Only variety can absorb variety: an organization needs enough possible responses for the variety of situations it faces","Organizations should reduce variety through standardization","Every decision should go to the top","Variety in products creates legitimacy"],0,"\"Only variety can absorb variety.\" Esempio delle slide: se ogni problema insolito deve passare da un solo manager → collo di bottiglia."],
+["","Double-loop learning asks…",["Are we doing things right?","Are we doing the right things, and are our assumptions still valid?","Who else needs to know?","How can we work faster?"],1,"Argyris & Schön: single-loop corregge l'azione e tiene le assunzioni; double-loop mette in discussione assunzioni, obiettivi, regole o strategia."]
+];
+const B=[
+["A factory catches fire in the middle of a night shift. People are at risk and nobody knows yet how far the fire will spread.","Which Cynefin domain applies, and what is the right response?",["Clear: apply best practice from the checklist","Complicated: call experts to analyze before acting","Complex: run small experiments and observe","Chaotic: act first to stabilize, then sense and respond"],3,"L'incendio improvviso è l'esempio \"chaotic\" delle slide: act → sense → respond. Prima si stabilizza, poi si analizza."],
+["A hotel chain with 80 hotels lets headquarters decide everything, including local marketing and customer refunds. Guests complain that simple problems take days to solve.","Which redesign is most consistent with the course?",["Centralize everything further to ensure consistency","Decentralize decisions that need local knowledge and speed (e.g., refunds, local marketing) and keep brand standards central","Remove headquarters completely","Increase formalization of refund procedures at headquarters"],1,"Esercizio della settimana 2: centralizzare dove contano coerenza, rischio e scala (standard di servizio, accordi quadro con i fornitori); decentralizzare dove servono velocità e conoscenza locale. Trade-off: meno coerenza tra hotel."],
+["Each department of an insurer performs well on its own KPIs. Yet customers wait weeks for a claim, because files get stuck between Intake, Assessment and Payment, and nobody is responsible for the whole flow.","Which concept points to the most direct solution?",["Narrower span of control","End-to-end process ownership across the vertical structure","More specialization within each department","Stronger espoused values"],1,"Cap. 5: le strutture sono verticali, i processi corrono in orizzontale. Ogni handover crea attesa e perdita di informazione. Il process owner crea accountability orizzontale sull'intero flusso."],
+["A successful car-parts maker puts all its resources into improving its existing products. Profits are high today, but it has no projects for electric vehicles.","Which viability tension is out of balance?",["Autonomy ↔ control (coherence)","Exploration ↔ exploitation (ambidexterity)","Transformation ↔ stability (adaptability)","Efficiency ↔ effectiveness"],1,"Tutto sull'esistente = exploitation; manca exploration di nuove opportunità. È la tensione dell'ambidexterity. Le organizzazioni viabili non scelgono un lato, imparano a gestirli entrambi."],
+["In a hospital ward, nurses notice recurring small medication errors but rarely report them, because the head physician publicly criticizes whoever raises a problem.","Which concept best explains why the ward does not learn?",["Lack of formalization","Low psychological safety","Too wide a span of control","Mimetic isomorphism"],1,"Senza psychological safety le persone non ammettono errori né sollevano preoccupazioni, e l'organizzazione perde l'accesso a ciò che sanno. La domanda chiave: si può dire \"abbiamo sbagliato\"?"],
+["Managers at a call center think agents only work when monitored. They introduce scripts, call recording and approval for every exception. Agents stop solving unusual problems on their own, which managers take as proof they were right.","What is going on?",["Theory Y in practice","A self-fulfilling organization built on Theory X assumptions","A community of practice","Double-loop learning"],1,"Assunzione Theory X → controlli → meno iniziativa → \"visto?\". È il circolo che si rinforza delle slide del cap. 7."],
+["A city cooperative lets members borrow each other's tools for free. Nobody pays; people help because they know others will help them later.","Which form of economic integration is this?",["Market exchange","Redistribution","Reciprocity","Agency"],2,"Polanyi: reciprocity = dare e ricevere sulla base di relazioni e obblighi reciproci, non di prezzi. \"Io ti aiuto, e prima o poi qualcuno aiuterà me\"."],
+["Sales at a fashion retailer fall for the third year. The board first adds more sales staff and longer opening hours. A new director then asks whether customers still want to buy clothes in physical stores at all.","How do the two responses differ?",["Both are double-loop","The board's response is single-loop; the director's question is double-loop","The board's response is double-loop; the director's is single-loop","Both are single-loop"],1,"Più personale e orari = correggere l'azione tenendo le assunzioni (single-loop). Chiedere se il modello dei negozi ha ancora senso = mettere in discussione le assunzioni (double-loop)."],
+["A global company has a strong matrix. In one country, a manager with 20 years of tenure is consulted on almost every important decision, although on paper she has the same level as eight colleagues.","What does this best illustrate?",["Formal authority from the org chart","Informal influence: influence does not always follow hierarchy","A divisional structure","Requisite variety"],1,"Cap. 7: la rete informale mostra chi comunica e influenza davvero. Anzianità e fiducia creano influenza che l'organigramma non mostra. È anche quello che vi ha detto Joël su IBM."]
+];
+const C={case:`<p><b>Case: AlpenCare Clinics</b></p>
+<p>AlpenCare runs 14 private clinics in Switzerland. Its official values are <i>"Patient first"</i> and <i>"We innovate together"</i>; both are printed on posters in every clinic and repeated in the CEO's town halls.</p>
+<p>All decisions above CHF 2,000, including small equipment purchases and changes to opening hours, need approval from headquarters in Zurich, which can take three to six weeks. Clinic managers are evaluated mainly on monthly cost targets. Two years ago a nurse proposed a new triage process; headquarters rejected it without explanation, and since then few improvement ideas have come from the clinics.</p>
+<p>The number of reported incidents has dropped by 40%, which management celebrates as a sign of higher quality. Nurses say privately that "reporting a mistake only gets you in trouble". In two clinics, experienced nurses have started an informal WhatsApp group where they share workarounds and solve problems together, without telling headquarters.</p>
+<p>Patient waiting times are rising and a competitor has just opened a clinic with walk-in appointments booked by app.</p>`,
+tasks:[
+{q:"C1 · Use Schein's three levels of culture to analyze AlpenCare. Name one example for each level from the case.",p:4,
+ crit:[[1,"Artifact correctly identified from the case (e.g., posters, town halls, approval forms, the WhatsApp group as a visible practice)"],[1,"Espoused values correctly identified (\"Patient first\", \"We innovate together\")"],[1,"A plausible underlying assumption inferred from behavior and rewards (e.g., \"mistakes are dangerous\", \"headquarters knows best\", \"cost comes first\")"],[1,"Explains the gap between what AlpenCare says and what it rewards"]],
+ model:"Artifacts: posters with the values, CEO town halls, long approval forms; also the informal WhatsApp group as a visible practice. Espoused values: \"Patient first\", \"We innovate together\". Underlying assumptions (inferred): \"mistakes are dangerous to admit\", \"headquarters knows best\", \"costs matter more than patients\". The gap: AlpenCare says it values innovation and patients, but it rewards monthly cost targets and punishes people who raise problems, so the lived culture is \"don't take risks, don't report\"."},
+{q:"C2 · Explain with TWO course concepts why AlpenCare is not learning from its mistakes. Be precise about what each concept shows.",p:4,
+ crit:[[1,"First concept correctly named (e.g., psychological safety, Edmondson)"],[1,"First concept correctly applied to the case (falling incident reports = silence, not quality)"],[1,"Second concept correctly named (e.g., single- vs double-loop learning, centralization/requisite variety, self-fulfilling organization, failure to embed learning)"],[1,"Second concept correctly applied to the case"]],
+ model:"1) Low psychological safety (Edmondson): nurses believe reporting a mistake \"only gets you in trouble\", so errors are hidden. The 40% drop in reported incidents is most likely silence, not higher quality; the organization loses access to what employees know. 2) Single-loop at best: management reacts to numbers (costs, incident counts) without questioning its assumptions, e.g. whether central approval and cost targets still fit a market where competitors offer walk-in and app booking (double-loop is missing). Also valid: centralization and Ashby, all variety is pushed to one HQ bottleneck with 3 to 6 weeks of delay; or the self-fulfilling loop, rejected ideas → fewer ideas → HQ sees no initiative."},
+{q:"C3 · Propose ONE intervention. Structure your answer as: problem, intervention, expected benefit, trade-off.",p:4,
+ crit:[[1,"Problem clearly tied to the diagnosis"],[1,"Concrete intervention (what exactly changes, who decides)"],[1,"Expected benefit linked to a course concept"],[1,"A realistic trade-off or risk named"]],
+ model:"Problem: decisions that need local knowledge are stuck at HQ and problems are not reported. Intervention: give clinic managers a decision budget (e.g., up to CHF 20,000 and opening hours) and a 10-day maximum for any escalation; at the same time introduce blame-free incident reviews, and recognize the nurses' WhatsApp group as a community of practice with time and a channel to HQ, without turning it into a new department. Benefit: faster local responses (requisite variety at the edge), more reported errors as a sign of learning, ideas can flow upward. Trade-off: less consistency between clinics and less central control; incident numbers will rise at first, and management must not read that as lower quality."},
+{q:"C4 · Name one assumption you made in your diagnosis and one piece of information you would need to check it.",p:2,
+ crit:[[1,"An explicit assumption is stated as an assumption"],[1,"A concrete, checkable piece of information is named"]],
+ model:"Assumption: the drop in incident reports reflects fear, not real improvement. Information needed: independent data such as patient complaints, readmission rates or audit results over the same period, or an anonymous staff survey on speaking up."}
+]};
+// mix the option order (fixed per question) so the right answer is not always in the same place
+function mix(arr,salt){arr.forEach((q,i)=>{let seed=(i+1)*7919+salt;const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647;};
+  const idx=q[2].map((_,k)=>k);for(let k=idx.length-1;k>0;k--){const j=Math.floor(rnd()*(k+1));[idx[k],idx[j]]=[idx[j],idx[k]];}
+  q[2]=idx.map(k=>q[2][k]);q[3]=idx.indexOf(q[3]);});}
+mix(A,11);mix(B,23);
+const SIM_MIN=60;let sim=store.get('sim',null),tick=null;
+function simRender(){
+  $('#partA').innerHTML=A.map((q,i)=>qHTML(q,'a'+i,1)).join('');
+  $('#partB').innerHTML=B.map((q,i)=>qHTML(q,'b'+i,2)).join('');
+  $('#partC').innerHTML=C.case+C.tasks.map((t,i)=>`<div class="q"><p class="ask">${esc(t.q)} <span class="pts">(${t.p} pt)</span></p><textarea data-c="${i}" placeholder="Bullet points are fine."></textarea></div>`).join('');
+  $$('#simRun .q[data-id]').forEach(el=>{const id=el.dataset.id;el.querySelectorAll('.opt').forEach((b,k)=>{if(sim.ans[id]===k)b.classList.add('sel');b.onclick=()=>{if(sim.done)return;sim.ans[id]=k;store.set('sim',sim);el.querySelectorAll('.opt').forEach(x=>x.classList.toggle('sel',x===b));};});});
+  $$('#partC textarea').forEach(t=>{t.value=sim.c[t.dataset.c]||'';t.oninput=()=>{sim.c[t.dataset.c]=t.value;store.set('sim',sim);};});
+}
+function fmt(s){s=Math.max(0,s);return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function runTimer(){clearInterval(tick);tick=setInterval(()=>{const left=Math.round((sim.t0+SIM_MIN*60000-Date.now())/1000);$('#timer').textContent=left>0?fmt(left):'Tempo scaduto';if(left<=0){clearInterval(tick);}},1000);}
+function simStart(){sim={t0:Date.now(),ans:{},c:{},done:false,rub:{}};store.set('sim',sim);openSim();}
+function openSim(){$('#simIntro').hidden=true;$('#simRes').hidden=true;$('#simRun').hidden=false;simRender();runTimer();}
+function simEnd(){if(!confirm('Consegnare la simulazione?'))return;sim.done=true;sim.used=Math.round((Date.now()-sim.t0)/1000);store.set('sim',sim);clearInterval(tick);results();}
+function results(){
+  $('#simRun').hidden=true;$('#simIntro').hidden=true;const R=$('#simRes');R.hidden=false;
+  const okA=A.filter((q,i)=>sim.ans['a'+i]===q[3]).length, okB=B.filter((q,i)=>sim.ans['b'+i]===q[3]).length;
+  const rev=(arr,pre,pts)=>arr.map((q,i)=>{const a=sim.ans[pre+i];return `<div class="q">${q[0]?`<p class="stem">${esc(q[0])}</p>`:''}<p class="ask">${esc(q[1])} <span class="pts">(${pts} pt)</span></p>${q[2].map((o,k)=>`<button class="opt ${k===q[3]?'ok':(k===a?'bad':'')}" disabled>${String.fromCharCode(65+k)}. ${esc(o)}</button>`).join('')}${a===undefined?'<p class="mono" style="color:var(--bad)">Non risposta</p>':''}<div class="why show">${q[4]}</div></div>`;}).join('');
+  R.innerHTML=`<div class="sheet"><span class="mono muted">Risultato · tempo usato ${fmt(sim.used||0)}</span><h2>Parti A e B</h2>
+   <table class="res"><tr><th>Parte</th><th>Punti</th></tr><tr><td>A · Concepts</td><td>${okA} / 18</td></tr><tr><td>B · Scenarios</td><td>${okB*2} / 18</td></tr><tr><td>C · Diagnosis</td><td id="cPts">0 / 14 · correggi qui sotto</td></tr><tr><th>Totale</th><th id="tot"></th></tr></table>
+   <p class="score" id="big"></p><p class="muted">Per orientarti: sopra i 30 punti su 50 sei in una zona sicura, sopra i 40 molto bene. Non è la scala ufficiale.</p></div>
+   <div class="sheet"><span class="mono muted">Parte C · autocorrezione</span><h2>Correggi la tua diagnosi</h2>${C.case}
+   ${C.tasks.map((t,i)=>`<div class="q"><p class="ask">${esc(t.q)} <span class="pts">(${t.p} pt)</span></p><div class="box"><span class="mono muted">La tua risposta</span><br>${esc(sim.c[i]||'(vuota)').replace(/\n/g,'<br>')}</div>
+     <div class="rubric">${t.crit.map((c,k)=>`<label><input type="checkbox" data-t="${i}" data-k="${k}" ${sim.rub[i+'-'+k]?'checked':''}><span>${esc(c[1])} <span class="pts">+${c[0]}</span></span></label>`).join('')}</div>
+     <button class="btn ghost" data-m="${i}">Mostra una risposta modello</button><div class="model" id="m${i}">${esc(t.model)}</div></div>`).join('')}</div>
+   <div class="sheet"><span class="mono muted">Soluzioni</span><h2>Parte A</h2>${rev(A,'a',1)}</div>
+   <div class="sheet"><span class="mono muted">Soluzioni</span><h2>Parte B</h2>${rev(B,'b',2)}</div>
+   <button class="btn" id="again">Rifai la simulazione</button>`;
+  const upd=()=>{let c=0;C.tasks.forEach((t,i)=>t.crit.forEach((cr,k)=>{if(sim.rub[i+'-'+k])c+=cr[0];}));$('#cPts').textContent=c+' / 14';const tot=okA+okB*2+c;$('#tot').textContent=tot+' / 50';$('#big').textContent=tot+' / 50';};
+  R.querySelectorAll('.rubric input').forEach(x=>x.onchange=()=>{sim.rub[x.dataset.t+'-'+x.dataset.k]=x.checked;store.set('sim',sim);upd();});
+  R.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>$('#m'+b.dataset.m).classList.toggle('show'));
+  $('#again').onclick=()=>{if(confirm('Cancellare le risposte e ricominciare?'))simStart();};
+  upd();scrollTo(0,0);
+}
+$('#simStart').onclick=simStart;$('#simEnd').onclick=simEnd;$('#simEnd2').onclick=simEnd;
+
+/* ---------- boot ---------- */
+renderL();renderD();
+if(sim&&sim.done)results();else if(sim)openSim();
+show(location.hash==='#sim'?'sim':location.hash==='#drill'?'drill':location.hash==='#tips'?'tips':store.get('tab','lez'));
+})();
+</script>
+</body>
+</html>
