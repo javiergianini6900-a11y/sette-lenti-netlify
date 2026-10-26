@@ -175,7 +175,7 @@ const D=[
 ];
 const BAL=window.BALANCE||{};
 const balance=(q,key,ok)=>{let nd=BAL[key];if(!nd)return;let c=q[2][ok];if(nd.length===4){c=nd[0];nd=nd.slice(1);}let k=0;q[2]=q[2].map((o,i)=>i===ok?c:nd[k++]);};
-D.forEach((q,i)=>balance(q,'D-'+i,q[3]));HARD.forEach((q,i)=>balance(q,'H-'+i,q[3]));
+D.forEach((q,i)=>balance(q,'D-'+i,q[3]));(window.HARD||[]).forEach((q,i)=>balance(q,'H-'+i,q[3]));
 Object.keys(window.EX||{}).forEach(n=>{const E=window.EX[n];if(E.quiz)E.quiz.forEach((q,i)=>balance(q,'Eq'+n+'-'+i,q[3]));});
 ['A','B'].forEach(P=>Object.keys(window.MOCK[P]).forEach(c=>window.MOCK[P][c].forEach((q,i)=>balance(q,P+c+'-'+i,0))));
 mixQ(D,5);
