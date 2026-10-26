@@ -134,7 +134,7 @@ table.res td,table.res th{border-bottom:1px solid var(--rule);padding:6px 4px;te
 </div>
 
 <script src="exam-data.js"></script>
-<script src="mock/a-ch1-3.js"></script><script src="mock/a-ch4-5.js"></script><script src="mock/a-ch6-7.js"></script><script src="mock/b-all.js"></script><script src="mock/cases.js"></script><script src="mock/i18n.js"></script><script src="mock/ui.js"></script><script src="mock/ui2.js"></script><script src="mock/prac-i18n.js"></script>
+<script src="mock/a-ch1-3.js"></script><script src="mock/a-ch4-5.js"></script><script src="mock/a-ch6-7.js"></script><script src="mock/b-all.js"></script><script src="mock/cases.js"></script><script src="mock/i18n.js"></script><script src="mock/balance.js"></script><script src="mock/ui.js"></script><script src="mock/ui2.js"></script><script src="mock/prac-i18n.js"></script>
 <script>
 (function(){
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -173,6 +173,11 @@ const D=[
 ["","How does the course link people and learning to organizational viability?",["Ambidexterity needs experimentation and knowledge exchange; coherence needs trust, shared purpose and culture","Viability depends only on structure; people are a separate topic","Learning matters only for exploitation","Culture replaces the need for adaptability"],0,"Collegamento con il cap. 6: ambidexterity richiede sperimentazione, apprendimento, scambio di conoscenza; adaptability richiede feedback e disponibilità a cambiare; coherence richiede fiducia, scopo condiviso, cultura e relazioni."],
 ["","What does the course say about motivation and organizational design?",["Motivation can be designed directly through the right incentive scheme","Organizations can create conditions for motivation, but cannot simply order it","Motivation is irrelevant if roles are clearly formalized","Only money motivates in large organizations"],1,"Takeaway della slide: le organizzazioni possono creare le condizioni (ruoli, autonomia, feedback, opportunità di imparare), non possono ordinare motivazione, impegno o fiducia."]
 ];
+const BAL=window.BALANCE||{};
+const balance=(q,key,ok)=>{let nd=BAL[key];if(!nd)return;let c=q[2][ok];if(nd.length===4){c=nd[0];nd=nd.slice(1);}let k=0;q[2]=q[2].map((o,i)=>i===ok?c:nd[k++]);};
+D.forEach((q,i)=>balance(q,'D-'+i,q[3]));HARD.forEach((q,i)=>balance(q,'H-'+i,q[3]));
+Object.keys(window.EX||{}).forEach(n=>{const E=window.EX[n];if(E.quiz)E.quiz.forEach((q,i)=>balance(q,'Eq'+n+'-'+i,q[3]));});
+['A','B'].forEach(P=>Object.keys(window.MOCK[P]).forEach(c=>window.MOCK[P][c].forEach((q,i)=>balance(q,P+c+'-'+i,0))));
 mixQ(D,5);
 const EX=window.EX||{},HARD=window.HARD||[];
 Object.keys(EX).forEach(n=>{const E=EX[n];if(E.quiz)E.quiz.forEach((q,k)=>q.key='Eq'+n+'-'+k);E.match.forEach((m,k)=>m.key='Em'+n+'-'+k);E.sort.items.forEach((it,k)=>it.key='Es'+n+'-'+k);});
