@@ -134,7 +134,7 @@ table.res td,table.res th{border-bottom:1px solid var(--rule);padding:6px 4px;te
 </div>
 
 <script src="exam-data.js"></script>
-<script src="mock/a-ch1-3.js"></script><script src="mock/a-ch4-5.js"></script><script src="mock/a-ch6-7.js"></script><script src="mock/b-all.js"></script><script src="mock/cases.js"></script><script src="mock/i18n.js"></script><script src="mock/balance.js"></script><script src="mock/ui.js"></script><script src="mock/ui2.js"></script><script src="mock/prac-i18n.js"></script>
+<script src="mock/a-ch1-3.js"></script><script src="mock/a-ch4-5.js"></script><script src="mock/a-ch6-7.js"></script><script src="mock/b-all.js"></script><script src="mock/cases.js"></script><script src="mock/i18n.js"></script><script src="mock/balance.js"></script><script src="mock/kb.js"></script><script src="mock/ui.js"></script><script src="mock/ui2.js"></script><script src="mock/prac-i18n.js"></script>
 <script>
 (function(){
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -238,23 +238,51 @@ let mixKeys=[];
 function drawMix(){if(!mixSet.length)return;quizList($('#mixQ'),mixSet.map(x=>x.q),i=>mixKeys[i],()=>{$('#mixScore').textContent=scoreTxt(mixSet.map(x=>x.q),i=>mixKeys[i]);});}
 $('#mixNew').onclick=()=>{newMix();$('#v-mix').scrollIntoView({block:'start'});};
 
-/* ---------- hard mode ---------- */
+/* ---------- hard mode: questions generated from the knowledge base, a new mix every round ---------- */
 const HSEC=45;let hard=null,htick=null;
+const KB=window.KB||[],REL=window.KB_REL||{};
+const rnd=n=>Math.floor(Math.random()*n);
+// wrong options: same family first, then related families, then anything
+function pickOthers(c,n,field){const pool=[KB.filter(x=>x!==c&&x.f===c.f),KB.filter(x=>x!==c&&(REL[c.f]||[]).includes(x.f)),KB.filter(x=>x!==c&&x.f!==c.f)];
+  const out=[];for(const P of pool){for(const x of shuf(P)){if(out.length>=n)break;if(field&&!x[field])continue;if(field&&(x[field]===c[field]||out.some(o=>o[field]===x[field])))continue;if(out.some(o=>o.t===x.t))continue;out.push(x);}if(out.length>=n)break;}return out;}
+const KEYQ=c=>KB.indexOf(c);
+// generators: each returns [stem, question, options, correct, why] built around one concept
+const GEN={
+ def:c=>{const o=pickOthers(c,3);return mk(`"${c.d}"`,'Which concept matches this description?',[c,...o],x=>x.t,c,o);},
+ term:c=>{const o=pickOthers(c,3);return mk('',`Which description fits "${c.t}"?`,[c,...o],x=>x.d,c,o);},
+ ex:c=>{const o=pickOthers(c,3);return mk(`${c.e}.`,'Which concept does this example illustrate best?',[c,...o],x=>x.t,c,o);},
+ exdef:c=>{const o=pickOthers(c,3);return mk(`${c.e}.`,'Which description explains best what is happening here?',[c,...o],x=>x.d,c,o);},
+ author:c=>{const o=pickOthers(c,3,'a');if(o.length<3)return null;return mk('',`Who is associated with "${c.t}"?`,[c,...o],x=>x.a,c,o);},
+ pair:c=>{const o=pickOthers(c,3);if(o.length<3)return null;const opts=[`${c.t}: ${c.d}`,`${o[0].t}: ${o[1].d}`,`${o[1].t}: ${o[2].d}`,`${o[2].t}: ${o[0].d}`];
+   return order('', 'Which pair is correctly matched?',opts,c,o);}
+};
+function mk(stem,ask,items,f,c,o){return order(stem,ask,items.map(f),c,o);}
+function order(stem,ask,opts,c,o){const idx=shuf([0,1,2,3]);const why=[`✓ ${c.t}: ${c.d}.`,...o.map(x=>`✗ ${x.t}: ${x.d}.`)].join('\n');
+  return [stem,ask,idx.map(k=>opts[k]),idx.indexOf(0),why];}
+const GKINDS=Object.keys(GEN);
+// how many different question templates exist (concept × generator), shown to the user
+const POOLN=KB.reduce((n,c)=>n+GKINDS.filter(g=>g!=='author'||(c.a&&KB.filter(x=>x.a&&x.a!==c.a).length>=3)).length,0)+HARD.length;
+function buildRound(n){const seen=store.get('hardSeen',[]);const all=[];KB.forEach((c,i)=>GKINDS.forEach(g=>{if(g==='author'&&!c.a)return;all.push(g+':'+i);}));HARD.forEach((_,i)=>all.push('H:'+i));
+  const fresh=shuf(all.filter(k=>!seen.includes(k))),old=shuf(all.filter(k=>seen.includes(k)));const pick=[],usedC=new Set();
+  for(const k of [...fresh,...old]){if(pick.length>=n)break;const [g,i]=k.split(':');const cid=g==='H'?'H'+i:i;if(usedC.has(cid))continue;
+    let q=g==='H'?HARD[+i]:GEN[g](KB[+i]);if(!q)continue;usedC.add(cid);pick.push({k,q});}
+  const ns=[...seen,...pick.map(x=>x.k)];store.set('hardSeen',ns.length>all.length-n?[]:ns);return pick;}
 function hardIntro(){if(hard&&!hard.end)return;clearInterval(htick);
-  const pp=P_();$('#hardBox').innerHTML=`<h2>Hard mode</h2><p class="mono muted" style="margin:-6px 0 12px">${esc(pp.hardMeta)}</p>
+  const pp=P_();$('#hardBox').innerHTML=`<h2>Hard mode</h2><p class="mono muted" style="margin:-6px 0 12px">${esc(fill(pp.hardPool,{n:POOLN}))}</p>
    <p>${esc(pp.hardIntro1)}</p><p>${esc(pp.hardIntro2)}</p>
+   <p class="mono">${esc(pp.hardLen)}: <select id="hardN" style="font-family:var(--mono);padding:4px">${[15,30,50].map(n=>`<option ${n===store.get('hardN',15)?'selected':''}>${n}</option>`).join('')}</select></p>
    <button class="btn" id="hardGo">${esc(pp.go)}</button>`;
-  $('#hardGo').onclick=()=>{hard={i:0,ans:[],order:shuf(HARD.map((_,k)=>k))};hardQ();};}
-function hardQ(){clearInterval(htick);if(hard.i>=hard.order.length)return hardEnd();
-  const q=HARD[hard.order[hard.i]];let left=HSEC;
-  $('#hardBox').innerHTML=`<h2>${esc(P_().question)} ${hard.i+1} / ${hard.order.length}</h2><p class="mono muted" style="margin:-6px 0 4px">Hard mode · <span id="hLeft">${left}</span> s</p><div class="hbar"><i id="hBar" style="width:100%"></i></div>${qHTML(q,'h')}`;
+  $('#hardGo').onclick=()=>{const n=+$('#hardN').value;store.set('hardN',n);hard={i:0,ans:[],qs:buildRound(n).map(x=>x.q)};hardQ();};}
+function hardQ(){clearInterval(htick);if(hard.i>=hard.qs.length)return hardEnd();
+  const q=hard.qs[hard.i];let left=HSEC;
+  $('#hardBox').innerHTML=`<h2>${esc(P_().question)} ${hard.i+1} / ${hard.qs.length}</h2><p class="mono muted" style="margin:-6px 0 4px">Hard mode · <span id="hLeft">${left}</span> s</p><div class="hbar"><i id="hBar" style="width:100%"></i></div>${qHTML(q,'h')}`;
   $$('#hardBox .opt').forEach(b=>b.onclick=()=>{hard.ans[hard.i]=+b.dataset.i;hard.i++;hardQ();});
   htick=setInterval(()=>{left--;$('#hLeft').textContent=left;$('#hBar').style.width=(left/HSEC*100)+'%';if(left<=0){hard.ans[hard.i]=-1;hard.i++;hardQ();}},1000);}
-function hardEnd(){clearInterval(htick);hard.end=true;
-  const ok=hard.order.filter((k,i)=>hard.ans[i]===HARD[k][3]).length;
-  const pp=P_();$('#hardBox').innerHTML=`<h2>${esc(pp.result)}: ${ok} / ${hard.order.length}</h2><p class="mono muted" style="margin:-6px 0 12px">Hard mode</p>
-   <p>${esc(ok>=12?pp.v1:ok>=8?pp.v2:pp.v3)}</p>
-   ${hard.order.map((k,i)=>{const q=HARD[k],a=hard.ans[i];return `<div class="q">${q[0]?`<p class="stem">${esc(q[0])}</p>`:''}<p class="ask">${esc(q[1])}</p>${q[2].map((o,j)=>`<button class="opt ${j===q[3]?'ok':(j===a?'bad':'')}" disabled>${String.fromCharCode(65+j)}. ${esc(o)}</button>`).join('')}${a===-1?`<p class="mono" style="color:var(--bad)">${esc(pp.timeUp)}</p>`:''}<div class="why show">${esc(px(q.key,q[4]))}</div></div>`;}).join('')}
+function hardEnd(){clearInterval(htick);hard.end=true;const N=hard.qs.length;
+  const ok=hard.qs.filter((q,i)=>hard.ans[i]===q[3]).length,r=ok/N;
+  const pp=P_();$('#hardBox').innerHTML=`<h2>${esc(pp.result)}: ${ok} / ${N}</h2><p class="mono muted" style="margin:-6px 0 12px">Hard mode</p>
+   <p>${esc(r>=.8?pp.v1:r>=.55?pp.v2:pp.v3)}</p>
+   ${hard.qs.map((q,i)=>{const a=hard.ans[i];return `<div class="q">${q[0]?`<p class="stem">${esc(q[0])}</p>`:''}<p class="ask">${esc(q[1])}</p>${q[2].map((o,j)=>`<button class="opt ${j===q[3]?'ok':(j===a?'bad':'')}" disabled>${String.fromCharCode(65+j)}. ${esc(o)}</button>`).join('')}${a===-1?`<p class="mono" style="color:var(--bad)">${esc(pp.timeUp)}</p>`:''}<div class="why show" style="white-space:pre-line">${esc(q.key?px(q.key,q[4]):q[4])}</div></div>`;}).join('')}
    <button class="btn" id="hardAgain">${esc(pp.hardAgain)}</button>`;
   $('#hardAgain').onclick=()=>{hard=null;hardIntro();};scrollTo(0,0);}
 
