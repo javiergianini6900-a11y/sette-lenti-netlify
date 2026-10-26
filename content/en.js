@@ -155,14 +155,14 @@ const QUIZ = [
   ["Systems: the firm is a closed system","Systems are open by definition. And the consultant is talking about adapting to context, not internal interdependencies."]]},
  {id:"q3",lens:"dec",s:"At a logistics company every purchase above CHF 500 needs three approvals. Key data sits at headquarters, and regional managers often pick the first supplier that meets minimum criteria because they lack time to compare.",a:"Which lens gives the most direct diagnosis?",o:[
   ["Decision-making theory","Three signals of bounded rationality: information in the wrong place, bottlenecks and satisficing.",1],
-  ["Classical theory","Approvals are a form of control, but the problem described is how information and decisions flow."],
-  ["Economic theory","There’s no conflict of interest and no make-or-buy choice."],
-  ["Contingency theory","Nothing about a changed environment or fit."]]},
+  ["Classical theory: clarify roles and approvals","Approvals are a form of control, but the problem described is how information and decisions flow."],
+  ["Economic theory: costs of coordination","There’s no conflict of interest and no make-or-buy choice."],
+  ["Contingency theory: fit with the environment","Nothing about a changed environment or fit."]]},
  {id:"q4",lens:"sys",s:"A hospital introduces a new digital scheduling tool. Nurses who used to coordinate shifts informally must now follow the tool; handovers break down, overtime rises, and senior nurses feel their expertise no longer counts.",a:"Which lens best explains why the \"better\" technology made things worse?",o:[
   ["Sociotechnical systems theory","The technology changed without redesigning people, roles and coordination together. It’s the same pattern as Trist’s coal mines.",1],
-  ["Human Relations","It captures the frustration, but not the mechanism: the problem comes from the interplay of technology, people and processes."],
-  ["Classical theory","On the contrary: the classical lens would say more standardization is better."],
-  ["Institutional theory","Nothing suggests the tool was adopted for legitimacy."]]},
+  ["Human Relations: frustration lowers motivation","It captures the frustration, but not the mechanism: the problem comes from the interplay of technology, people and processes."],
+  ["Classical theory: standardize the new workflow","On the contrary: the classical lens would say more standardization is better."],
+  ["Institutional theory: the tool was a trend","Nothing suggests the tool was adopted for legitimacy."]]},
  {id:"q5",lens:"eco",s:"A CEO's bonus depends on the quarterly share price. She cuts long-term R&D to boost short-term profit, against the interests of long-term shareholders.",a:"Which concept fits best?",o:[
   ["Agency theory","The agent’s (CEO’s) interests diverge from the principal’s (shareholders’). The typical response: redesign incentives and governance.",1],
   ["Transaction cost economics","Same theoretical family, but it’s about make or buy, not the principal–agent conflict."],
@@ -175,9 +175,9 @@ const QUIZ = [
   ["Classical specialization","Specialization divides work inside the company. Here the question is where the company ends."]]},
  {id:"q7",lens:"cls",s:"A call center times every call, gives agents word-for-word scripts, and has managers redesign the process while agents only execute.",a:"Which organizational logic is this?",o:[
   ["Classical / scientific management","Divide, standardize, control, with planners separated from executors: pure Taylor.",1],
-  ["Human Relations","The opposite: no attention to motivation or groups."],
-  ["Contingency theory","There’s no discussion of fit with the environment."],
-  ["Sociotechnical systems","It doesn’t optimize people and technology together: it only optimizes the task."]]},
+  ["Human Relations: social needs of the workers","The opposite: no attention to motivation or groups."],
+  ["Contingency theory: structure fits the market","There’s no discussion of fit with the environment."],
+  ["Sociotechnical systems: tasks and tools together","It doesn’t optimize people and technology together: it only optimizes the task."]]},
  {id:"q8",lens:"hr",s:"A research team is moved into a highly visible pilot project. Pay stays the same, but managers ask for their opinions every week. Productivity rises, even in weeks when working conditions get slightly worse.",a:"What does this most resemble?",o:[
   ["The Hawthorne studies","Attention, participation and social dynamics matter more than physical conditions. That’s what surprised the Hawthorne researchers.",1],
   ["Scientific management","Taylor would look for the optimal method; here worse conditions don’t lower productivity."],
@@ -185,9 +185,9 @@ const QUIZ = [
   ["Normative isomorphism","There’s no external professional pressure."]]},
  {id:"q9",lens:"hr",s:"A manager believes employees avoid work unless controlled. He adds time tracking and tight supervision. Over time, employees show less initiative, which \"confirms\" his view.",a:"Which idea explains this cycle?",o:[
   ["McGregor's Theory X as a self-fulfilling assumption","Theory X is a manager’s assumption. The assumption becomes structure (control), and the structure produces the expected behaviour. Link it to Chapter 1!",1],
-  ["Herzberg's hygiene factors","Herzberg separates hygiene factors and motivators. The core here is the self-fulfilling prophecy."],
-  ["Agency theory","There is monitoring, but the cycle is driven by an assumption about people, not a conflict of interest."],
-  ["Weber's bureaucracy","Weber describes formal, impersonal rules, not a cycle of expectations."]]},
+  ["Herzberg's hygiene factors removing dissatisfaction","Herzberg separates hygiene factors and motivators. The core here is the self-fulfilling prophecy."],
+  ["Agency theory: monitoring agents who shirk their duties","There is monitoring, but the cycle is driven by an assumption about people, not a conflict of interest."],
+  ["Weber's bureaucracy: impersonal rules applied to everyone","Weber describes formal, impersonal rules, not a cycle of expectations."]]},
  {id:"q10",lens:"hr",s:"After a salary increase, complaints at a design studio drop, but designers are no more engaged. Engagement rises only when they get more responsibility for client projects.",a:"Which theory fits best?",o:[
   ["Herzberg's two-factor theory","Salary is a hygiene factor: it removes dissatisfaction. Responsibility and recognition are the motivators.",1],
   ["Maslow's hierarchy of needs","Close, but the distinction between removing dissatisfaction and creating motivation is Herzberg’s."],
@@ -200,14 +200,14 @@ const QUIZ = [
   ["The foundation is reciprocity","A centre that collects and allocates resources is redistribution."]]},
  {id:"q12",lens:"bel",s:"Mia is thirsty. She wants a specific Swiss mineral water and has the money for it, but she hasn't gone to a shop or expressed any intention to buy yet.",a:"At which stage is she?",o:[
   ["A want backed by purchasing power","A specific desire plus the means to pay. Demand only arises when she expresses the intention to buy.",1],
-  ["Demand","Trap: there’s no expressed intention to buy from a supplier."],
-  ["Only a need","It’s more than a need: the desire is specific and she can afford it."],
-  ["Scarcity","Scarcity is an economic assumption, not a stage."]]},
+  ["Demand on the market for this product","Trap: there’s no expressed intention to buy from a supplier."],
+  ["A need that is not yet specific","It’s more than a need: the desire is specific and she can afford it."],
+  ["Scarcity of the goods she wants","Scarcity is an economic assumption, not a stage."]]},
  {id:"q13",lens:"bel",s:"A company's leadership fully accepts the assumption: \"Human needs are unlimited and resources are scarce.\"",a:"Which practice follows most directly from this assumption?",o:[
   ["Units compete for budgets and are measured by efficiency KPIs","Scarcity → competition, optimization, performance measurement, cost control.",1],
-  ["Repair services and longer product lifecycles","That follows from the opposite assumption: sufficiency and sustainability."],
-  ["Shared ownership and cooperation between units","That comes from an alternative assumption: cooperation can create more value than competition."],
-  ["Choosing the first acceptable option","That’s satisficing (Simon), not a consequence of scarcity."]]},
+  ["Repair services and longer product lifecycles for customers","That follows from the opposite assumption: sufficiency and sustainability."],
+  ["Shared ownership and cooperation between the different units","That comes from an alternative assumption: cooperation can create more value than competition."],
+  ["Managers choose the first option that meets minimum criteria","That’s satisficing (Simon), not a consequence of scarcity."]]},
  {id:"q14",lens:"ins",s:"After a new federal law, all hospitals in a canton set up the same kind of patient-data compliance office.",a:"Which form of isomorphism is this?",o:[
   ["Coercive","The pressure comes from laws and regulations.",1],
   ["Mimetic","They aren’t copying out of uncertainty: they’re required to."],
@@ -230,14 +230,14 @@ const QUIZ = [
   ["Power, politics and institutional pressures","That’s contingency’s blind spot."]]},
  {id:"q18",lens:"cls",s:"At Toyota, any worker can pull a cord to stop the production line when they spot a quality problem.",a:"Which element goes beyond classical thinking?",o:[
   ["Workers act as problem-solvers, not only executors","The classical lens separates thinkers from doers. Toyota gives workers authority and responsibility for quality.",1],
-  ["Standardized work","Toyota standardizes a lot: this part is still classical."],
-  ["Hierarchical control","That’s the opposite of what the cord does."],
-  ["Measuring cycle times","Still classical logic."]]},
+  ["Standardized work instructions at each station","Toyota standardizes a lot: this part is still classical."],
+  ["Hierarchical control of quality by supervisors","That’s the opposite of what the cord does."],
+  ["Measuring cycle times to remove wasted motion","Still classical logic."]]},
  {id:"q19",lens:"eco",vx:true,s:"Training case inspired by IBM: a large listed tech company sells its PC business and later spins off its infrastructure-services unit, to concentrate on hybrid cloud and AI.",a:"Which lens most directly asks where the boundaries of the firm should be?",o:[
   ["Economic theory (transaction costs, make-or-buy)","The economic lens asks what to keep in-house and what to leave to the market. Selling or spinning off a unit redraws the company’s boundaries.",1],
-  ["Human Relations","It matters for the people involved, but it doesn’t explain the boundary choice."],
-  ["Institutional theory","There may be a legitimacy push toward cloud and AI, but the boundary question is economic."],
-  ["Classical theory","The classical lens organizes work within boundaries; it doesn’t decide where they go."]]},
+  ["Human Relations (impact on employees and teams)","It matters for the people involved, but it doesn’t explain the boundary choice."],
+  ["Institutional theory (legitimacy of cloud and AI)","There may be a legitimacy push toward cloud and AI, but the boundary question is economic."],
+  ["Classical theory (efficient division of the work)","The classical lens organizes work within boundaries; it doesn’t decide where they go."]]},
  {id:"q20",lens:"pol",s:"A Swiss company keeps its apprenticeship programme and negotiates with unions, even though cheaper options exist abroad.",a:"Which Chapter 2 idea explains this best?",o:[
   ["Embeddedness","Economic choices are embedded in society’s norms, institutions and culture.",1],
   ["Market exchange","The market alone would suggest the cheapest option."],
@@ -798,29 +798,29 @@ LESSON.push(
 QUIZ.push(
  {id:"q21",lens:"cls",s:"An airline writes a detailed written procedure for every maintenance step, with checklists that must be signed. A software start-up in the same city has almost no written rules.",a:"Which structural choice is being set differently, and why?",o:[
   ["Formalization: high for the airline, low for the start-up","Formalization is how far work is governed by written rules. High gives predictability, low gives flexibility. An aircraft cannot afford variation.",1],
-  ["Specialization","That is about how narrow each person's task is, not how many written rules exist."],
-  ["Span of control","That is about how many people report to one manager."],
-  ["Centralization","That is about where decisions are taken, not how written the procedures are."]]},
+  ["Specialization: narrow roles for the airline, broad roles for the start-up","That is about how narrow each person's task is, not how many written rules exist."],
+  ["Span of control: few reports at the airline, many at the start-up","That is about how many people report to one manager."],
+  ["Centralization: decisions at the top for the airline, local for the start-up","That is about where decisions are taken, not how written the procedures are."]]},
  {id:"q22",lens:"con",s:"A company groups all engineers in one department, all marketers in another. Projects constantly wait because each department has its own queue and its own priorities.",a:"Which structure is this, and what is its typical weakness?",o:[
   ["Functional structure: deep expertise, but silos","Grouping by expertise gives depth and economies of scale, but creates silos and nobody owns the end-to-end result.",1],
-  ["Divisional structure: duplication","Divisional groups by product, market or country, and its typical problem is duplicated functions."],
-  ["Matrix: two bosses","A matrix crosses two dimensions. Here there is only one."],
-  ["Network: dependency","A network coordinates across different companies, not inside one."]]},
+  ["Divisional structure: market focus, but duplication","Divisional groups by product, market or country, and its typical problem is duplicated functions."],
+  ["Matrix structure: integration, but two bosses","A matrix crosses two dimensions. Here there is only one."],
+  ["Network: access to partners, but dependency","A network coordinates across different companies, not inside one."]]},
  {id:"q23",lens:"dec",s:"A hotel chain of 80 hotels decides room prices, suppliers, local marketing and refunds centrally. Local managers say they understand their market better but need approval for almost everything.",a:"What is the trade-off being discussed?",o:[
   ["Centralization gives consistency and control, but loses speed and local knowledge","This is the exact trade-off from chapter 5. The right question is not whether to centralise, but which decisions.",1],
-  ["Formalization gives predictability","True in general, but the issue here is where decisions are taken, not how many rules exist."],
-  ["Specialization increases expertise","Not in play: nobody is dividing tasks more narrowly."],
-  ["Hierarchy clarifies accountability","Hierarchy exists, but the problem described is the distance between decision and local knowledge."]]},
+  ["Formalization gives predictability, but reduces flexibility for local staff","True in general, but the issue here is where decisions are taken, not how many rules exist."],
+  ["Specialization increases expertise, but creates more handovers between units","Not in play: nobody is dividing tasks more narrowly."],
+  ["Hierarchy clarifies accountability, but slows communication across levels","Hierarchy exists, but the problem described is the distance between decision and local knowledge."]]},
  {id:"q24",lens:"sys",s:"In a company every department hits its own targets. Marketing launches on time, operations keeps costs down, logistics fills every truck. Customers still receive their orders late.",a:"What does this situation illustrate?",o:[
   ["Local efficiency does not create end-to-end effectiveness","Every piece optimises itself, but nobody looks at the customer's whole journey. This is the heart of process thinking.",1],
-  ["The company needs more specialization","The opposite: more specialisation would add handovers and coordination needs."],
-  ["Employees are not motivated","No sign of motivation problems: everyone meets their targets."],
-  ["The structure is too flat","Nothing suggests a problem with hierarchical levels."]]},
+  ["The company needs more specialization within each unit","The opposite: more specialisation would add handovers and coordination needs."],
+  ["Employees lack motivation to look beyond their own targets","No sign of motivation problems: everyone meets their targets."],
+  ["The structure is too flat to coordinate the different units","Nothing suggests a problem with hierarchical levels."]]},
  {id:"q25",lens:"hr",s:"A new employee is told to follow the official process. Her colleague says: forget it, call Marta in the other department, she sorts these things out in ten minutes.",a:"What are we looking at?",o:[
   ["The informal organisation doing what the formal one cannot","Trust, relationships and unwritten channels: they emerge by themselves and often make the real work happen.",1],
-  ["A broken hierarchy","The hierarchy is not broken: it is simply bypassed because it is slow."],
-  ["Low formalization","The official process exists and is written down. That is exactly why they go around it."],
-  ["A matrix conflict","There are no two bosses involved."]]},
+  ["A hierarchy that has stopped working and is being replaced","The hierarchy is not broken: it is simply bypassed because it is slow."],
+  ["Low formalization of the official process","The official process exists and is written down. That is exactly why they go around it."],
+  ["A conflict between two lines of a matrix","There are no two bosses involved."]]},
  {id:"q26",lens:"bel",s:"A company states: \"We exist to help people move safely.\" Another sentence in the same report says: \"We will win by becoming the cheapest provider in Europe by 2028.\"",a:"Which is the purpose and which is the strategy?",o:[
   ["The first is purpose, the second is strategy","Purpose is why we exist and it endures. Strategy is how we win, and it changes when the world changes.",1],
   ["The first is vision, the second is mission","Vision is the desired future, mission is what we do today and for whom."],
@@ -828,24 +828,24 @@ QUIZ.push(
   ["The first is mission, the second is purpose","Reversed: a purpose is not a competitive plan."]]},
  {id:"q27",lens:"con",s:"An engineer in a global company reports to the head of her product line and to the head of her country. When the two disagree about her time, nobody can tell her whose priority wins.",a:"What is happening, in the words of chapter 5?",o:[
   ["A matrix: it integrates two perspectives and creates unclear authority","A matrix brings two dimensions together to coordinate better, and in exchange creates two bosses and conflicting priorities.",1],
-  ["A network organisation","A network coordinates across different organisations, not two lines inside the same one."],
-  ["A failure of delegation","It is not about passing authority downward, but about two parallel lines of authority."],
-  ["Too wide a span of control","Nothing is said about how many people report to one manager."]]},
+  ["A network organisation: coordination across partners, with less control","A network coordinates across different organisations, not two lines inside the same one."],
+  ["A failure of delegation: authority was passed down without accountability","It is not about passing authority downward, but about two parallel lines of authority."],
+  ["Too wide a span of control: one manager supervises too many people","Nothing is said about how many people report to one manager."]]},
  {id:"q28",lens:"sys",s:"To cut errors, a company adds two approval steps. Work slows down, deadlines get tighter, people rush, and errors increase again.",a:"What is this called in chapter 6?",o:[
   ["A reinforcing feedback loop: today's solution becomes tomorrow's problem","The action comes back and worsens the original situation. Typical of complex systems.",1],
-  ["Emergence","Emergence is a pattern that appears without being designed, not an effect that reinforces itself."],
-  ["Ambidexterity","That is the ability to innovate and run the existing business at the same time."],
-  ["Requisite variety","That is about the number of possible responses compared with the situations faced."]]},
+  ["Emergence: a pattern nobody designed appears by itself and spreads","Emergence is a pattern that appears without being designed, not an effect that reinforces itself."],
+  ["Ambidexterity: exploiting today while exploring tomorrow","That is the ability to innovate and run the existing business at the same time."],
+  ["Requisite variety: more responses than situations","That is about the number of possible responses compared with the situations faced."]]},
  {id:"q29",lens:"dec",s:"In a telecom company, any customer request that does not fit the standard script has to be escalated to one senior manager. The queue of escalations grows every week.",a:"Which idea from chapter 6 explains this best?",o:[
   ["Ashby's law: only variety can absorb variety","The situations are varied, the responses allowed at the front line are not. So everything piles up on whoever holds the authority.",1],
-  ["Emergence","Nothing spontaneous appears here: the bottleneck is designed."],
-  ["Complicated versus complex","A useful distinction, but it does not explain the queue of escalations."],
+  ["Emergence: a queue nobody designed","Nothing spontaneous appears here: the bottleneck is designed."],
+  ["Complicated versus complex: the front line meets complex cases","A useful distinction, but it does not explain the queue of escalations."],
   ["Coherence between autonomy and control","One of the viability balances, but the law of variety is more precise."]]},
  {id:"q30",lens:"con",s:"A board asks for a detailed three-year plan to change the culture of the company, with monthly milestones and guaranteed outcomes.",a:"What is wrong with the request, in chapter 6 terms?",o:[
   ["Culture change is complex, so it cannot be fully planned and predicted","In complex systems you proceed through experiments and watch what emerges, instead of guaranteeing outcomes three years out.",1],
-  ["Culture change is chaotic, so act first","Chaotic means a sudden emergency, like a fire. There is no emergency here."],
-  ["Culture change is complicated, so hire experts","Complicated means analysable. Culture depends on how people react, and that is not predictable."],
-  ["Nothing is wrong: planning is always better","That is exactly the assumption chapter 6 questions."]]}
+  ["Culture change is chaotic, so the board must act first and stabilize","Chaotic means a sudden emergency, like a fire. There is no emergency here."],
+  ["Culture change is complicated, so experts should analyze and plan it","Complicated means analysable. Culture depends on how people react, and that is not predictable."],
+  ["The request is sound: detailed planning reduces the risk of failure","That is exactly the assumption chapter 6 questions."]]}
 );
 
 OSP.en={UI,LENSES,QUIZ,PAIRS,PEOPLE,LESSON,ERAS,HARD};

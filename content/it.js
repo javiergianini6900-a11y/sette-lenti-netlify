@@ -106,14 +106,14 @@ const QUIZ = [
   ["Systems: the firm is a closed system","I sistemi sono aperti per definizione. E il consulente parla di adattamento al contesto, non di interdipendenze interne."]]},
  {id:"q3",lens:"dec",s:"At a logistics company every purchase above CHF 500 needs three approvals. Key data sits at headquarters, and regional managers often pick the first supplier that meets minimum criteria because they lack time to compare.",a:"Which lens gives the most direct diagnosis?",o:[
   ["Decision-making theory","Tre segnali di razionalità limitata: informazioni nel posto sbagliato, colli di bottiglia e satisficing.",1],
-  ["Classical theory","Le approvazioni sono controllo, ma il problema descritto riguarda come circolano informazioni e decisioni."],
-  ["Economic theory","Non c'è un conflitto di interessi né una scelta make-or-buy."],
-  ["Contingency theory","Non si parla di un ambiente cambiato né di fit."]]},
+  ["Classical theory: clarify roles and approvals","Le approvazioni sono controllo, ma il problema descritto riguarda come circolano informazioni e decisioni."],
+  ["Economic theory: costs of coordination","Non c'è un conflitto di interessi né una scelta make-or-buy."],
+  ["Contingency theory: fit with the environment","Non si parla di un ambiente cambiato né di fit."]]},
  {id:"q4",lens:"sys",s:"A hospital introduces a new digital scheduling tool. Nurses who used to coordinate shifts informally must now follow the tool; handovers break down, overtime rises, and senior nurses feel their expertise no longer counts.",a:"Which lens best explains why the \"better\" technology made things worse?",o:[
   ["Sociotechnical systems theory","La tecnologia è cambiata senza riprogettare insieme persone, ruoli e coordinamento. È lo stesso schema delle miniere di Trist.",1],
-  ["Human Relations","Coglie la frustrazione, ma non il meccanismo: il problema nasce dall'interazione tra tecnologia, persone e processi."],
-  ["Classical theory","Al contrario: la classica direbbe che più standardizzazione è meglio."],
-  ["Institutional theory","Nulla indica che lo strumento sia stato adottato per legittimità."]]},
+  ["Human Relations: frustration lowers motivation","Coglie la frustrazione, ma non il meccanismo: il problema nasce dall'interazione tra tecnologia, persone e processi."],
+  ["Classical theory: standardize the new workflow","Al contrario: la classica direbbe che più standardizzazione è meglio."],
+  ["Institutional theory: the tool was a trend","Nulla indica che lo strumento sia stato adottato per legittimità."]]},
  {id:"q5",lens:"eco",s:"A CEO's bonus depends on the quarterly share price. She cuts long-term R&D to boost short-term profit, against the interests of long-term shareholders.",a:"Which concept fits best?",o:[
   ["Agency theory","Gli interessi dell'agente (il CEO) divergono da quelli del principale (gli azionisti). La risposta tipica: ridisegnare incentivi e governance.",1],
   ["Transaction cost economics","Stessa famiglia teorica, ma riguarda il fare o comprare, non il conflitto tra principale e agente."],
@@ -126,9 +126,9 @@ const QUIZ = [
   ["Classical specialization","La specializzazione divide il lavoro dentro l'azienda. Qui si decide dove finisce l'azienda."]]},
  {id:"q7",lens:"cls",s:"A call center times every call, gives agents word-for-word scripts, and has managers redesign the process while agents only execute.",a:"Which organizational logic is this?",o:[
   ["Classical / scientific management","Dividere, standardizzare, controllare, e chi pianifica è separato da chi esegue: è Taylor puro.",1],
-  ["Human Relations","È l'opposto: nessuna attenzione a motivazione o gruppi."],
-  ["Contingency theory","Non si discute di fit con l'ambiente."],
-  ["Sociotechnical systems","Non ottimizza insieme persone e tecnologia: ottimizza solo il compito."]]},
+  ["Human Relations: social needs of the workers","È l'opposto: nessuna attenzione a motivazione o gruppi."],
+  ["Contingency theory: structure fits the market","Non si discute di fit con l'ambiente."],
+  ["Sociotechnical systems: tasks and tools together","Non ottimizza insieme persone e tecnologia: ottimizza solo il compito."]]},
  {id:"q8",lens:"hr",s:"A research team is moved into a highly visible pilot project. Pay stays the same, but managers ask for their opinions every week. Productivity rises, even in weeks when working conditions get slightly worse.",a:"What does this most resemble?",o:[
   ["The Hawthorne studies","Attenzione, partecipazione e dinamiche sociali contano più delle condizioni fisiche. È ciò che sorprese i ricercatori a Hawthorne.",1],
   ["Scientific management","Taylor cercherebbe il metodo ottimale; qui peggiorare le condizioni non abbassa la produttività."],
@@ -136,9 +136,9 @@ const QUIZ = [
   ["Normative isomorphism","Non c'è nessuna pressione professionale esterna."]]},
  {id:"q9",lens:"hr",s:"A manager believes employees avoid work unless controlled. He adds time tracking and tight supervision. Over time, employees show less initiative, which \"confirms\" his view.",a:"Which idea explains this cycle?",o:[
   ["McGregor's Theory X as a self-fulfilling assumption","Theory X è un'assunzione del manager. L'assunzione diventa struttura (controllo), e la struttura produce il comportamento atteso. Collega con il Cap. 1!",1],
-  ["Herzberg's hygiene factors","Herzberg distingue fattori igienici e motivanti. Qui il centro è la profezia che si autoavvera."],
-  ["Agency theory","C'è monitoraggio, ma la causa del circolo è l'assunzione sulle persone, non un conflitto di interessi."],
-  ["Weber's bureaucracy","Weber descrive regole formali e impersonali, non un circolo di aspettative."]]},
+  ["Herzberg's hygiene factors removing dissatisfaction","Herzberg distingue fattori igienici e motivanti. Qui il centro è la profezia che si autoavvera."],
+  ["Agency theory: monitoring agents who shirk their duties","C'è monitoraggio, ma la causa del circolo è l'assunzione sulle persone, non un conflitto di interessi."],
+  ["Weber's bureaucracy: impersonal rules applied to everyone","Weber descrive regole formali e impersonali, non un circolo di aspettative."]]},
  {id:"q10",lens:"hr",s:"After a salary increase, complaints at a design studio drop, but designers are no more engaged. Engagement rises only when they get more responsibility for client projects.",a:"Which theory fits best?",o:[
   ["Herzberg's two-factor theory","Lo stipendio è un fattore igienico: toglie insoddisfazione. Responsabilità e riconoscimento sono i motivatori.",1],
   ["Maslow's hierarchy of needs","Ci si avvicina, ma la distinzione tra togliere insoddisfazione e creare motivazione è di Herzberg."],
@@ -151,14 +151,14 @@ const QUIZ = [
   ["The foundation is reciprocity","Un centro che raccoglie e alloca risorse è redistribuzione."]]},
  {id:"q12",lens:"bel",s:"Mia is thirsty. She wants a specific Swiss mineral water and has the money for it, but she hasn't gone to a shop or expressed any intention to buy yet.",a:"At which stage is she?",o:[
   ["A want backed by purchasing power","Desiderio specifico più mezzi finanziari. La domanda nasce solo quando esprime l'intenzione di comprare.",1],
-  ["Demand","Trappola: manca l'intenzione di acquisto espressa verso un fornitore."],
-  ["Only a need","È più di un bisogno: il desiderio è specifico e può permetterselo."],
-  ["Scarcity","La scarsità è un'assunzione economica, non una fase."]]},
+  ["Demand on the market for this product","Trappola: manca l'intenzione di acquisto espressa verso un fornitore."],
+  ["A need that is not yet specific","È più di un bisogno: il desiderio è specifico e può permetterselo."],
+  ["Scarcity of the goods she wants","La scarsità è un'assunzione economica, non una fase."]]},
  {id:"q13",lens:"bel",s:"A company's leadership fully accepts the assumption: \"Human needs are unlimited and resources are scarce.\"",a:"Which practice follows most directly from this assumption?",o:[
   ["Units compete for budgets and are measured by efficiency KPIs","Scarsità → competizione, ottimizzazione, misurazione delle performance, controllo dei costi.",1],
-  ["Repair services and longer product lifecycles","Deriva dall'assunzione opposta: sufficienza e sostenibilità."],
-  ["Shared ownership and cooperation between units","Viene da un'assunzione alternativa: la cooperazione può creare più valore della competizione."],
-  ["Choosing the first acceptable option","È satisficing (Simon), non una conseguenza della scarsità."]]},
+  ["Repair services and longer product lifecycles for customers","Deriva dall'assunzione opposta: sufficienza e sostenibilità."],
+  ["Shared ownership and cooperation between the different units","Viene da un'assunzione alternativa: la cooperazione può creare più valore della competizione."],
+  ["Managers choose the first option that meets minimum criteria","È satisficing (Simon), non una conseguenza della scarsità."]]},
  {id:"q14",lens:"ins",s:"After a new federal law, all hospitals in a canton set up the same kind of patient-data compliance office.",a:"Which form of isomorphism is this?",o:[
   ["Coercive","La pressione viene da leggi e regolamenti.",1],
   ["Mimetic","Non copiano per incertezza: sono obbligati."],
@@ -181,14 +181,14 @@ const QUIZ = [
   ["Power, politics and institutional pressures","Questo è il punto cieco della contingency."]]},
  {id:"q18",lens:"cls",s:"At Toyota, any worker can pull a cord to stop the production line when they spot a quality problem.",a:"Which element goes beyond classical thinking?",o:[
   ["Workers act as problem-solvers, not only executors","La classica separa chi pensa da chi esegue. Toyota dà agli operai autorità e responsabilità sulla qualità.",1],
-  ["Standardized work","Toyota standardizza molto: questa parte è ancora classica."],
-  ["Hierarchical control","È il contrario di ciò che fa la corda."],
-  ["Measuring cycle times","È ancora logica classica."]]},
+  ["Standardized work instructions at each station","Toyota standardizza molto: questa parte è ancora classica."],
+  ["Hierarchical control of quality by supervisors","È il contrario di ciò che fa la corda."],
+  ["Measuring cycle times to remove wasted motion","È ancora logica classica."]]},
  {id:"q19",lens:"eco",vx:true,s:"Training case inspired by IBM: a large listed tech company sells its PC business and later spins off its infrastructure-services unit, to concentrate on hybrid cloud and AI.",a:"Which lens most directly asks where the boundaries of the firm should be?",o:[
   ["Economic theory (transaction costs, make-or-buy)","La lente economica chiede cosa tenere dentro e cosa lasciare al mercato. Vendere o scorporare un'unità ridisegna i confini dell'azienda.",1],
-  ["Human Relations","Conta per le persone coinvolte, ma non spiega la scelta dei confini."],
-  ["Institutional theory","Può esserci una spinta di legittimità verso cloud e AI, ma la domanda sui confini è economica."],
-  ["Classical theory","La classica organizza il lavoro dentro i confini, non decide dove metterli."]]},
+  ["Human Relations (impact on employees and teams)","Conta per le persone coinvolte, ma non spiega la scelta dei confini."],
+  ["Institutional theory (legitimacy of cloud and AI)","Può esserci una spinta di legittimità verso cloud e AI, ma la domanda sui confini è economica."],
+  ["Classical theory (efficient division of the work)","La classica organizza il lavoro dentro i confini, non decide dove metterli."]]},
  {id:"q20",lens:"pol",s:"A Swiss company keeps its apprenticeship programme and negotiates with unions, even though cheaper options exist abroad.",a:"Which Chapter 2 idea explains this best?",o:[
   ["Embeddedness","Le scelte economiche sono immerse in norme, istituzioni e cultura della società.",1],
   ["Market exchange","Il mercato da solo suggerirebbe l'opzione più economica."],
@@ -764,29 +764,29 @@ LESSON.push(
 QUIZ.push(
  {id:"q21",lens:"cls",s:"An airline writes a detailed written procedure for every maintenance step, with checklists that must be signed. A software start-up in the same city has almost no written rules.",a:"Which structural choice is being set differently, and why?",o:[
   ["Formalization: high for the airline, low for the start-up","La formalizzazione è quante regole scritte governano il lavoro. Alta dà prevedibilità, bassa dà flessibilità. L'aereo non può permettersi variazioni.",1],
-  ["Specialization","Riguarda quanto è stretto il compito di ciascuno, non quante regole scritte esistono."],
-  ["Span of control","Riguarda quante persone rispondono a un capo."],
-  ["Centralization","Riguarda dove si prendono le decisioni, non quanto sono scritte le procedure."]]},
+  ["Specialization: narrow roles for the airline, broad roles for the start-up","Riguarda quanto è stretto il compito di ciascuno, non quante regole scritte esistono."],
+  ["Span of control: few reports at the airline, many at the start-up","Riguarda quante persone rispondono a un capo."],
+  ["Centralization: decisions at the top for the airline, local for the start-up","Riguarda dove si prendono le decisioni, non quanto sono scritte le procedure."]]},
  {id:"q22",lens:"con",s:"A company groups all engineers in one department, all marketers in another. Projects constantly wait because each department has its own queue and its own priorities.",a:"Which structure is this, and what is its typical weakness?",o:[
   ["Functional structure: deep expertise, but silos","Raggruppare per competenza dà profondità ed economie di scala, ma crea silos e nessuno possiede il risultato end-to-end.",1],
-  ["Divisional structure: duplication","La divisionale raggruppa per prodotto, mercato o paese, e il suo problema tipico è la duplicazione delle funzioni."],
-  ["Matrix: two bosses","La matrice incrocia due dimensioni. Qui ce n'è una sola."],
-  ["Network: dependency","La rete coordina tra aziende diverse, non dentro una sola."]]},
+  ["Divisional structure: market focus, but duplication","La divisionale raggruppa per prodotto, mercato o paese, e il suo problema tipico è la duplicazione delle funzioni."],
+  ["Matrix structure: integration, but two bosses","La matrice incrocia due dimensioni. Qui ce n'è una sola."],
+  ["Network: access to partners, but dependency","La rete coordina tra aziende diverse, non dentro una sola."]]},
  {id:"q23",lens:"dec",s:"A hotel chain of 80 hotels decides room prices, suppliers, local marketing and refunds centrally. Local managers say they understand their market better but need approval for almost everything.",a:"What is the trade-off being discussed?",o:[
   ["Centralization gives consistency and control, but loses speed and local knowledge","È il compromesso esatto del capitolo 5. La domanda giusta non è centralizzare o no, ma quali decisioni.",1],
-  ["Formalization gives predictability","Vero in generale, ma qui il tema è dove si decide, non quante regole ci sono."],
-  ["Specialization increases expertise","Non è in gioco: nessuno sta dividendo i compiti in modo più stretto."],
-  ["Hierarchy clarifies accountability","La gerarchia c'è, ma il problema descritto è la distanza tra decisione e conoscenza locale."]]},
+  ["Formalization gives predictability, but reduces flexibility for local staff","Vero in generale, ma qui il tema è dove si decide, non quante regole ci sono."],
+  ["Specialization increases expertise, but creates more handovers between units","Non è in gioco: nessuno sta dividendo i compiti in modo più stretto."],
+  ["Hierarchy clarifies accountability, but slows communication across levels","La gerarchia c'è, ma il problema descritto è la distanza tra decisione e conoscenza locale."]]},
  {id:"q24",lens:"sys",s:"In a company every department hits its own targets. Marketing launches on time, operations keeps costs down, logistics fills every truck. Customers still receive their orders late.",a:"What does this situation illustrate?",o:[
   ["Local efficiency does not create end-to-end effectiveness","Ogni pezzo ottimizza sé stesso, ma nessuno guarda il percorso completo del cliente. È il cuore del ragionamento sui processi.",1],
-  ["The company needs more specialization","Al contrario: più specializzazione aumenterebbe i passaggi e il bisogno di coordinamento."],
-  ["Employees are not motivated","Nessun segnale di motivazione: tutti raggiungono i propri obiettivi."],
-  ["The structure is too flat","Nulla indica un problema di livelli gerarchici."]]},
+  ["The company needs more specialization within each unit","Al contrario: più specializzazione aumenterebbe i passaggi e il bisogno di coordinamento."],
+  ["Employees lack motivation to look beyond their own targets","Nessun segnale di motivazione: tutti raggiungono i propri obiettivi."],
+  ["The structure is too flat to coordinate the different units","Nulla indica un problema di livelli gerarchici."]]},
  {id:"q25",lens:"hr",s:"A new employee is told to follow the official process. Her colleague says: forget it, call Marta in the other department, she sorts these things out in ten minutes.",a:"What are we looking at?",o:[
   ["The informal organisation doing what the formal one cannot","Fiducia, relazioni e canali non scritti: emergono da soli e spesso fanno funzionare il lavoro vero.",1],
-  ["A broken hierarchy","La gerarchia non è rotta: viene semplicemente aggirata perché è lenta."],
-  ["Low formalization","Il processo ufficiale esiste ed è scritto. È proprio per questo che lo aggirano."],
-  ["A matrix conflict","Non ci sono due capi in gioco."]]},
+  ["A hierarchy that has stopped working and is being replaced","La gerarchia non è rotta: viene semplicemente aggirata perché è lenta."],
+  ["Low formalization of the official process","Il processo ufficiale esiste ed è scritto. È proprio per questo che lo aggirano."],
+  ["A conflict between two lines of a matrix","Non ci sono due capi in gioco."]]},
  {id:"q26",lens:"bel",s:"A company states: \"We exist to help people move safely.\" Another sentence in the same report says: \"We will win by becoming the cheapest provider in Europe by 2028.\"",a:"Which is the purpose and which is the strategy?",o:[
   ["The first is purpose, the second is strategy","Lo scopo è il perché esistiamo e dura. La strategia è come vinciamo, e si cambia quando il mondo cambia.",1],
   ["The first is vision, the second is mission","La visione è il futuro desiderato, la missione è cosa facciamo oggi e per chi."],
@@ -794,24 +794,24 @@ QUIZ.push(
   ["The first is mission, the second is purpose","Invertite: lo scopo non è un piano competitivo."]]},
  {id:"q27",lens:"con",s:"An engineer in a global company reports to the head of her product line and to the head of her country. When the two disagree about her time, nobody can tell her whose priority wins.",a:"What is happening, in the words of chapter 5?",o:[
   ["A matrix: it integrates two perspectives and creates unclear authority","La matrice mette insieme due dimensioni per coordinare meglio, e in cambio crea due capi e priorità in conflitto.",1],
-  ["A network organisation","La rete coordina tra organizzazioni diverse, non due linee dentro la stessa."],
-  ["A failure of delegation","Non è un problema di delega verso il basso, ma di due linee di autorità parallele."],
-  ["Too wide a span of control","Non si parla di quante persone riportano a un capo."]]},
+  ["A network organisation: coordination across partners, with less control","La rete coordina tra organizzazioni diverse, non due linee dentro la stessa."],
+  ["A failure of delegation: authority was passed down without accountability","Non è un problema di delega verso il basso, ma di due linee di autorità parallele."],
+  ["Too wide a span of control: one manager supervises too many people","Non si parla di quante persone riportano a un capo."]]},
  {id:"q28",lens:"sys",s:"To cut errors, a company adds two approval steps. Work slows down, deadlines get tighter, people rush, and errors increase again.",a:"What is this called in chapter 6?",o:[
   ["A reinforcing feedback loop: today's solution becomes tomorrow's problem","L'azione torna indietro e peggiora la situazione di partenza. Tipico dei sistemi complessi.",1],
-  ["Emergence","L'emergenza è un pattern che nasce senza essere progettato, non un effetto che si rinforza da solo."],
-  ["Ambidexterity","È la capacità di innovare e produrre insieme."],
-  ["Requisite variety","Riguarda il numero di risposte possibili rispetto alle situazioni."]]},
+  ["Emergence: a pattern nobody designed appears by itself and spreads","L'emergenza è un pattern che nasce senza essere progettato, non un effetto che si rinforza da solo."],
+  ["Ambidexterity: exploiting today while exploring tomorrow","È la capacità di innovare e produrre insieme."],
+  ["Requisite variety: more responses than situations","Riguarda il numero di risposte possibili rispetto alle situazioni."]]},
  {id:"q29",lens:"dec",s:"In a telecom company, any customer request that does not fit the standard script has to be escalated to one senior manager. The queue of escalations grows every week.",a:"Which idea from chapter 6 explains this best?",o:[
   ["Ashby's law: only variety can absorb variety","Le situazioni sono varie, le risposte permesse in prima linea no. Quindi tutto si accumula su chi ha l'autorità.",1],
-  ["Emergence","Qui non nasce nessun pattern spontaneo: il collo di bottiglia è progettato."],
-  ["Complicated versus complex","Utile distinzione, ma non spiega la coda di escalation."],
+  ["Emergence: a queue nobody designed","Qui non nasce nessun pattern spontaneo: il collo di bottiglia è progettato."],
+  ["Complicated versus complex: the front line meets complex cases","Utile distinzione, ma non spiega la coda di escalation."],
   ["Coherence between autonomy and control","È uno degli equilibri della viabilità, ma la legge della varietà è più precisa."]]},
  {id:"q30",lens:"con",s:"A board asks for a detailed three-year plan to change the culture of the company, with monthly milestones and guaranteed outcomes.",a:"What is wrong with the request, in chapter 6 terms?",o:[
   ["Culture change is complex, so it cannot be fully planned and predicted","Nei sistemi complessi si procede per esperimenti e si osserva cosa emerge, invece di garantire risultati a tre anni.",1],
-  ["Culture change is chaotic, so act first","Il caotico è l'emergenza improvvisa, come un incendio. Qui non c'è emergenza."],
-  ["Culture change is complicated, so hire experts","Il complicato è analizzabile. La cultura dipende da come reagiscono le persone, e non è prevedibile."],
-  ["Nothing is wrong: planning is always better","È proprio l'assunzione che il capitolo 6 mette in discussione."]]}
+  ["Culture change is chaotic, so the board must act first and stabilize","Il caotico è l'emergenza improvvisa, come un incendio. Qui non c'è emergenza."],
+  ["Culture change is complicated, so experts should analyze and plan it","Il complicato è analizzabile. La cultura dipende da come reagiscono le persone, e non è prevedibile."],
+  ["The request is sound: detailed planning reduces the risk of failure","È proprio l'assunzione che il capitolo 6 mette in discussione."]]}
 );
 
 OSP.it={UI,LENSES,QUIZ,PAIRS,PEOPLE,LESSON,ERAS,HARD};
