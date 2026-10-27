@@ -123,7 +123,7 @@ table.res td,table.res th{border-bottom:1px solid var(--rule);padding:6px 4px;te
 <section id="v-mix" hidden>
   <div class="sheet"><h2>Shuffle</h2><p class="mono muted" style="margin:-6px 0 12px" id="mixMeta"></p>
   <p id="mixIntro"></p>
-  <p class="mono" id="mixScore"></p><div id="mixQ"></div><button class="btn" id="mixNew"></button></div>
+  <p class="mono" id="mixScore"></p><div id="mixQ"></div><div id="mixLb"></div><button class="btn" id="mixNew"></button></div>
 </section>
 
 <section id="v-hard" hidden><div class="sheet" id="hardBox"></div></section>
@@ -133,7 +133,7 @@ table.res td,table.res th{border-bottom:1px solid var(--rule);padding:6px 4px;te
 <section id="v-tips" hidden><div class="sheet" id="tipsBox"></div></section>
 </div>
 
-<script src="exam-data.js"></script>
+<script src="exam-data.js"></script><script src="lb.js"></script>
 <script src="mock/a-ch1-3.js"></script><script src="mock/a-ch4-5.js"></script><script src="mock/a-ch6-7.js"></script><script src="mock/b-all.js"></script><script src="mock/cases.js"></script><script src="mock/i18n.js"></script><script src="mock/balance.js"></script><script src="mock/kb.js"></script><script src="mock/ui.js"></script><script src="mock/ui2.js"></script><script src="mock/prac-i18n.js"></script>
 <script>
 (function(){
@@ -187,11 +187,13 @@ EX[7].quiz=D;
 const shuf=a=>{a=a.slice();for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]];}return a;};
 let qa=store.get('qa',{});
 // a single-choice list with instant feedback; answers kept per question key
-function quizList(box,list,keyOf,onScore){
+const lbEnd=(id,kind,ok,n,ctx)=>{const b=$('#'+id);if(!b||!window.LB)return;b.innerHTML='';LB.end(b,{kind,ok,n,ctx,lang:plang});};
+function quizList(box,list,keyOf,onScore,onDone){
   box.innerHTML=list.map((q,i)=>qHTML(q,keyOf(i))).join('');
   box.querySelectorAll('.q').forEach((el,i)=>{const id=keyOf(i),q=list[i];const btns=[...el.querySelectorAll('.opt')];
     const paint=()=>{const a=qa[id];if(a===undefined)return;btns.forEach((b,k)=>{b.disabled=true;if(k===q[3])b.classList.add('ok');else if(k===a)b.classList.add('bad');});el.querySelector('.why').classList.add('show');};
-    btns.forEach((b,k)=>b.onclick=()=>{if(qa[id]!==undefined)return;qa[id]=k;store.set('qa',qa);paint();onScore&&onScore();});paint();});
+    btns.forEach((b,k)=>b.onclick=()=>{if(qa[id]!==undefined)return;qa[id]=k;store.set('qa',qa);paint();onScore&&onScore();
+      if(onDone&&list.every((_,j)=>qa[keyOf(j)]!==undefined))onDone(list.filter((x,j)=>qa[keyOf(j)]===x[3]).length,list.length);});paint();});
   onScore&&onScore();}
 const scoreTxt=(list,keyOf)=>{let n=0,ok=0;list.forEach((q,i)=>{const a=qa[keyOf(i)];if(a!==undefined){n++;if(a===q[3])ok++;}});return fill(P_().qScore,{ok,n,t:list.length});};
 
@@ -202,13 +204,13 @@ function renderCap(){
   const E=EX[cap];const key=i=>'c'+cap+'-'+i;
   $('#capBody').innerHTML=`
    <div class="sheet"><h2>${pp.ch} ${cap} · ${esc(E.t)}</h2><p class="mono muted" style="margin:-6px 0 12px">${esc(pp.meta)}</p><p>${pp.lessonHint}</p>${pp.note?`<p class="mono muted">${esc(pp.note)}</p>`:''}</div>
-   <div class="sheet"><h2>${esc(pp.quiz)}</h2><p class="mono muted" style="margin:-6px 0 12px">${esc(pp.quizMeta)}</p><p class="mono" id="qScore"></p><div id="qBox"></div><button class="btn ghost" id="qReset">${esc(pp.quizReset)}</button></div>
-   <div class="sheet"><h2>${esc(pp.match)}</h2><p class="mono muted" style="margin:-6px 0 12px">${esc(pp.matchMeta)}</p><p>${esc(pp.matchHint)}</p><p class="mono" id="mScore"></p><div id="mBox"></div><button class="btn ghost" id="mReset">${esc(pp.reshuffle)}</button></div>
-   <div class="sheet"><h2>${esc(pp.sort)}</h2><p class="mono muted" style="margin:-6px 0 12px">${esc(E.sort.intro)}</p><p class="mono" id="sScore"></p><div id="sBox"></div><button class="btn ghost" id="sReset">${esc(pp.restart)}</button></div>`;
-  quizList($('#qBox'),E.quiz,key,()=>{$('#qScore').textContent=scoreTxt(E.quiz,key);});
+   <div class="sheet"><h2>${esc(pp.quiz)}</h2><p class="mono muted" style="margin:-6px 0 12px">${esc(pp.quizMeta)}</p><p class="mono" id="qScore"></p><div id="qBox"></div><button class="btn ghost" id="qReset">${esc(pp.quizReset)}</button><div id="qLb"></div></div>
+   <div class="sheet"><h2>${esc(pp.match)}</h2><p class="mono muted" style="margin:-6px 0 12px">${esc(pp.matchMeta)}</p><p>${esc(pp.matchHint)}</p><p class="mono" id="mScore"></p><div id="mBox"></div><button class="btn ghost" id="mReset">${esc(pp.reshuffle)}</button><div id="mLb"></div></div>
+   <div class="sheet"><h2>${esc(pp.sort)}</h2><p class="mono muted" style="margin:-6px 0 12px">${esc(E.sort.intro)}</p><p class="mono" id="sScore"></p><div id="sBox"></div><button class="btn ghost" id="sReset">${esc(pp.restart)}</button><div id="sLb"></div></div>`;
+  quizList($('#qBox'),E.quiz,key,()=>{$('#qScore').textContent=scoreTxt(E.quiz,key);},(ok,n)=>lbEnd('qLb','cap',ok,n,'cap:'+cap));
   $('#qReset').onclick=()=>{E.quiz.forEach((_,i)=>delete qa[key(i)]);store.set('qa',qa);renderCap();};
-  renderMatch(E.match);$('#mReset').onclick=()=>renderMatch(E.match);
-  renderSort(E.sort);$('#sReset').onclick=()=>renderSort(E.sort);
+  renderMatch(E.match);$('#mReset').onclick=()=>{$('#mLb').innerHTML='';renderMatch(E.match);};
+  renderSort(E.sort);$('#sReset').onclick=()=>{$('#sLb').innerHTML='';renderSort(E.sort);};
 }
 function renderMatch(pairs){
   const left=shuf(pairs.map((p,i)=>i)),right=shuf(pairs.map((p,i)=>i));let sel=null,errs=0,done=0;
@@ -217,7 +219,7 @@ function renderMatch(pairs){
   const sc=()=>$('#mScore').textContent=fill(P_().mScore,{d:done,t:pairs.length,e:errs});sc();
   box.querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>{if(b.classList.contains('done'))return;box.querySelectorAll('[data-l]').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');sel=+b.dataset.l;});
   box.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{if(sel===null||b.classList.contains('done'))return;const r=+b.dataset.r;const lb=box.querySelector(`[data-l="${sel}"]`);
-    if(r===sel){lb.classList.remove('sel');lb.classList.add('done');b.classList.add('done');done++;const w=$('#mWhy');w.innerHTML=`<b>${esc(pairs[r][1])}</b> · ${esc(px(pairs[r].key,pairs[r][2]))}`;w.classList.add('show');sel=null;}
+    if(r===sel){lb.classList.remove('sel');lb.classList.add('done');b.classList.add('done');done++;const w=$('#mWhy');w.innerHTML=`<b>${esc(pairs[r][1])}</b> · ${esc(px(pairs[r].key,pairs[r][2]))}`;w.classList.add('show');sel=null;if(done===pairs.length)lbEnd('mLb','cap',Math.max(0,pairs.length-errs),pairs.length,'cap:'+cap);}
     else{errs++;b.classList.add('no');setTimeout(()=>b.classList.remove('no'),600);}
     sc();});
 }
@@ -226,16 +228,16 @@ function renderSort(S){
   box.innerHTML=items.map((it,i)=>`<div class="srow"><span class="it">${esc(it[0])}</span><span class="cb">${S.cats.map((c,k)=>`<button data-i="${i}" data-k="${k}">${esc(c)}</button>`).join('')}</span><span class="sw">${esc(px(it.key,it[2]))}</span></div>`).join('');
   const sc=()=>$('#sScore').textContent=fill(P_().sScore,{ok,n,t:items.length});sc();
   box.querySelectorAll('.srow').forEach((row,i)=>{row.querySelectorAll('button').forEach(b=>b.onclick=()=>{if(row.dataset.done)return;row.dataset.done=1;n++;const k=+b.dataset.k,ans=items[i][1];
-    row.querySelectorAll('button').forEach(x=>{if(+x.dataset.k===ans)x.classList.add('right');});if(k!==ans)b.classList.add('wrong');else ok++;row.querySelector('.sw').classList.add('show');sc();});});
+    row.querySelectorAll('button').forEach(x=>{if(+x.dataset.k===ans)x.classList.add('right');});if(k!==ans)b.classList.add('wrong');else ok++;row.querySelector('.sw').classList.add('show');sc();if(n===items.length)lbEnd('sLb','cap',ok,n,'cap:'+cap);});});
 }
 
 /* ---------- shuffle across all chapters ---------- */
 let mixSet=[];
 function newMix(){const all=[];Object.keys(EX).forEach(n=>EX[n].quiz.forEach((q,i)=>all.push({q,k:'c'+n+'-'+i})));
   mixSet=shuf(all).slice(0,15);const stamp=Date.now()%100000;mixKeys=mixSet.map((_,i)=>'mix-'+stamp+'-'+i);
-  mixKeys.forEach(k=>delete qa[k]);drawMix();}
+  mixKeys.forEach(k=>delete qa[k]);const ml=$('#mixLb');if(ml)ml.innerHTML='';drawMix();}
 let mixKeys=[];
-function drawMix(){if(!mixSet.length)return;quizList($('#mixQ'),mixSet.map(x=>x.q),i=>mixKeys[i],()=>{$('#mixScore').textContent=scoreTxt(mixSet.map(x=>x.q),i=>mixKeys[i]);});}
+function drawMix(){if(!mixSet.length)return;quizList($('#mixQ'),mixSet.map(x=>x.q),i=>mixKeys[i],()=>{$('#mixScore').textContent=scoreTxt(mixSet.map(x=>x.q),i=>mixKeys[i]);},(ok,n)=>lbEnd('mixLb','mix',ok,n,'mix'));}
 $('#mixNew').onclick=()=>{newMix();$('#v-mix').scrollIntoView({block:'start'});};
 
 /* ---------- hard mode: questions generated from the knowledge base, a new mix every round ---------- */
@@ -271,7 +273,7 @@ function hardIntro(){if(hard&&!hard.end)return;clearInterval(htick);
   const pp=P_();$('#hardBox').innerHTML=`<h2>Hard mode</h2><p class="mono muted" style="margin:-6px 0 12px">${esc(fill(pp.hardPool,{n:POOLN}))}</p>
    <p>${esc(pp.hardIntro1)}</p><p>${esc(pp.hardIntro2)}</p>
    <p class="mono">${esc(pp.hardLen)}: <select id="hardN" style="font-family:var(--mono);padding:4px">${[15,30,50].map(n=>`<option ${n===store.get('hardN',15)?'selected':''}>${n}</option>`).join('')}</select></p>
-   <p class="mono">${esc(pp.lbName)}:<br><input id="lbNick" maxlength="24" value="${esc(lbNick())}" style="font-family:var(--mono);padding:6px;margin-top:4px;width:min(100%,280px)"></p>
+   <p class="mono">${esc(pp.lbName)}:<br><input id="lbNick" maxlength="24" value="${esc(window.LB?LB.nick():'')}" style="font-family:var(--mono);padding:6px;margin-top:4px;width:min(100%,280px)"></p>
    <button class="btn" id="hardGo">${esc(pp.go)}</button>`;
   $('#hardGo').onclick=()=>{const n=+$('#hardN').value;store.set('hardN',n);store.set('nick',$('#lbNick').value.trim());hard={i:0,ans:[],qs:buildRound(n).map(x=>x.q)};hardQ();};}
 function hardQ(){clearInterval(htick);if(hard.i>=hard.qs.length)return hardEnd();
@@ -282,20 +284,10 @@ function hardQ(){clearInterval(htick);if(hard.i>=hard.qs.length)return hardEnd()
 function hardEnd(){clearInterval(htick);hard.end=true;const N=hard.qs.length;
   const ok=hard.qs.filter((q,i)=>hard.ans[i]===q[3]).length,r=ok/N;
   const pp=P_();$('#hardBox').innerHTML=`<h2>${esc(pp.result)}: ${ok} / ${N}</h2><p class="mono muted" style="margin:-6px 0 12px">Hard mode</p>
-   <p>${esc(r>=.8?pp.v1:r>=.55?pp.v2:pp.v3)}</p>
+   <p>${esc(r>=.8?pp.v1:r>=.55?pp.v2:pp.v3)}</p><div id="hardLb"></div>
    ${hard.qs.map((q,i)=>{const a=hard.ans[i];return `<div class="q">${q[0]?`<p class="stem">${esc(q[0])}</p>`:''}<p class="ask">${esc(q[1])}</p>${q[2].map((o,j)=>`<button class="opt ${j===q[3]?'ok':(j===a?'bad':'')}" disabled>${String.fromCharCode(65+j)}. ${esc(o)}</button>`).join('')}${a===-1?`<p class="mono" style="color:var(--bad)">${esc(pp.timeUp)}</p>`:''}<div class="why show" style="white-space:pre-line">${esc(q.key?px(q.key,q[4]):q[4])}</div></div>`;}).join('')}
    <button class="btn" id="hardAgain">${esc(pp.hardAgain)}</button>`;
-  $('#hardAgain').onclick=()=>{hard=null;hardIntro();};scrollTo(0,0);lbSend(ok,N);}
-/* leaderboard: name defaults to the profile used on the main site; a random token claims the name */
-function lbNick(){const n=store.get('nick',null);if(n!=null)return n;try{const pr=JSON.parse(localStorage.getItem('osp1-profiles')||'{}'),a=JSON.parse(localStorage.getItem('osp1-active')||'null');return (a&&pr[a]&&pr[a].name)||'';}catch(e){return '';}}
-function lbTok(){let t=store.get('tok',null);if(!t){t=[...crypto.getRandomValues(new Uint8Array(16))].map(b=>b.toString(16).padStart(2,'0')).join('');store.set('tok',t);}return t;}
-async function lbSend(ok,n){const name=store.get('nick','');if(!name)return;const pp=P_();
-  const box=document.createElement('p');box.className='mono';box.style.cssText='border:1.5px solid var(--ink);padding:10px 12px;margin:0 0 14px';$('#hardBox h2').after(box);
-  try{const r=await fetch('/api/score',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({name,ok,n,token:lbTok()})});const d=await r.json();
-    if(r.status===409)box.textContent=pp.lbTaken;else if(r.status===429)box.textContent=pp.lbFast;else if(!r.ok)throw 0;
-    else{const all=await (await fetch('/api/leaderboard')).json();const pos=all.findIndex(x=>x.name===name)+1;
-      box.innerHTML=esc(fill(pp.lbSaved,{pts:d.pts,r:d.rounds,pos,tot:all.length}))+` <a href="./#classifica">${esc(pp.lbSee)} →</a>`;}
-  }catch(e){box.textContent=pp.lbErr;}}
+  $('#hardAgain').onclick=()=>{hard=null;hardIntro();};scrollTo(0,0);lbEnd('hardLb','hard',ok,N,'hard');}
 
 /* ---------- 10 mock exams ---------- */
 const UIL=window.EXAM_UI,M=window.MOCK,MI=window.MOCK_I18N||{};
@@ -328,7 +320,9 @@ function simRun(k){const u=U(),E=EXS[k];let st=getS(k);if(!st){st={t0:Date.now()
    <button class="btn ghost" id="simBack">${esc(u.backList)}</button><button class="btn" id="simEnd2">${esc(u.deliver2)}</button>`;
   $$('#simBox .q[data-key]').forEach(el=>{const key=el.dataset.key;el.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{st.ans[key]=+b.dataset.i;setS(k,st);el.querySelectorAll('.opt').forEach(x=>x.classList.toggle('sel',x===b));});});
   $$('#simBox textarea').forEach(t=>{t.value=st.c[t.dataset.c]||'';t.oninput=()=>{st.c[t.dataset.c]=t.value;setS(k,st);};});
-  const end=()=>{if(!confirm(u.confirmDeliver))return;st.done=true;st.used=Math.round((Date.now()-st.t0)/1000);setS(k,st);results(k);};
+  const end=()=>{if(!confirm(u.confirmDeliver))return;st.done=true;st.used=Math.round((Date.now()-st.t0)/1000);setS(k,st);results(k);
+    const E=EXS[k],ok=E.A.filter((q,i)=>st.ans['A'+i]===q.ok).length+E.B.filter((q,i)=>st.ans['B'+i]===q.ok).length;
+    if(window.LB)LB.end($('#simBox .sheet'),{kind:'sim',ok,n:E.A.length+E.B.length,ctx:'sim:'+(k+1),lang:plang});};
   $('#simEnd').onclick=end;$('#simEnd2').onclick=end;$('#simBack').onclick=simList;
   clearInterval(tick);const t=()=>{const left=Math.round((st.t0+3600000-Date.now())/1000);const el=$('#timer');if(!el){clearInterval(tick);return;}el.textContent=left>0?fmt(left):u.timeUp;};t();tick=setInterval(t,1000);scrollTo(0,0);}
 function exportText(E,st){const L=window.EXAM_LANGNAME[lang],sc=scoreOf(E,st);

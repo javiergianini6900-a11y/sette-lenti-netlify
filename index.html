@@ -382,6 +382,7 @@ textarea:focus{border-color:var(--ink)}
   <dialog class="person" id="personDlg" aria-labelledby="personName"><div class="person-in" id="personBody"></div></dialog>
 </div>
 
+<script src="lb.js"></script>
 <script src="content/en.js"></script>
 <script src="content/it.js"></script>
 <script src="content/de.js"></script>
@@ -431,12 +432,12 @@ function record(id,ok){
 }
 
 /* ---------- chrome ---------- */
-/* leaderboard: hard-mode points saved by the Netlify function /api/score */
-const LB_T={it:{e:"Classifica",t:"Chi si allena di più",n:"Punti = risposte giuste nell'hard mode, sommate su tutti i giri. Per entrare in classifica gioca l'hard mode nella pagina esame.",r:"giri",b:"migliore",x:"Ancora nessuno in classifica. Il primo giro di hard mode ti mette in cima.",m:"Mostra tutti ({n})"},
-en:{e:"Leaderboard",t:"Who practises most",n:"Points = correct answers in hard mode, summed over all rounds. Play hard mode on the exam page to get on the board.",r:"rounds",b:"best",x:"Nobody on the board yet. Your first hard-mode round puts you on top.",m:"Show all ({n})"},
-de:{e:"Rangliste",t:"Wer am meisten übt",n:"Punkte = richtige Antworten im Hard Mode, über alle Runden summiert. Spiel den Hard Mode auf der Prüfungsseite, um in die Rangliste zu kommen.",r:"Runden",b:"beste",x:"Noch niemand in der Rangliste. Deine erste Hard-Mode-Runde bringt dich nach oben.",m:"Alle zeigen ({n})"},
-es:{e:"Clasificación",t:"Quién practica más",n:"Puntos = respuestas correctas en el hard mode, sumadas en todas las rondas. Juega al hard mode en la página del examen para entrar en la clasificación.",r:"rondas",b:"mejor",x:"Todavía no hay nadie. Tu primera ronda de hard mode te pone arriba.",m:"Mostrar todos ({n})"},
-hr:{e:"Ljestvica",t:"Tko najviše vježba",n:"Bodovi = točni odgovori u hard modeu, zbrojeni kroz sve krugove. Igraj hard mode na stranici ispita da uđeš na ljestvicu.",r:"krugova",b:"najbolji",x:"Još nitko nije na ljestvici. Tvoj prvi krug hard modea stavlja te na vrh.",m:"Prikaži sve ({n})"}};
+/* leaderboard: session points saved by the Netlify function /api/score (see lb.js) */
+const LB_T={it:{e:"Classifica",t:"Chi si allena di più",n:"Punti = risposte giuste in ogni sessione finita: hard mode, esercizi dei capitoli, shuffle, prove d'esame e quiz.",r:"sessioni",b:"migliore",x:"Ancora nessuno in classifica. La prima sessione finita ti mette in cima.",m:"Mostra tutti ({n})"},
+en:{e:"Leaderboard",t:"Who practises most",n:"Points = correct answers in every finished session: hard mode, chapter exercises, shuffle, mock exams and quiz.",r:"sessions",b:"best",x:"Nobody on the board yet. Your first finished session puts you on top.",m:"Show all ({n})"},
+de:{e:"Rangliste",t:"Wer am meisten übt",n:"Punkte = richtige Antworten in jeder abgeschlossenen Sitzung: Hard Mode, Kapitelübungen, Shuffle, Probeprüfungen und Quiz.",r:"Sitzungen",b:"beste",x:"Noch niemand in der Rangliste. Deine erste abgeschlossene Sitzung bringt dich nach oben.",m:"Alle zeigen ({n})"},
+es:{e:"Clasificación",t:"Quién practica más",n:"Puntos = respuestas correctas en cada sesión terminada: hard mode, ejercicios por capítulo, shuffle, exámenes de prueba y quiz.",r:"sesiones",b:"mejor",x:"Todavía no hay nadie. Tu primera sesión terminada te pone arriba.",m:"Mostrar todos ({n})"},
+hr:{e:"Ljestvica",t:"Tko najviše vježba",n:"Bodovi = točni odgovori u svakoj završenoj sesiji: hard mode, vježbe po poglavljima, shuffle, probni ispiti i kviz.",r:"sesija",b:"najbolji",x:"Još nitko nije na ljestvici. Tvoja prva završena sesija stavlja te na vrh.",m:"Prikaži sve ({n})"}};
 let lbRows=null, lbAll=false;
 function renderBoard(){
   const el=document.getElementById("classifica"); if(!el) return;
@@ -447,7 +448,7 @@ function renderBoard(){
   document.getElementById("lbNote").textContent=t.n;
   const rows=lbAll?lbRows:lbRows.slice(0,10);
   document.getElementById("lbList").innerHTML=!lbRows.length?`<li><span></span><span class="legend">${esc(t.x)}</span><span></span></li>`:
-    rows.map((r,i)=>`<li><span class="pos">${i+1}</span><span class="nm">${esc(r.name)}</span><span class="pts">${r.pts} pt · ${r.rounds} ${esc(t.r)} · ${esc(t.b)} ${r.best}%</span></li>`).join("")+
+    rows.map((r,i)=>`<li><span class="pos">${i+1}</span><span class="nm">${esc(r.name)}</span><span class="pts">${r.pts} pt · ${r.rounds} ${esc(t.r)}${r.best?` · ${esc(t.b)} ${r.best}%`:""}</span></li>`).join("")+
     (lbRows.length>10&&!lbAll?`<li style="display:block;padding:0;border:0;background:none"><button type="button" class="sbtn more" id="lbMore">${esc(t.m.replace("{n}",lbRows.length))}</button></li>`:"");
   const mb=document.getElementById("lbMore"); if(mb) mb.onclick=()=>{lbAll=true;renderBoard();};
 }
@@ -556,7 +557,7 @@ function buildDeck(){
   if(qz.filter==="wrong") d=C.QUIZ.filter(q=>st.wrong.includes(q.id));
   else if(qz.filter==="new") d=C.QUIZ.filter(q=>!st.correct.includes(q.id));
   else if(qz.filter!=="all") d=C.QUIZ.filter(q=>q.lens===qz.filter);
-  qz.deck=shuffle(d).map(q=>q.id); qz.i=0; qz.ok=0; qz.done=0;
+  qz.deck=shuffle(d).map(q=>q.id); qz.i=0; qz.ok=0; qz.done=0; qz.sent=false;
 }
 function startQuiz(){ if(!qz.deck.length||qz.i>=qz.deck.length) buildDeck(); renderQuiz(); }
 function filterOptions(sel){
@@ -571,7 +572,9 @@ function renderQuiz(){
   if(!q){
     view.innerHTML=bar+`<article class="sheet"><h2>${esc(qz.done?u.deckDone:u.nothing)}</h2>
       <p class="empty">${esc(qz.done?fmt(u.deckDoneText,{ok:qz.ok,done:qz.done}):u.nothingText)}</p>
-      <div><button class="btn primary" data-restart>${esc(u.restart)}</button></div></article>`;
+      <div><button class="btn primary" data-restart>${esc(u.restart)}</button></div><div id="quizLb"></div></article>`;
+    // the class panel shows on every visit of this screen; the score is saved once per deck
+    if(qz.done&&window.LB){ LB.end(document.getElementById("quizLb"),qz.sent?{lang:st.lang}:{kind:"quiz",ok:qz.ok,n:qz.done,ctx:"quiz",lang:st.lang}); qz.sent=true; }
     return;
   }
   const l=LBY[q.lens];
