@@ -2,19 +2,19 @@
    LB.end(box,{kind,ok,n,ctx,lang}) saves a finished session and shows the class messages under it. */
 (function(){
 const T={
-it:{saved:"Salvato in classifica: +{ok} punti. Totale {pts}, sei {pos}° su {tot}.",taken:"Questo nome è già usato da un'altra persona. Scegline un altro.",err:"Classifica non raggiungibile, punteggio non salvato.",fast:"Sessione troppo veloce, non contata in classifica.",see:"Vedi la classifica",
+it:{saveName:"Salva nome",saved:"Salvato in classifica: +{ok} punti. Totale {pts}, sei {pos}° su {tot}.",taken:"Questo nome è già usato da un'altra persona. Scegline un altro.",err:"Classifica non raggiungibile, punteggio non salvato.",fast:"Sessione troppo veloce, non contata in classifica.",see:"Vedi la classifica",
   needName:"Scrivi un nome per entrare in classifica e scrivere alla classe.",name:"Il tuo nome",nameBtn:"Salva punteggio",msgsT:"Messaggi della classe",ph:"Scrivi alla classe: un dubbio, un trucco, un incoraggiamento…",send:"Invia",none:"Ancora nessun messaggio. Scrivi il primo.",msgFast:"Aspetta qualche secondo prima di scrivere ancora.",msgErr:"Messaggio non inviato, riprova.",more:"Mostra altri",
   k:{hard:"Hard mode",cap:"Cap. {x}",mix:"Shuffle",sim:"Prova d'esame {x}",quiz:"Quiz"}},
-en:{saved:"Saved to the leaderboard: +{ok} points. Total {pts}, you are #{pos} of {tot}.",taken:"Someone else already uses this name. Pick another one.",err:"Leaderboard unreachable, score not saved.",fast:"Session too fast, not counted on the leaderboard.",see:"See the leaderboard",
+en:{saveName:"Save name",saved:"Saved to the leaderboard: +{ok} points. Total {pts}, you are #{pos} of {tot}.",taken:"Someone else already uses this name. Pick another one.",err:"Leaderboard unreachable, score not saved.",fast:"Session too fast, not counted on the leaderboard.",see:"See the leaderboard",
   needName:"Write a name to join the leaderboard and post to the class.",name:"Your name",nameBtn:"Save score",msgsT:"Messages from the class",ph:"Write to the class: a doubt, a trick, some encouragement…",send:"Send",none:"No messages yet. Write the first one.",msgFast:"Wait a few seconds before posting again.",msgErr:"Message not sent, try again.",more:"Show more",
   k:{hard:"Hard mode",cap:"Ch. {x}",mix:"Shuffle",sim:"Mock exam {x}",quiz:"Quiz"}},
-de:{saved:"In der Rangliste gespeichert: +{ok} Punkte. Gesamt {pts}, du bist Platz {pos} von {tot}.",taken:"Diesen Namen verwendet schon jemand anderes. Wähl einen anderen.",err:"Rangliste nicht erreichbar, Punkte nicht gespeichert.",fast:"Sitzung zu schnell, zählt nicht für die Rangliste.",see:"Zur Rangliste",
+de:{saveName:"Namen speichern",saved:"In der Rangliste gespeichert: +{ok} Punkte. Gesamt {pts}, du bist Platz {pos} von {tot}.",taken:"Diesen Namen verwendet schon jemand anderes. Wähl einen anderen.",err:"Rangliste nicht erreichbar, Punkte nicht gespeichert.",fast:"Sitzung zu schnell, zählt nicht für die Rangliste.",see:"Zur Rangliste",
   needName:"Gib einen Namen ein, um in die Rangliste zu kommen und der Klasse zu schreiben.",name:"Dein Name",nameBtn:"Punkte speichern",msgsT:"Nachrichten der Klasse",ph:"Schreib der Klasse: eine Frage, ein Trick, etwas Mut…",send:"Senden",none:"Noch keine Nachrichten. Schreib die erste.",msgFast:"Warte ein paar Sekunden, bevor du wieder schreibst.",msgErr:"Nachricht nicht gesendet, versuch es nochmal.",more:"Mehr zeigen",
   k:{hard:"Hard Mode",cap:"Kap. {x}",mix:"Shuffle",sim:"Probeprüfung {x}",quiz:"Quiz"}},
-es:{saved:"Guardado en la clasificación: +{ok} puntos. Total {pts}, eres el n.º {pos} de {tot}.",taken:"Otra persona ya usa este nombre. Elige otro.",err:"Clasificación no disponible, puntuación no guardada.",fast:"Sesión demasiado rápida, no cuenta para la clasificación.",see:"Ver la clasificación",
+es:{saveName:"Guardar nombre",saved:"Guardado en la clasificación: +{ok} puntos. Total {pts}, eres el n.º {pos} de {tot}.",taken:"Otra persona ya usa este nombre. Elige otro.",err:"Clasificación no disponible, puntuación no guardada.",fast:"Sesión demasiado rápida, no cuenta para la clasificación.",see:"Ver la clasificación",
   needName:"Escribe un nombre para entrar en la clasificación y escribir a la clase.",name:"Tu nombre",nameBtn:"Guardar puntuación",msgsT:"Mensajes de la clase",ph:"Escribe a la clase: una duda, un truco, un ánimo…",send:"Enviar",none:"Todavía no hay mensajes. Escribe el primero.",msgFast:"Espera unos segundos antes de volver a escribir.",msgErr:"Mensaje no enviado, inténtalo de nuevo.",more:"Mostrar más",
   k:{hard:"Hard mode",cap:"Cap. {x}",mix:"Shuffle",sim:"Examen de prueba {x}",quiz:"Quiz"}},
-hr:{saved:"Spremljeno na ljestvicu: +{ok} bodova. Ukupno {pts}, ti si {pos}. od {tot}.",taken:"Netko drugi već koristi ovo ime. Odaberi drugo.",err:"Ljestvica nije dostupna, rezultat nije spremljen.",fast:"Sesija prebrza, ne računa se na ljestvici.",see:"Pogledaj ljestvicu",
+hr:{saveName:"Spremi ime",saved:"Spremljeno na ljestvicu: +{ok} bodova. Ukupno {pts}, ti si {pos}. od {tot}.",taken:"Netko drugi već koristi ovo ime. Odaberi drugo.",err:"Ljestvica nije dostupna, rezultat nije spremljen.",fast:"Sesija prebrza, ne računa se na ljestvici.",see:"Pogledaj ljestvicu",
   needName:"Upiši ime da uđeš na ljestvicu i pišeš razredu.",name:"Tvoje ime",nameBtn:"Spremi rezultat",msgsT:"Poruke razreda",ph:"Napiši razredu: nedoumicu, trik, ohrabrenje…",send:"Pošalji",none:"Još nema poruka. Napiši prvu.",msgFast:"Pričekaj nekoliko sekundi prije nove poruke.",msgErr:"Poruka nije poslana, pokušaj ponovno.",more:"Prikaži više",
   k:{hard:"Hard mode",cap:"Pogl. {x}",mix:"Shuffle",sim:"Probni ispit {x}",quiz:"Kviz"}}};
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -33,6 +33,8 @@ let css=false;
 function addCss(){if(css)return;css=true;const st=document.createElement("style");st.textContent=`
 .lbp{border:1.5px solid var(--ink);background:var(--paper);padding:16px;margin:18px 0;display:grid;gap:12px}
 .lbp-score{font-family:var(--mono);font-size:13px;margin:0}
+.lbp-score:empty{display:none}
+.lbp.wall{border:0;padding:0;margin:0;background:none}
 .lbp-score a{color:inherit}
 .lbp h3{margin:4px 0 0;font-family:var(--display);font-size:20px}
 .lbp-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
@@ -49,13 +51,13 @@ function addCss(){if(css)return;css=true;const st=document.createElement("style"
 
 function end(box,o){
   addCss();const lang=T[o.lang]?o.lang:"it",t=T[lang];
-  const el=document.createElement("div");el.className="lbp";box.appendChild(el);
-  el.innerHTML=`<p class="lbp-score" data-s></p><div class="lbp-row" data-name hidden><input maxlength="24" placeholder="${esc(t.name)}"><button type="button">${esc(t.nameBtn)}</button></div>
-    <h3>${esc(t.msgsT)}</h3><div class="lbp-row"><textarea maxlength="280" placeholder="${esc(t.ph)}"></textarea><button type="button" data-send>${esc(t.send)}</button></div><p class="lbp-note" data-mn></p>
+  let pending=o.n>=3?o:null;
+  const el=document.createElement("div");el.className="lbp"+(o.wall?" wall":"");box.appendChild(el);
+  el.innerHTML=`<p class="lbp-score" data-s></p><div class="lbp-row" data-name hidden><input maxlength="24" placeholder="${esc(t.name)}"><button type="button">${esc(pending?t.nameBtn:t.saveName)}</button></div>
+    ${o.wall?"":`<h3>${esc(t.msgsT)}</h3>`}<div class="lbp-row"><textarea maxlength="280" placeholder="${esc(t.ph)}"></textarea><button type="button" data-send>${esc(t.send)}</button></div><p class="lbp-note" data-mn></p>
     <ol class="lbp-msgs"></ol>`;
   const sEl=el.querySelector("[data-s]"),nameRow=el.querySelector("[data-name]"),mn=el.querySelector("[data-mn]");
-  let pending=o.n>=3?o:null;
-  const askName=()=>{sEl.textContent=t.needName;nameRow.hidden=false;nameRow.querySelector("input").value=nick();};
+    const askName=()=>{sEl.textContent=t.needName;nameRow.hidden=false;nameRow.querySelector("input").value=nick();};
   async function save(){const name=nick();if(!name)return askName();if(!pending)return;
     try{const r=await post("/api/score",{name,ok:pending.ok,n:pending.n,kind:pending.kind,token:tok()});
       if(r.status===409){set("nick","");return askName(),sEl.textContent=t.taken;}
@@ -64,7 +66,7 @@ function end(box,o){
       const all=await (await fetch("/api/leaderboard")).json(),pos=all.findIndex(x=>x.name===name)+1;
       sEl.innerHTML=esc(fill(t.saved,{ok:pending.ok,pts:r.d.pts,pos,tot:all.length}))+` <a href="./#classifica">${esc(t.see)} →</a>`;pending=null;nameRow.hidden=true;
     }catch(e){sEl.textContent=t.err;}}
-  nameRow.querySelector("button").onclick=()=>{const v=nameRow.querySelector("input").value.trim();if(!v)return;set("nick",v);save();};
+  nameRow.querySelector("button").onclick=()=>{const v=nameRow.querySelector("input").value.trim();if(!v)return;set("nick",v);if(pending)save();else{nameRow.hidden=true;sEl.textContent="";}};
   let msgs=[],showAll=false;const list=el.querySelector(".lbp-msgs");
   const paint=()=>{const rows=showAll?msgs:msgs.slice(0,6);
     list.innerHTML=!msgs.length?`<li class="lbp-note">${esc(t.none)}</li>`:rows.map(m=>{const c=ctxLabel(t,m.ctx);return `<li><span class="who"><b>${esc(m.name)}</b> · ${esc(ago(m.at,lang))}${c?" · "+esc(c):""}</span><p>${esc(m.text)}</p></li>`;}).join("")+
@@ -79,6 +81,6 @@ function end(box,o){
       if(r.status!==200)throw 0;
       ta.value="";msgs.unshift(r.d.msg);paint();
     }catch(e){mn.textContent=t.msgErr;}};
-  save();return el;}
-window.LB={end,nick,tok,setNick:v=>set("nick",v)};
+  if(pending)save();return el;}
+window.LB={end,nick,tok,setNick:v=>set("nick",v),T};
 })();

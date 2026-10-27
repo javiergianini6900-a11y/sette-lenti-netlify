@@ -251,6 +251,7 @@ textarea:focus{border-color:var(--ink)}
 .lb li:first-child .pos,.lb li:first-child .nm{color:var(--ink)}
 .lb li:first-child{background:var(--hi);color:var(--on-hi);padding-inline:8px;border-top:0}
 @media (max-width:560px){.lb li{grid-template-columns:2.2em minmax(0,1fr);row-gap:2px}.lb .pts{grid-column:2;text-align:left}}
+.lb-mt{margin:6px 0 10px;font-family:var(--display);font-size:22px}
 .lb .more{display:block;font-family:var(--mono);font-size:13px;padding-top:8px;border-top:1px solid var(--rule)}
 .recent .sbtn{font-family:var(--display);font-stretch:108%;font-weight:700;font-size:15px}
 @media (max-width:640px){.start-form{grid-template-columns:1fr}}
@@ -301,6 +302,7 @@ textarea:focus{border-color:var(--ink)}
   <section id="classifica" class="sheet board" hidden>
     <div><span class="mono muted" id="lbEyebrow"></span><h2 id="lbTitle"></h2><p class="legend" id="lbNote"></p></div>
     <ol class="lb" id="lbList"></ol>
+    <div><h3 class="lb-mt" id="lbMsgT"></h3><div id="lbMsgs"></div></div>
   </section>
 
   <section id="startView" class="sheet start" hidden>
@@ -438,7 +440,7 @@ en:{e:"Leaderboard",t:"Who practises most",n:"Points = correct answers in every 
 de:{e:"Rangliste",t:"Wer am meisten übt",n:"Punkte = richtige Antworten in jeder abgeschlossenen Sitzung: Hard Mode, Kapitelübungen, Shuffle, Probeprüfungen und Quiz.",r:"Sitzungen",b:"beste",x:"Noch niemand in der Rangliste. Deine erste abgeschlossene Sitzung bringt dich nach oben.",m:"Alle zeigen ({n})"},
 es:{e:"Clasificación",t:"Quién practica más",n:"Puntos = respuestas correctas en cada sesión terminada: hard mode, ejercicios por capítulo, shuffle, exámenes de prueba y quiz.",r:"sesiones",b:"mejor",x:"Todavía no hay nadie. Tu primera sesión terminada te pone arriba.",m:"Mostrar todos ({n})"},
 hr:{e:"Ljestvica",t:"Tko najviše vježba",n:"Bodovi = točni odgovori u svakoj završenoj sesiji: hard mode, vježbe po poglavljima, shuffle, probni ispiti i kviz.",r:"sesija",b:"najbolji",x:"Još nitko nije na ljestvici. Tvoja prva završena sesija stavlja te na vrh.",m:"Prikaži sve ({n})"}};
-let lbRows=null, lbAll=false;
+let lbRows=null, lbAll=false, lbWallLang=null;
 function renderBoard(){
   const el=document.getElementById("classifica"); if(!el) return;
   if(!lbRows){ el.hidden=true; return; }
@@ -451,6 +453,9 @@ function renderBoard(){
     rows.map((r,i)=>`<li><span class="pos">${i+1}</span><span class="nm">${esc(r.name)}</span><span class="pts">${r.pts} pt · ${r.rounds} ${esc(t.r)}${r.best?` · ${esc(t.b)} ${r.best}%`:""}</span></li>`).join("")+
     (lbRows.length>10&&!lbAll?`<li style="display:block;padding:0;border:0;background:none"><button type="button" class="sbtn more" id="lbMore">${esc(t.m.replace("{n}",lbRows.length))}</button></li>`:"");
   const mb=document.getElementById("lbMore"); if(mb) mb.onclick=()=>{lbAll=true;renderBoard();};
+  // class messages, rebuilt only when the language changes
+  if(window.LB&&lbWallLang!==st.lang){ lbWallLang=st.lang; const w=document.getElementById("lbMsgs"); w.innerHTML="";
+    document.getElementById("lbMsgT").textContent=(LB.T[st.lang]||LB.T.it).msgsT; LB.end(w,{lang:st.lang,wall:true}); }
 }
 fetch("/api/leaderboard").then(r=>r.ok?r.json():null).then(d=>{ if(Array.isArray(d)){ lbRows=d; renderBoard(); } }).catch(()=>{});
 
