@@ -271,8 +271,9 @@ function hardIntro(){if(hard&&!hard.end)return;clearInterval(htick);
   const pp=P_();$('#hardBox').innerHTML=`<h2>Hard mode</h2><p class="mono muted" style="margin:-6px 0 12px">${esc(fill(pp.hardPool,{n:POOLN}))}</p>
    <p>${esc(pp.hardIntro1)}</p><p>${esc(pp.hardIntro2)}</p>
    <p class="mono">${esc(pp.hardLen)}: <select id="hardN" style="font-family:var(--mono);padding:4px">${[15,30,50].map(n=>`<option ${n===store.get('hardN',15)?'selected':''}>${n}</option>`).join('')}</select></p>
+   <p class="mono">${esc(pp.lbName)}:<br><input id="lbNick" maxlength="24" value="${esc(lbNick())}" style="font-family:var(--mono);padding:6px;margin-top:4px;width:min(100%,280px)"></p>
    <button class="btn" id="hardGo">${esc(pp.go)}</button>`;
-  $('#hardGo').onclick=()=>{const n=+$('#hardN').value;store.set('hardN',n);hard={i:0,ans:[],qs:buildRound(n).map(x=>x.q)};hardQ();};}
+  $('#hardGo').onclick=()=>{const n=+$('#hardN').value;store.set('hardN',n);store.set('nick',$('#lbNick').value.trim());hard={i:0,ans:[],qs:buildRound(n).map(x=>x.q)};hardQ();};}
 function hardQ(){clearInterval(htick);if(hard.i>=hard.qs.length)return hardEnd();
   const q=hard.qs[hard.i];let left=HSEC;
   $('#hardBox').innerHTML=`<h2>${esc(P_().question)} ${hard.i+1} / ${hard.qs.length}</h2><p class="mono muted" style="margin:-6px 0 4px">Hard mode · <span id="hLeft">${left}</span> s</p><div class="hbar"><i id="hBar" style="width:100%"></i></div>${qHTML(q,'h')}`;
@@ -284,7 +285,17 @@ function hardEnd(){clearInterval(htick);hard.end=true;const N=hard.qs.length;
    <p>${esc(r>=.8?pp.v1:r>=.55?pp.v2:pp.v3)}</p>
    ${hard.qs.map((q,i)=>{const a=hard.ans[i];return `<div class="q">${q[0]?`<p class="stem">${esc(q[0])}</p>`:''}<p class="ask">${esc(q[1])}</p>${q[2].map((o,j)=>`<button class="opt ${j===q[3]?'ok':(j===a?'bad':'')}" disabled>${String.fromCharCode(65+j)}. ${esc(o)}</button>`).join('')}${a===-1?`<p class="mono" style="color:var(--bad)">${esc(pp.timeUp)}</p>`:''}<div class="why show" style="white-space:pre-line">${esc(q.key?px(q.key,q[4]):q[4])}</div></div>`;}).join('')}
    <button class="btn" id="hardAgain">${esc(pp.hardAgain)}</button>`;
-  $('#hardAgain').onclick=()=>{hard=null;hardIntro();};scrollTo(0,0);}
+  $('#hardAgain').onclick=()=>{hard=null;hardIntro();};scrollTo(0,0);lbSend(ok,N);}
+/* leaderboard: name defaults to the profile used on the main site; a random token claims the name */
+function lbNick(){const n=store.get('nick',null);if(n!=null)return n;try{const pr=JSON.parse(localStorage.getItem('osp1-profiles')||'{}'),a=JSON.parse(localStorage.getItem('osp1-active')||'null');return (a&&pr[a]&&pr[a].name)||'';}catch(e){return '';}}
+function lbTok(){let t=store.get('tok',null);if(!t){t=[...crypto.getRandomValues(new Uint8Array(16))].map(b=>b.toString(16).padStart(2,'0')).join('');store.set('tok',t);}return t;}
+async function lbSend(ok,n){const name=store.get('nick','');if(!name)return;const pp=P_();
+  const box=document.createElement('p');box.className='mono';box.style.cssText='border:1.5px solid var(--ink);padding:10px 12px;margin:0 0 14px';$('#hardBox h2').after(box);
+  try{const r=await fetch('/api/score',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({name,ok,n,token:lbTok()})});const d=await r.json();
+    if(r.status===409)box.textContent=pp.lbTaken;else if(r.status===429)box.textContent=pp.lbFast;else if(!r.ok)throw 0;
+    else{const all=await (await fetch('/api/leaderboard')).json();const pos=all.findIndex(x=>x.name===name)+1;
+      box.innerHTML=esc(fill(pp.lbSaved,{pts:d.pts,r:d.rounds,pos,tot:all.length}))+` <a href="./#classifica">${esc(pp.lbSee)} →</a>`;}
+  }catch(e){box.textContent=pp.lbErr;}}
 
 /* ---------- 10 mock exams ---------- */
 const UIL=window.EXAM_UI,M=window.MOCK,MI=window.MOCK_I18N||{};

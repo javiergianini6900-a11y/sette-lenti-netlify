@@ -241,6 +241,17 @@ textarea:focus{border-color:var(--ink)}
 .field input:focus{border-color:var(--ink)}
 .start-form .btn{padding-block:12px}
 .recent{display:grid;gap:8px}
+.board{margin-bottom:18px;gap:14px}
+.board h2{margin:4px 0 2px}
+.lb{list-style:none;margin:0;padding:0;display:grid}
+.lb li{display:grid;grid-template-columns:2.2em minmax(0,1fr) auto;gap:10px;align-items:baseline;padding:8px 0;border-top:1px solid var(--rule)}
+.lb .pos{font-family:var(--mono);font-size:13px}
+.lb .nm{font-family:var(--display);font-weight:700;font-size:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lb .pts{font-family:var(--mono);font-size:13px;text-align:right}
+.lb li:first-child .pos,.lb li:first-child .nm{color:var(--ink)}
+.lb li:first-child{background:var(--hi);color:var(--on-hi);padding-inline:8px;border-top:0}
+@media (max-width:560px){.lb li{grid-template-columns:2.2em minmax(0,1fr);row-gap:2px}.lb .pts{grid-column:2;text-align:left}}
+.lb .more{display:block;font-family:var(--mono);font-size:13px;padding-top:8px;border-top:1px solid var(--rule)}
 .recent .sbtn{font-family:var(--display);font-stretch:108%;font-weight:700;font-size:15px}
 @media (max-width:640px){.start-form{grid-template-columns:1fr}}
 .sync-row{display:flex;gap:8px;flex-wrap:wrap}
@@ -286,6 +297,11 @@ textarea:focus{border-color:var(--ink)}
     <div class="lenses" id="lensRow" hidden></div>
     <p class="legend" id="legend" hidden></p>
   </header>
+
+  <section id="classifica" class="sheet board" hidden>
+    <div><span class="mono muted" id="lbEyebrow"></span><h2 id="lbTitle"></h2><p class="legend" id="lbNote"></p></div>
+    <ol class="lb" id="lbList"></ol>
+  </section>
 
   <section id="startView" class="sheet start" hidden>
     <span class="mono muted" id="startEyebrow"></span>
@@ -415,6 +431,28 @@ function record(id,ok){
 }
 
 /* ---------- chrome ---------- */
+/* leaderboard: hard-mode points saved by the Netlify function /api/score */
+const LB_T={it:{e:"Classifica",t:"Chi si allena di più",n:"Punti = risposte giuste nell'hard mode, sommate su tutti i giri. Per entrare in classifica gioca l'hard mode nella pagina esame.",r:"giri",b:"migliore",x:"Ancora nessuno in classifica. Il primo giro di hard mode ti mette in cima.",m:"Mostra tutti ({n})"},
+en:{e:"Leaderboard",t:"Who practises most",n:"Points = correct answers in hard mode, summed over all rounds. Play hard mode on the exam page to get on the board.",r:"rounds",b:"best",x:"Nobody on the board yet. Your first hard-mode round puts you on top.",m:"Show all ({n})"},
+de:{e:"Rangliste",t:"Wer am meisten übt",n:"Punkte = richtige Antworten im Hard Mode, über alle Runden summiert. Spiel den Hard Mode auf der Prüfungsseite, um in die Rangliste zu kommen.",r:"Runden",b:"beste",x:"Noch niemand in der Rangliste. Deine erste Hard-Mode-Runde bringt dich nach oben.",m:"Alle zeigen ({n})"},
+es:{e:"Clasificación",t:"Quién practica más",n:"Puntos = respuestas correctas en el hard mode, sumadas en todas las rondas. Juega al hard mode en la página del examen para entrar en la clasificación.",r:"rondas",b:"mejor",x:"Todavía no hay nadie. Tu primera ronda de hard mode te pone arriba.",m:"Mostrar todos ({n})"},
+hr:{e:"Ljestvica",t:"Tko najviše vježba",n:"Bodovi = točni odgovori u hard modeu, zbrojeni kroz sve krugove. Igraj hard mode na stranici ispita da uđeš na ljestvicu.",r:"krugova",b:"najbolji",x:"Još nitko nije na ljestvici. Tvoj prvi krug hard modea stavlja te na vrh.",m:"Prikaži sve ({n})"}};
+let lbRows=null, lbAll=false;
+function renderBoard(){
+  const el=document.getElementById("classifica"); if(!el) return;
+  if(!lbRows){ el.hidden=true; return; }
+  const t=LB_T[st.lang]||LB_T.it; el.hidden=false;
+  document.getElementById("lbEyebrow").textContent=t.e;
+  document.getElementById("lbTitle").textContent=t.t;
+  document.getElementById("lbNote").textContent=t.n;
+  const rows=lbAll?lbRows:lbRows.slice(0,10);
+  document.getElementById("lbList").innerHTML=!lbRows.length?`<li><span></span><span class="legend">${esc(t.x)}</span><span></span></li>`:
+    rows.map((r,i)=>`<li><span class="pos">${i+1}</span><span class="nm">${esc(r.name)}</span><span class="pts">${r.pts} pt · ${r.rounds} ${esc(t.r)} · ${esc(t.b)} ${r.best}%</span></li>`).join("")+
+    (lbRows.length>10&&!lbAll?`<li style="display:block;padding:0;border:0;background:none"><button type="button" class="sbtn more" id="lbMore">${esc(t.m.replace("{n}",lbRows.length))}</button></li>`:"");
+  const mb=document.getElementById("lbMore"); if(mb) mb.onclick=()=>{lbAll=true;renderBoard();};
+}
+fetch("/api/leaderboard").then(r=>r.ok?r.json():null).then(d=>{ if(Array.isArray(d)){ lbRows=d; renderBoard(); } }).catch(()=>{});
+
 function renderChrome(){
   const u=U();
   document.documentElement.lang=st.lang;
@@ -426,6 +464,7 @@ function renderChrome(){
   document.getElementById("lede").innerHTML=esc(u.lede).replace(/\[\[(.+?)\]\]/,"<mark>$1</mark>");
   document.getElementById("legend").textContent=u.legend;
   document.querySelectorAll(".tab").forEach(t=>t.querySelector(".tl").textContent=t.dataset.view==="hard"?u.hard.tab:u.tabs[t.dataset.view]);
+  renderBoard();
   renderLenses(); renderCounts(); renderPodcastText(); if(typeof renderEps==="function") renderEps(); if(typeof renderSubsText==="function") renderSubsText(); renderProfileText(); renderStart();
 }
 function renderLenses(){
